@@ -1,0 +1,19 @@
+<div class="auth-page">
+  <aside class="auth-story">
+    <a class="brand" routerLink="/auth/login"
+      ><span class="brand-mark"><mat-icon aria-hidden="true">forest</mat-icon></span
+      >{{ 'brand.name' | translate }}</a
+    >
+    <div>
+      <p class="eyebrow">{{ 'brand.caption' | translate }}</p>
+      <h1>{{ 'auth.headline' | translate }}</h1>
+      <p>{{ 'auth.description' | translate }}</p>
+      <div class="soil-lines" aria-hidden="true"></div>
+    </div>
+    <p>{{ 'brand.footer' | translate }}</p>
+  </aside>
+  <section class="auth-panel">
+    <div class="auth-language"><app-language-switcher /></div>
+    <div class="auth-form"><ng-content /></div>
+  </section>
+</div>

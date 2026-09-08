@@ -1,0 +1,18 @@
+<h1>{{ (id ? 'plots.editFarm' : 'plots.addFarm') | translate }}</h1>
+<form class="surface form-surface stack" [formGroup]="form" (ngSubmit)="save()">
+  @for (field of fields; track field) {
+    <mat-form-field
+      ><mat-label>{{ 'plots.' + field | translate }}</mat-label
+      ><input matInput [formControlName]="field" /><mat-error>{{
+        'validation.required' | translate
+      }}</mat-error></mat-form-field
+    >
+  }
+  @if (error()) {
+    <p role="alert">{{ 'validation.checkForm' | translate }}</p>
+  }
+  <div class="button-row">
+    <button mat-flat-button type="submit">{{ 'common.save' | translate }}</button
+    ><a mat-button routerLink="/app/plots">{{ 'common.cancel' | translate }}</a>
+  </div>
+</form>

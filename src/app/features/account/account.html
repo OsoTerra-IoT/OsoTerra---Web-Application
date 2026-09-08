@@ -1,0 +1,32 @@
+<h1>{{ title | translate }}</h1>
+<section class="surface form-surface">
+  @switch (page) {
+    @case ('settings') {
+      <h2>{{ 'nav.profile' | translate }}</h2>
+      <p>{{ auth.user()?.firstName }} {{ auth.user()?.lastName }}</p>
+      <p>{{ auth.user()?.email }}</p>
+      <p>{{ 'roles.' + auth.user()?.role | translate }}</p>
+      <h3>{{ 'common.language' | translate }}</h3>
+      <app-language-switcher />
+      <p>{{ 'account.sessionHint' | translate }}</p>
+    }
+    @case ('subscription') {
+      <span class="demo-chip">{{ 'common.demo' | translate }}</span>
+      <h2>{{ 'account.demoPlan' | translate }}</h2>
+      <p>{{ 'account.subscriptionHint' | translate }}</p>
+    }
+    @default {
+      @if (advisor; as advisor) {
+        <mat-icon aria-hidden="true">support_agent</mat-icon>
+        <h2>{{ advisor.firstName }} {{ advisor.lastName }}</h2>
+        <p>{{ advisor.email }}</p>
+        <p>
+          {{ 'auth.cipNumber' | translate }}:
+          {{ advisor.role === 'Advisor' ? advisor.cipNumber : '' }}
+        </p>
+      } @else {
+        <p>{{ 'account.noAdvisor' | translate }}</p>
+      }
+    }
+  }
+</section>

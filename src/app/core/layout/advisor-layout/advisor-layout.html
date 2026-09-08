@@ -1,0 +1,9 @@
+﻿<mat-toolbar class="topbar">
+  <span class="brand">{{ 'brand.name' | translate }}</span>
+  <span class="toolbar-space"></span>
+  <app-language-switcher />
+  <button mat-button (click)="logout()">{{ 'auth.logout' | translate }}</button>
+</mat-toolbar>
+<main id="advisor-content" tabindex="-1">
+  <router-outlet />
+</main>
