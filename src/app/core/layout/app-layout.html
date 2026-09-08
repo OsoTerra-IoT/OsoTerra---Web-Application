@@ -1,0 +1,106 @@
+<a class="skip-link" href="#main-content">{{ 'common.skip' | translate }}</a>
+<mat-sidenav-container class="app-shell">
+  <mat-sidenav
+    id="primary-sidebar"
+    [mode]="mobile() ? 'over' : 'side'"
+    [opened]="!mobile() || menuOpen()"
+    (closedStart)="menuOpen.set(false)"
+    class="sidebar"
+  >
+    <a class="brand" routerLink="/app/home"
+      ><span class="brand-mark"><mat-icon aria-hidden="true">forest</mat-icon></span
+      ><span
+        >{{ 'brand.name' | translate }}<small>{{ 'brand.caption' | translate }}</small></span
+      ></a
+    >
+    <p class="sidebar-label">{{ 'roles.' + auth.user()?.role | translate }}</p>
+    <nav [attr.aria-label]="'nav.primary' | translate">
+      <mat-nav-list>
+        @for (item of navigation(); track item.path) {
+          <a
+            mat-list-item
+            [routerLink]="'/app/' + item.path"
+            routerLinkActive="active-link"
+            ariaCurrentWhenActive="page"
+            ><mat-icon matListItemIcon aria-hidden="true">{{ item.icon }}</mat-icon
+            ><span matListItemTitle>{{
+              (item.path === 'plots' && auth.isAdvisor() ? 'nav.supervisedPlots' : item.label)
+                | translate
+            }}</span></a
+          >
+        }
+      </mat-nav-list>
+    </nav>
+    <div class="sidebar-footer">
+      <mat-icon aria-hidden="true">eco</mat-icon>
+      <p>{{ 'brand.footer' | translate }}</p>
+      <span class="demo-chip">{{ 'common.demo' | translate }}</span>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="topbar">
+      @if (mobile()) {
+        <button
+          mat-icon-button
+          (click)="menuOpen.set(!menuOpen())"
+          aria-controls="primary-sidebar"
+          [attr.aria-expanded]="menuOpen()"
+          [attr.aria-label]="'nav.toggle' | translate"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+      }
+      <form class="quick-search" (ngSubmit)="search()">
+        <mat-icon aria-hidden="true">search</mat-icon
+        ><input
+          name="search"
+          [ngModel]="data.search()"
+          (ngModelChange)="data.search.set($event)"
+          [placeholder]="'plots.search' | translate"
+          [attr.aria-label]="'plots.search' | translate"
+        /><button mat-icon-button type="submit" [attr.aria-label]="'common.search' | translate">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </form>
+      <span class="toolbar-space"></span><app-language-switcher />
+      <a
+        mat-icon-button
+        routerLink="/app/alerts"
+        [matBadge]="data.activeAlerts().length"
+        [matBadgeHidden]="!data.activeAlerts().length"
+        [attr.aria-label]="
+          'alerts.notificationCount' | translate: { count: data.activeAlerts().length }
+        "
+        ><mat-icon>notifications_none</mat-icon></a
+      >
+      <button
+        mat-button
+        [matMenuTriggerFor]="profileMenu"
+        [attr.aria-label]="'nav.profile' | translate"
+      >
+        <span class="avatar">{{ auth.user()?.firstName?.charAt(0) }}</span
+        ><span class="profile-name">{{ auth.user()?.firstName }}</span
+        ><mat-icon iconPositionEnd>expand_more</mat-icon>
+      </button>
+      <mat-menu #profileMenu="matMenu"
+        ><a mat-menu-item routerLink="/app/settings">{{ 'nav.settings' | translate }}</a
+        ><button mat-menu-item (click)="logout()">{{ 'auth.logout' | translate }}</button></mat-menu
+      >
+    </mat-toolbar>
+    <main id="main-content" class="main-content" tabindex="-1">
+      @if (breadcrumbs().length) {
+        <nav class="breadcrumbs" [attr.aria-label]="'nav.breadcrumbs' | translate">
+          @for (crumb of breadcrumbs(); track crumb.url; let last = $last) {
+            @if (last) {
+              <span aria-current="page">{{ crumb.label | translate }}</span>
+            } @else {
+              <a [routerLink]="crumb.url">{{ crumb.label | translate }}</a
+              ><span aria-hidden="true">/</span>
+            }
+          }
+        </nav>
+      }
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,270 @@
+{
+  "brand": {
+    "name": "OsoTerra IoT",
+    "caption": "Inteligencia del suelo",
+    "footer": "Suelos más sanos. Mejores decisiones."
+  },
+  "languages": {
+    "en": "EN",
+    "es": "ES"
+  },
+  "roles": {
+    "Farmer": "Productor",
+    "Advisor": "Asesor técnico"
+  },
+  "common": {
+    "language": "Idioma",
+    "skip": "Saltar al contenido principal",
+    "search": "Buscar",
+    "demo": "Datos de demostración",
+    "sort": "Ordenar por",
+    "date": "Fecha",
+    "notes": "Notas",
+    "save": "Guardar",
+    "saved": "Guardado durante esta sesión de demostración.",
+    "cancel": "Cancelar",
+    "back": "Volver",
+    "all": "Todos",
+    "noData": "Todavía no hay lecturas disponibles.",
+    "updated": "Última lectura",
+    "unknown": "No disponible"
+  },
+  "nav": {
+    "primary": "Navegación principal",
+    "toggle": "Abrir o cerrar navegación",
+    "profile": "Perfil de usuario",
+    "breadcrumbs": "Ruta de navegación",
+    "home": "Inicio",
+    "plots": "Mis parcelas",
+    "supervisedPlots": "Parcelas supervisadas",
+    "alerts": "Alertas",
+    "devices": "Dispositivos",
+    "myAdvisor": "Mi asesor",
+    "compare": "Comparar parcelas",
+    "reports": "Reportes",
+    "clients": "Mis clientes",
+    "calibration": "Calibración",
+    "subscription": "Suscripción",
+    "settings": "Configuración"
+  },
+  "auth": {
+    "headline": "Conoce tu suelo. Protege tu próxima cosecha.",
+    "description": "Monitorea la salinidad del suelo, sigue los cambios en tus parcelas y colabora para decidir el siguiente paso.",
+    "welcome": "Te damos la bienvenida",
+    "login": "Iniciar sesión",
+    "loginHint": "Ingresa a tu espacio de monitoreo de suelos.",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "forgot": "¿Olvidaste tu contraseña?",
+    "invalidCredentials": "El correo o la contraseña son incorrectos.",
+    "noAccount": "¿Eres nuevo en OsoTerra?",
+    "register": "Crear una cuenta",
+    "logout": "Cerrar sesión",
+    "demoTitle": "Explora OsoTerra",
+    "demoHint": "Usa una cuenta de demostración. Los cambios duran hasta recargar la página.",
+    "chooseRole": "¿Cómo usarás OsoTerra?",
+    "chooseRoleHint": "Selecciona tu rol para crear tu espacio de trabajo.",
+    "farmerTitle": "Soy productor",
+    "farmerDescription": "Monitorear mis parcelas y atender las alertas del suelo.",
+    "advisorTitle": "Soy asesor técnico",
+    "advisorDescription": "Supervisar clientes, comparar parcelas y preparar reportes.",
+    "backToLogin": "Volver al inicio de sesión",
+    "firstName": "Nombres",
+    "lastName": "Apellidos",
+    "department": "Departamento",
+    "province": "Provincia",
+    "cipNumber": "Número de colegiatura CIP",
+    "acceptTerms": "Acepto los términos y condiciones.",
+    "terms": "Términos y condiciones",
+    "createAccount": "Crear cuenta",
+    "accountExists": "Ya existe una cuenta con este correo.",
+    "newPassword": "Nueva contraseña",
+    "reset": "Restablecer contraseña",
+    "recovery": "Recuperar acceso",
+    "localReset": "Solo demostración: no se envían correos. Este enlace local de un solo uso vence en 15 minutos y se pierde al recargar.",
+    "resetSuccess": "Contraseña actualizada. Inicia sesión con tu nueva contraseña.",
+    "resetInvalid": "El enlace no es válido, ha vencido o la contraseña es demasiado corta.",
+    "recoveryResult": "Si este correo corresponde a una cuenta de demostración, verás un enlace de recuperación abajo."
+  },
+  "validation": {
+    "email": "Ingresa un correo electrónico válido.",
+    "required": "Este campo es obligatorio.",
+    "password": "Usa al menos 12 caracteres.",
+    "cip": "Ingresa un CIP de 4 a 10 dígitos.",
+    "terms": "Debes aceptar los términos para continuar.",
+    "checkForm": "Revisa los campos y tus permisos de acceso.",
+    "range": "Ingresa un número válido dentro del rango permitido.",
+    "date": "Ingresa una fecha válida.",
+    "action": "Revisa las notas y la fecha. No se pueden registrar acciones futuras."
+  },
+  "terms": {
+    "demo": "Borrador para este prototipo local. Reemplazar con términos aprobados antes de producción.",
+    "scopeTitle": "Uso del prototipo",
+    "scope": "OsoTerra demuestra flujos de monitoreo con cuentas, dispositivos y lecturas simuladas.",
+    "dataTitle": "Datos de demostración",
+    "data": "Las cuentas y los cambios existen solo durante esta sesión del navegador y se eliminan al recargar. Usa información ficticia al explorar.",
+    "measurementsTitle": "Interpretación de las mediciones",
+    "measurements": "Los umbrales de cultivo corresponden a la conductividad eléctrica del extracto de saturación (ECe). La conductividad cruda del sensor no es directamente intercambiable con la ECe. La evaluación técnica requiere el método de medición adecuado."
+  },
+  "dashboard": {
+    "overview": "Resumen del campo",
+    "greeting": "Hola, {{name}}",
+    "advisorHint": "Tus parcelas supervisadas, ordenadas según la atención que necesitan.",
+    "farmerHint": "Una vista clara de tu suelo y de las parcelas que necesitan atención.",
+    "summary": "Resumen de monitoreo",
+    "monitoredPlots": "Parcelas monitoreadas",
+    "activeAlerts": "Alertas activas",
+    "reviewAlerts": "Revisar alertas",
+    "onlineDevices": "Dispositivos conectados",
+    "lastSync": "Última telemetría de demostración",
+    "priorities": "Empieza por las parcelas que necesitan una revisión.",
+    "byRisk": "Riesgo de salinidad",
+    "byClient": "Cliente"
+  },
+  "plots": {
+    "management": "Gestión del campo",
+    "plot": "Parcela",
+    "farm": "Finca",
+    "name": "Nombre",
+    "department": "Departamento",
+    "province": "Provincia",
+    "crop": "Cultivo",
+    "add": "Agregar parcela",
+    "edit": "Editar parcela",
+    "addFarm": "Agregar finca",
+    "editFarm": "Editar finca",
+    "detail": "Detalle de parcela",
+    "search": "Buscar parcelas",
+    "empty": "Todavía no hay parcelas. Agrega una finca y tu primera parcela para empezar.",
+    "emptySearch": "Ninguna parcela coincide con tu búsqueda en esta finca.",
+    "view": "Ver parcela",
+    "viewNamed": "Ver {{name}}",
+    "latitude": "Latitud (−90 a 90)",
+    "longitude": "Longitud (−180 a 180)",
+    "areaHectares": "Superficie (hectáreas)",
+    "addFarmFirst": "Crea una finca antes de agregar una parcela.",
+    "currentStatus": "Estado actual",
+    "history": "Tendencias históricas",
+    "telemetry": "Telemetría del dispositivo",
+    "settings": "Configuración de parcela",
+    "notFound": "Parcela no encontrada o no disponible para esta cuenta."
+  },
+  "crops": {
+    "corn": "Maíz",
+    "tomato": "Tomate",
+    "wheat": "Trigo"
+  },
+  "units": {
+    "dsM": "dS/m",
+    "hectares": "ha",
+    "percent": "%",
+    "celsius": "°C",
+    "dbm": "dBm"
+  },
+  "metrics": {
+    "salinity": "Salinidad del suelo",
+    "conductivity": "Conductividad",
+    "moisture": "Humedad del suelo",
+    "temperature": "Temperatura del suelo"
+  },
+  "salinity": {
+    "normal": "Nivel normal",
+    "watch": "Nivel en vigilancia",
+    "high": "Nivel alto",
+    "critical": "Nivel muy alto",
+    "unknown": "Sin lectura comparable",
+    "threshold": "Umbral del cultivo",
+    "ece": "ECe",
+    "source": "Maas y Hoffman, 1977",
+    "showValue": "Ver medición en dS/m",
+    "showHistory": "Ver historial numérico",
+    "needsCalibration": "Se requiere una medición de ECe comparable para evaluar el umbral del cultivo."
+  },
+  "chart": {
+    "title": "Tendencias del suelo",
+    "metric": "Medición",
+    "accessible": "Lecturas históricas. La tabla de datos equivalente está después de la gráfica.",
+    "start": "Inicio del periodo",
+    "latest": "Última lectura",
+    "table": "Ver tabla de datos",
+    "value": "Valor"
+  },
+  "alerts": {
+    "monitoring": "Monitoreo del suelo",
+    "hint": "Revisa las alertas, registra observaciones y sigue las acciones correctivas.",
+    "severity": "Severidad",
+    "status": "Estado",
+    "actions": "Acciones",
+    "inbox": "Bandeja de alertas de salinidad",
+    "notificationCount": "Notificaciones: {{count}} alertas activas",
+    "manage": "Gestionar alerta",
+    "empty": "No hay alertas que coincidan con estos filtros.",
+    "acknowledge": "Reconocer",
+    "recordAction": "Registrar acción",
+    "actionCount": "Acciones registradas: {{count}}",
+    "actionType": "Tipo de acción",
+    "resolve": "Marcar esta alerta como resuelta"
+  },
+  "severity": {
+    "WATCH": "Vigilancia",
+    "WARNING": "Advertencia",
+    "CRITICAL": "Crítica"
+  },
+  "alertStatus": {
+    "OPEN": "Abierta",
+    "ACKNOWLEDGED": "Reconocida",
+    "RESOLVED": "Resuelta"
+  },
+  "actionTypes": {
+    "INSPECTION": "Inspección de campo",
+    "IRRIGATION_REVIEW": "Revisión del riego",
+    "DRAINAGE_REVIEW": "Revisión del drenaje",
+    "LAB_SAMPLE": "Muestra de laboratorio"
+  },
+  "devices": {
+    "device": "Dispositivo",
+    "status": "Conexión",
+    "battery": "Batería",
+    "signal": "Intensidad de señal",
+    "lastSeen": "Última conexión",
+    "firmware": "Firmware",
+    "empty": "Esta parcela no tiene un dispositivo asignado."
+  },
+  "deviceStatus": {
+    "ONLINE": "Conectado",
+    "OFFLINE": "Desconectado",
+    "MAINTENANCE": "En mantenimiento"
+  },
+  "comparison": {
+    "hint": "Selecciona de 2 a 4 parcelas para comparar sus mediciones en el mismo periodo.",
+    "minimum": "Selecciona al menos 2 parcelas para mostrar la comparación."
+  },
+  "clients": {
+    "plotCount": "Parcelas supervisadas: {{count}}"
+  },
+  "calibration": {
+    "hint": "Registra una observación emparejada de sensor y laboratorio.",
+    "sensorDsM": "Conductividad del sensor",
+    "laboratoryEceDsM": "ECe de laboratorio",
+    "notes": "Referencia de muestra y notas",
+    "limitation": "Este prototipo solo registra un desplazamiento de un punto. No convierte lecturas crudas del sensor a ECe ni modifica mediciones históricas.",
+    "records": "Registros de calibración",
+    "offset": "Desplazamiento registrado"
+  },
+  "reports": {
+    "hint": "Selecciona parcelas, revisa su historial y exporta un reporte PDF.",
+    "export": "Exportar PDF",
+    "select": "Parcelas que se incluirán",
+    "preview": "Vista previa del reporte",
+    "title": "Reporte de monitoreo de suelos",
+    "trend": "Cambio de conductividad en el periodo",
+    "alertsActions": "Alertas y acciones correctivas",
+    "exportError": "No se pudo generar el PDF. Inténtalo de nuevo."
+  },
+  "account": {
+    "sessionHint": "El idioma se recuerda en este dispositivo. Las cuentas y los cambios de monitoreo se reinician al recargar la página.",
+    "demoPlan": "Espacio de prototipo",
+    "subscriptionHint": "Vista de suscripción preparada para una futura integración de facturación. No hay pagos habilitados.",
+    "noAdvisor": "Tu cuenta no tiene un asesor asignado."
+  }
+}

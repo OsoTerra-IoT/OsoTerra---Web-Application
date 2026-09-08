@@ -1,0 +1,88 @@
+<div class="chart-controls">
+  <h3>{{ 'chart.title' | translate }}</h3>
+  <mat-form-field
+    ><mat-label>{{ 'chart.metric' | translate }}</mat-label
+    ><mat-select [value]="metric()" (selectionChange)="metric.set($event.value)">
+      @for (item of metrics; track item.value) {
+        <mat-option [value]="item.value">{{ item.label | translate }}</mat-option>
+      }
+    </mat-select></mat-form-field
+  >
+</div>
+@if (hasData()) {
+  <figure class="trend-chart">
+    <svg
+      viewBox="0 0 800 240"
+      role="img"
+      [attr.aria-label]="'chart.accessible' | translate"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      @for (tick of [0, 1, 2, 3, 4]; track tick) {
+        <line
+          x1="55"
+          x2="775"
+          [attr.y1]="20 + tick * 45"
+          [attr.y2]="20 + tick * 45"
+          stroke="#dfe7e2"
+        />
+        <text x="4" [attr.y]="25 + tick * 45" fill="#53645a" font-size="13">
+          {{ locale.number((maximum() * (4 - tick)) / 4) }}
+        </text>
+      }
+      @for (item of series(); track item.name; let index = $index) {
+        <polyline
+          [attr.points]="points(item.readings)"
+          fill="none"
+          [attr.stroke]="colors[index % 4]"
+          stroke-width="3"
+          [attr.stroke-dasharray]="dashes[index % 4]"
+        />
+      }
+      <text x="55" y="229" fill="#53645a" font-size="13">{{ 'chart.start' | translate }}</text>
+      <text x="685" y="229" fill="#53645a" font-size="13">{{ 'chart.latest' | translate }}</text>
+    </svg>
+    <figcaption class="chart-legend">
+      @for (item of series(); track item.name; let index = $index) {
+        <span
+          ><span [style.color]="colors[index % 4]" aria-hidden="true">{{
+            markers[index % 4]
+          }}</span>
+          {{ item.name }}</span
+        >
+      }
+      <span>{{ unit() | translate }}</span>
+    </figcaption>
+  </figure>
+  <details>
+    <summary>{{ 'chart.table' | translate }}</summary>
+    <div class="table-scroll">
+      <table>
+        <caption>
+          {{
+            'chart.accessible' | translate
+          }}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">{{ 'plots.plot' | translate }}</th>
+            <th scope="col">{{ 'common.date' | translate }}</th>
+            <th scope="col">{{ 'chart.value' | translate }} ({{ unit() | translate }})</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of series(); track item.name) {
+            @for (reading of item.readings; track reading.id) {
+              <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ locale.date(reading.recordedAt) }}</td>
+                <td>{{ locale.number(reading[metric()], 2) }}</td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  </details>
+} @else {
+  <p class="empty-state">{{ 'common.noData' | translate }}</p>
+}

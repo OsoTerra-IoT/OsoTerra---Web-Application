@@ -1,0 +1,7 @@
+<label class="language-switcher"
+  ><span class="sr-only">{{ 'common.language' | translate }}</span
+  ><select [value]="locale.locale()" [disabled]="locale.loading()" (change)="change($event)">
+    <option value="en_US">{{ 'languages.en' | translate }}</option>
+    <option value="es_419">{{ 'languages.es' | translate }}</option>
+  </select></label
+>

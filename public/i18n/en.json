@@ -1,0 +1,270 @@
+{
+  "brand": {
+    "name": "OsoTerra IoT",
+    "caption": "Soil intelligence",
+    "footer": "Healthier soil. Better decisions."
+  },
+  "languages": {
+    "en": "EN",
+    "es": "ES"
+  },
+  "roles": {
+    "Farmer": "Farmer",
+    "Advisor": "Technical advisor"
+  },
+  "common": {
+    "language": "Language",
+    "skip": "Skip to main content",
+    "search": "Search",
+    "demo": "Demo data",
+    "sort": "Sort by",
+    "date": "Date",
+    "notes": "Notes",
+    "save": "Save",
+    "saved": "Saved for this demo session.",
+    "cancel": "Cancel",
+    "back": "Back",
+    "all": "All",
+    "noData": "No readings available yet.",
+    "updated": "Last reading",
+    "unknown": "Not available"
+  },
+  "nav": {
+    "primary": "Main navigation",
+    "toggle": "Open or close navigation",
+    "profile": "User profile",
+    "breadcrumbs": "Breadcrumbs",
+    "home": "Home",
+    "plots": "My plots",
+    "supervisedPlots": "Supervised plots",
+    "alerts": "Alerts",
+    "devices": "Devices",
+    "myAdvisor": "My advisor",
+    "compare": "Compare plots",
+    "reports": "Reports",
+    "clients": "My clients",
+    "calibration": "Calibration",
+    "subscription": "Subscription",
+    "settings": "Settings"
+  },
+  "auth": {
+    "headline": "Know your soil. Protect your next harvest.",
+    "description": "Keep soil salinity in sight, follow changes across your fields, and work together on the next step.",
+    "welcome": "Welcome back",
+    "login": "Sign in",
+    "loginHint": "Access your soil monitoring workspace.",
+    "email": "Email",
+    "password": "Password",
+    "forgot": "Forgot your password?",
+    "invalidCredentials": "The email or password is incorrect.",
+    "noAccount": "New to OsoTerra?",
+    "register": "Create an account",
+    "logout": "Sign out",
+    "demoTitle": "Explore OsoTerra",
+    "demoHint": "Use a demo account. Changes last until the page is reloaded.",
+    "chooseRole": "How will you use OsoTerra?",
+    "chooseRoleHint": "Choose your role to create your workspace.",
+    "farmerTitle": "I am a farmer",
+    "farmerDescription": "Monitor my fields and act on soil alerts.",
+    "advisorTitle": "I am a technical advisor",
+    "advisorDescription": "Supervise clients, compare plots and prepare reports.",
+    "backToLogin": "Back to sign in",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "department": "Department",
+    "province": "Province",
+    "cipNumber": "CIP registration number",
+    "acceptTerms": "I accept the terms and conditions.",
+    "terms": "Terms and conditions",
+    "createAccount": "Create account",
+    "accountExists": "An account with this email already exists.",
+    "newPassword": "New password",
+    "reset": "Reset password",
+    "recovery": "Recover access",
+    "localReset": "Demo only: no email is sent. This local, single-use link expires in 15 minutes and is lost on reload.",
+    "resetSuccess": "Password updated. Sign in with your new password.",
+    "resetInvalid": "This link is invalid or expired, or the password is too short.",
+    "recoveryResult": "If this email matches a demo account, a recovery link is available below."
+  },
+  "validation": {
+    "email": "Enter a valid email address.",
+    "required": "This field is required.",
+    "password": "Use at least 12 characters.",
+    "cip": "Enter a CIP number with 4 to 10 digits.",
+    "terms": "You must accept the terms to continue.",
+    "checkForm": "Check the fields and your access permissions.",
+    "range": "Enter a valid number within the allowed range.",
+    "date": "Enter a valid date.",
+    "action": "Check the notes and date. Future actions cannot be recorded."
+  },
+  "terms": {
+    "demo": "Draft terms for this local prototype. Replace with approved terms before production.",
+    "scopeTitle": "Use of the prototype",
+    "scope": "OsoTerra demonstrates soil monitoring workflows with simulated accounts, devices and readings.",
+    "dataTitle": "Demo data",
+    "data": "Accounts and changes exist only in this browser session and are cleared on reload. Use fictional information while exploring.",
+    "measurementsTitle": "Interpretation of measurements",
+    "measurements": "Crop thresholds refer to saturation-extract electrical conductivity (ECe). Raw sensor conductivity is not directly interchangeable with ECe. Technical assessment requires the appropriate measurement method."
+  },
+  "dashboard": {
+    "overview": "Field overview",
+    "greeting": "Hello, {{name}}",
+    "advisorHint": "Your supervised plots, ordered by what needs attention.",
+    "farmerHint": "A clear view of your soil and the fields that need your attention.",
+    "summary": "Monitoring summary",
+    "monitoredPlots": "Monitored plots",
+    "activeAlerts": "Active alerts",
+    "reviewAlerts": "Review alerts",
+    "onlineDevices": "Devices online",
+    "lastSync": "Latest demo telemetry",
+    "priorities": "Start with the plots that need a closer look.",
+    "byRisk": "Salinity risk",
+    "byClient": "Client"
+  },
+  "plots": {
+    "management": "Field management",
+    "plot": "Plot",
+    "farm": "Farm",
+    "name": "Name",
+    "department": "Department",
+    "province": "Province",
+    "crop": "Crop",
+    "add": "Add plot",
+    "edit": "Edit plot",
+    "addFarm": "Add farm",
+    "editFarm": "Edit farm",
+    "detail": "Plot details",
+    "search": "Search plots",
+    "empty": "No plots yet. Add a farm and your first plot to get started.",
+    "emptySearch": "No plots match your search in this farm.",
+    "view": "View plot",
+    "viewNamed": "View {{name}}",
+    "latitude": "Latitude (−90 to 90)",
+    "longitude": "Longitude (−180 to 180)",
+    "areaHectares": "Area (hectares)",
+    "addFarmFirst": "Create a farm before adding a plot.",
+    "currentStatus": "Current status",
+    "history": "Historical trends",
+    "telemetry": "Device telemetry",
+    "settings": "Plot settings",
+    "notFound": "Plot not found or unavailable for this account."
+  },
+  "crops": {
+    "corn": "Corn",
+    "tomato": "Tomato",
+    "wheat": "Wheat"
+  },
+  "units": {
+    "dsM": "dS/m",
+    "hectares": "ha",
+    "percent": "%",
+    "celsius": "°C",
+    "dbm": "dBm"
+  },
+  "metrics": {
+    "salinity": "Soil salinity",
+    "conductivity": "Conductivity",
+    "moisture": "Soil moisture",
+    "temperature": "Soil temperature"
+  },
+  "salinity": {
+    "normal": "Normal level",
+    "watch": "Watch level",
+    "high": "High level",
+    "critical": "Very high level",
+    "unknown": "No comparable reading",
+    "threshold": "Crop threshold",
+    "ece": "ECe",
+    "source": "Maas & Hoffman, 1977",
+    "showValue": "Show measurement in dS/m",
+    "showHistory": "Show numerical history",
+    "needsCalibration": "A comparable ECe measurement is required to assess the crop threshold."
+  },
+  "chart": {
+    "title": "Soil trends",
+    "metric": "Measurement",
+    "accessible": "Historical readings. An equivalent data table follows the chart.",
+    "start": "Period start",
+    "latest": "Latest reading",
+    "table": "View data table",
+    "value": "Value"
+  },
+  "alerts": {
+    "monitoring": "Soil monitoring",
+    "hint": "Review alerts, record observations and follow corrective actions.",
+    "severity": "Severity",
+    "status": "Status",
+    "actions": "Actions",
+    "inbox": "Salinity alert inbox",
+    "notificationCount": "Notifications: {{count}} active alerts",
+    "manage": "Manage alert",
+    "empty": "No alerts match these filters.",
+    "acknowledge": "Acknowledge",
+    "recordAction": "Record action",
+    "actionCount": "Recorded actions: {{count}}",
+    "actionType": "Action type",
+    "resolve": "Mark this alert as resolved"
+  },
+  "severity": {
+    "WATCH": "Watch",
+    "WARNING": "Warning",
+    "CRITICAL": "Critical"
+  },
+  "alertStatus": {
+    "OPEN": "Open",
+    "ACKNOWLEDGED": "Acknowledged",
+    "RESOLVED": "Resolved"
+  },
+  "actionTypes": {
+    "INSPECTION": "Field inspection",
+    "IRRIGATION_REVIEW": "Irrigation review",
+    "DRAINAGE_REVIEW": "Drainage review",
+    "LAB_SAMPLE": "Laboratory sample"
+  },
+  "devices": {
+    "device": "Device",
+    "status": "Connection",
+    "battery": "Battery",
+    "signal": "Signal strength",
+    "lastSeen": "Last seen",
+    "firmware": "Firmware",
+    "empty": "No device assigned to this plot."
+  },
+  "deviceStatus": {
+    "ONLINE": "Online",
+    "OFFLINE": "Offline",
+    "MAINTENANCE": "Maintenance"
+  },
+  "comparison": {
+    "hint": "Select 2 to 4 plots to compare their measurements over the same period.",
+    "minimum": "Select at least 2 plots to display the comparison."
+  },
+  "clients": {
+    "plotCount": "Supervised plots: {{count}}"
+  },
+  "calibration": {
+    "hint": "Record a paired sensor and laboratory observation.",
+    "sensorDsM": "Sensor conductivity",
+    "laboratoryEceDsM": "Laboratory ECe",
+    "notes": "Sample reference and notes",
+    "limitation": "This prototype records a single-point offset only. It does not convert raw sensor readings to ECe or update historical measurements.",
+    "records": "Calibration records",
+    "offset": "Recorded offset"
+  },
+  "reports": {
+    "hint": "Select plots, preview their history and export a PDF report.",
+    "export": "Export PDF",
+    "select": "Plots to include",
+    "preview": "Report preview",
+    "title": "Soil monitoring report",
+    "trend": "Conductivity change over the period",
+    "alertsActions": "Alerts and corrective actions",
+    "exportError": "The PDF could not be generated. Try again."
+  },
+  "account": {
+    "sessionHint": "Language is remembered on this device. Demo accounts and monitoring changes reset when the page reloads.",
+    "demoPlan": "Prototype workspace",
+    "subscriptionHint": "Subscription view prepared for a future billing integration. No payments are enabled.",
+    "noAdvisor": "No advisor is assigned to your account."
+  }
+}

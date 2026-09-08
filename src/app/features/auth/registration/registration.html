@@ -1,0 +1,46 @@
+<app-auth-frame
+  ><h2>{{ 'auth.register' | translate }}</h2>
+  <p>{{ 'roles.' + role | translate }}</p>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="stack">
+    <div class="form-grid">
+      @for (field of fields; track field.name) {
+        <mat-form-field
+          ><mat-label>{{ 'auth.' + field.name | translate }}</mat-label
+          ><input
+            matInput
+            [type]="field.type"
+            [autocomplete]="field.autocomplete"
+            [formControlName]="field.name"
+          /><mat-error>{{
+            (field.name === 'email'
+              ? 'validation.email'
+              : field.name === 'password'
+                ? 'validation.password'
+                : 'validation.required'
+            ) | translate
+          }}</mat-error></mat-form-field
+        >
+      }
+      @if (role === 'Advisor') {
+        <mat-form-field
+          ><mat-label>{{ 'auth.cipNumber' | translate }}</mat-label
+          ><input matInput formControlName="cipNumber" inputmode="numeric" /><mat-error>{{
+            'validation.cip' | translate
+          }}</mat-error></mat-form-field
+        >
+      }
+    </div>
+    <mat-checkbox formControlName="acceptsTerms">{{ 'auth.acceptTerms' | translate }}</mat-checkbox
+    ><a routerLink="/auth/terms" target="_blank">{{ 'auth.terms' | translate }}</a>
+    @if (form.controls.acceptsTerms.touched && form.controls.acceptsTerms.invalid) {
+      <p role="alert">{{ 'validation.terms' | translate }}</p>
+    }
+    @if (error()) {
+      <p role="alert">{{ error() | translate }}</p>
+    }
+    <button mat-flat-button type="submit">{{ 'auth.createAccount' | translate }}</button>
+  </form>
+  <p>
+    <a routerLink="/auth/register">{{ 'common.back' | translate }}</a>
+  </p></app-auth-frame
+>

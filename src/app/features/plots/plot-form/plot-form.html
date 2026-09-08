@@ -1,0 +1,44 @@
+<h1>{{ (id ? 'plots.edit' : 'plots.add') | translate }}</h1>
+<form class="surface form-surface stack" [formGroup]="form" (ngSubmit)="save()">
+  <mat-form-field
+    ><mat-label>{{ 'plots.name' | translate }}</mat-label
+    ><input matInput formControlName="name" /><mat-error>{{
+      'validation.required' | translate
+    }}</mat-error></mat-form-field
+  >
+  <div class="form-grid">
+    <mat-form-field
+      ><mat-label>{{ 'plots.farm' | translate }}</mat-label
+      ><mat-select formControlName="farmId">
+        @for (farm of data.farms(); track farm.id) {
+          <mat-option [value]="farm.id">{{ farm.name }}</mat-option>
+        }</mat-select
+      ><mat-error>{{ 'validation.required' | translate }}</mat-error></mat-form-field
+    ><mat-form-field
+      ><mat-label>{{ 'plots.crop' | translate }}</mat-label
+      ><mat-select formControlName="cropId">
+        @for (crop of data.crops; track crop.id) {
+          <mat-option [value]="crop.id">{{ crop.nameKey | translate }}</mat-option>
+        }</mat-select
+      ><mat-error>{{ 'validation.required' | translate }}</mat-error></mat-form-field
+    >
+    @for (field of numberFields; track field) {
+      <mat-form-field
+        ><mat-label>{{ 'plots.' + field | translate }}</mat-label
+        ><input matInput type="number" step="any" [formControlName]="field" /><mat-error>{{
+          'validation.range' | translate
+        }}</mat-error></mat-form-field
+      >
+    }
+  </div>
+  @if (!data.farms().length) {
+    <a routerLink="/app/plots/farms/new">{{ 'plots.addFarmFirst' | translate }}</a>
+  }
+  @if (error()) {
+    <p role="alert">{{ 'validation.checkForm' | translate }}</p>
+  }
+  <div class="button-row">
+    <button mat-flat-button type="submit">{{ 'common.save' | translate }}</button
+    ><a mat-button routerLink="/app/plots">{{ 'common.cancel' | translate }}</a>
+  </div>
+</form>

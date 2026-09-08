@@ -1,0 +1,105 @@
+<header class="page-header">
+  <div>
+    <p class="eyebrow">{{ 'dashboard.overview' | translate }}</p>
+    <h1>{{ 'dashboard.greeting' | translate: { name: auth.user()?.firstName } }}</h1>
+    <p class="muted">
+      {{ (auth.isAdvisor() ? 'dashboard.advisorHint' : 'dashboard.farmerHint') | translate }}
+    </p>
+  </div>
+  <span class="demo-chip">{{ 'common.demo' | translate }}</span>
+</header>
+<section class="summary-grid" [attr.aria-label]="'dashboard.summary' | translate">
+  <article class="summary-card">
+    <span
+      ><mat-icon aria-hidden="true">landscape</mat-icon
+      >{{ 'dashboard.monitoredPlots' | translate }}</span
+    ><strong>{{ locale.number(data.plots().length, 0) }}</strong
+    ><small>{{ locale.number(area()) }} {{ 'units.hectares' | translate }}</small>
+  </article>
+  <article class="summary-card">
+    <span
+      ><mat-icon aria-hidden="true">notifications_active</mat-icon
+      >{{ 'dashboard.activeAlerts' | translate }}</span
+    ><strong>{{ locale.number(data.activeAlerts().length, 0) }}</strong
+    ><a routerLink="/app/alerts">{{ 'dashboard.reviewAlerts' | translate }}</a>
+  </article>
+  <article class="summary-card">
+    <span
+      ><mat-icon aria-hidden="true">sensors</mat-icon
+      >{{ 'dashboard.onlineDevices' | translate }}</span
+    ><strong
+      >{{ locale.number(online(), 0)
+      }}<small> / {{ locale.number(data.devices().length, 0) }}</small></strong
+    ><small>{{ 'dashboard.lastSync' | translate }}</small>
+  </article>
+</section>
+<section>
+  <div class="section-heading">
+    <div>
+      <h2>{{ (auth.isAdvisor() ? 'nav.supervisedPlots' : 'nav.plots') | translate }}</h2>
+      <p class="muted">{{ 'dashboard.priorities' | translate }}</p>
+    </div>
+    @if (auth.isAdvisor()) {
+      <mat-form-field
+        ><mat-label>{{ 'common.sort' | translate }}</mat-label
+        ><mat-select [value]="sort()" (selectionChange)="sort.set($event.value)"
+          ><mat-option value="risk">{{ 'dashboard.byRisk' | translate }}</mat-option
+          ><mat-option value="client">{{
+            'dashboard.byClient' | translate
+          }}</mat-option></mat-select
+        ></mat-form-field
+      >
+    } @else {
+      <a mat-stroked-button routerLink="/app/plots/new"
+        ><mat-icon>add</mat-icon>{{ 'plots.add' | translate }}</a
+      >
+    }
+  </div>
+  <div class="plot-grid">
+    @for (plot of orderedPlots(); track plot.id) {
+      <article class="plot-card">
+        <div class="plot-card-top">
+          <span class="crop-tag">{{ data.crop(plot).nameKey | translate }}</span
+          ><mat-icon aria-hidden="true">grass</mat-icon>
+        </div>
+        <p class="farm-name">{{ data.farm(plot)?.name }}</p>
+        <h3>
+          <a [routerLink]="['/app/plots', plot.id]">{{ plot.name }}</a>
+        </h3>
+        <p class="muted">
+          {{ locale.number(plot.areaHectares) }} {{ 'units.hectares' | translate }}
+        </p>
+        <app-salinity-status [crop]="data.crop(plot)" [reading]="data.latest(plot.id)" />
+        <div class="plot-card-footer">
+          <span
+            ><mat-icon aria-hidden="true">water_drop</mat-icon>
+            @if (data.latest(plot.id); as reading) {
+              {{ locale.number(reading.moisturePercent) }} {{ 'units.percent' | translate }}
+            } @else {
+              {{ 'common.unknown' | translate }}
+            }</span
+          ><a
+            [routerLink]="['/app/plots', plot.id]"
+            [attr.aria-label]="'plots.viewNamed' | translate: { name: plot.name }"
+            ><mat-icon>arrow_forward</mat-icon></a
+          >
+        </div>
+      </article>
+    } @empty {
+      <p class="empty-state">{{ 'plots.empty' | translate }}</p>
+    }
+  </div>
+</section>
+@if (chartSeries().length) {
+  <section class="surface chart-surface">
+    @if (auth.isAdvisor()) {
+      <app-trend-chart [series]="chartSeries()" />
+    } @else {
+      <h2>{{ 'chart.title' | translate }}</h2>
+      <details>
+        <summary>{{ 'salinity.showHistory' | translate }}</summary>
+        <app-trend-chart [series]="chartSeries()" />
+      </details>
+    }
+  </section>
+}

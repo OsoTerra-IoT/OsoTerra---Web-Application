@@ -1,0 +1,51 @@
+<header class="page-header">
+  <div>
+    <p class="eyebrow">{{ 'plots.management' | translate }}</p>
+    <h1>{{ (auth.isAdvisor() ? 'nav.supervisedPlots' : 'nav.plots') | translate }}</h1>
+  </div>
+  @if (!auth.isAdvisor()) {
+    <div class="button-row">
+      <a mat-stroked-button routerLink="farms/new">{{ 'plots.addFarm' | translate }}</a
+      ><a mat-flat-button routerLink="new"><mat-icon>add</mat-icon>{{ 'plots.add' | translate }}</a>
+    </div>
+  }
+</header>
+<mat-form-field class="search-field"
+  ><mat-label>{{ 'plots.search' | translate }}</mat-label
+  ><input matInput [ngModel]="data.search()" (ngModelChange)="data.search.set($event)" /><mat-icon
+    matPrefix
+    >search</mat-icon
+  ></mat-form-field
+>
+@for (farm of data.farms(); track farm.id) {
+  <section>
+    <div class="section-heading">
+      <h2>{{ farm.name }}</h2>
+      @if (!auth.isAdvisor()) {
+        <a mat-button [routerLink]="['farms', farm.id, 'edit']">{{
+          'plots.editFarm' | translate
+        }}</a>
+      }
+    </div>
+    <div class="plot-grid">
+      @for (plot of farmPlots(farm.id); track plot.id) {
+        <article class="plot-card">
+          <p class="crop-tag">{{ data.crop(plot).nameKey | translate }}</p>
+          <h3>
+            <a [routerLink]="[plot.id]">{{ plot.name }}</a>
+          </h3>
+          <p>{{ locale.number(plot.areaHectares) }} {{ 'units.hectares' | translate }}</p>
+          <app-salinity-status [crop]="data.crop(plot)" [reading]="data.latest(plot.id)" /><a
+            mat-button
+            [routerLink]="[plot.id]"
+            >{{ 'plots.view' | translate }}<mat-icon iconPositionEnd>arrow_forward</mat-icon></a
+          >
+        </article>
+      } @empty {
+        <p class="empty-state">{{ 'plots.emptySearch' | translate }}</p>
+      }
+    </div>
+  </section>
+} @empty {
+  <p class="empty-state">{{ 'plots.empty' | translate }}</p>
+}

@@ -1,0 +1,41 @@
+<app-auth-frame
+  ><p class="eyebrow">{{ 'auth.welcome' | translate }}</p>
+  <h2>{{ 'auth.login' | translate }}</h2>
+  <p class="muted">{{ 'auth.loginHint' | translate }}</p>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="stack">
+    <mat-form-field
+      ><mat-label>{{ 'auth.email' | translate }}</mat-label
+      ><input matInput type="email" autocomplete="username" formControlName="email" /><mat-error>{{
+        'validation.email' | translate
+      }}</mat-error></mat-form-field
+    >
+    <mat-form-field
+      ><mat-label>{{ 'auth.password' | translate }}</mat-label
+      ><input
+        matInput
+        type="password"
+        autocomplete="current-password"
+        formControlName="password"
+      /><mat-error>{{ 'validation.required' | translate }}</mat-error></mat-form-field
+    >
+    @if (error()) {
+      <p role="alert" class="form-error">{{ 'auth.invalidCredentials' | translate }}</p>
+    }
+    <a routerLink="/auth/recovery">{{ 'auth.forgot' | translate }}</a
+    ><button mat-flat-button type="submit">
+      {{ 'auth.login' | translate }}<mat-icon iconPositionEnd>arrow_forward</mat-icon>
+    </button>
+  </form>
+  <p>
+    {{ 'auth.noAccount' | translate }}
+    <a routerLink="/auth/register">{{ 'auth.register' | translate }}</a>
+  </p>
+  <div class="demo-box">
+    <strong>{{ 'auth.demoTitle' | translate }}</strong>
+    <p>{{ 'auth.demoHint' | translate }}</p>
+    <div class="button-row">
+      <button mat-stroked-button (click)="demo(0)">{{ 'roles.Farmer' | translate }}</button
+      ><button mat-stroked-button (click)="demo(1)">{{ 'roles.Advisor' | translate }}</button>
+    </div>
+  </div></app-auth-frame
+>

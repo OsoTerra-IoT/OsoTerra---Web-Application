@@ -1,0 +1,28 @@
+<span class="status-pill" [class]="'status-pill ' + level()"
+  ><mat-icon aria-hidden="true">{{ icon() }}</mat-icon
+  >{{ 'salinity.' + level() | translate }}</span
+>
+@if (reading(); as value) {
+  @if (auth.isAdvisor()) {
+    <p class="salinity-value">
+      {{ locale.number(value.conductivityDsM, 2) }} <small>{{ 'units.dsM' | translate }}</small>
+    </p>
+  } @else {
+    <details>
+      <summary>{{ 'salinity.showValue' | translate }}</summary>
+      <p>{{ locale.number(value.conductivityDsM, 2) }} {{ 'units.dsM' | translate }}</p>
+    </details>
+  }
+  @if (value.measurementBasis !== 'ECe') {
+    <p>{{ 'salinity.needsCalibration' | translate }}</p>
+  }
+}
+@if (auth.isAdvisor()) {
+  <p class="reference">
+    {{ 'salinity.threshold' | translate }} {{ locale.number(crop().salinityThresholdDsM) }}
+    {{ 'units.dsM' | translate }} <span>{{ 'salinity.ece' | translate }}</span
+    ><br /><a [href]="crop().reference.url" target="_blank" rel="noopener">{{
+      'salinity.source' | translate
+    }}</a>
+  </p>
+}

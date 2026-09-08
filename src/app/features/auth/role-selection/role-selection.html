@@ -1,0 +1,16 @@
+<app-auth-frame
+  ><h2>{{ 'auth.chooseRole' | translate }}</h2>
+  <p>{{ 'auth.chooseRoleHint' | translate }}</p>
+  <div class="stack">
+    @for (role of roles; track role.value) {
+      <a class="role-card" [routerLink]="['/auth/register', role.value]"
+        ><mat-icon aria-hidden="true">{{ role.icon }}</mat-icon
+        ><strong>{{ role.title | translate }}</strong>
+        <p>{{ role.description | translate }}</p></a
+      >
+    }
+  </div>
+  <p>
+    <a routerLink="/auth/login">{{ 'auth.backToLogin' | translate }}</a>
+  </p></app-auth-frame
+>
