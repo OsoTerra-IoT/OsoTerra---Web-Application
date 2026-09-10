@@ -6,6 +6,7 @@ export const ADVISOR_WORKSPACE_ROUTES: Routes = [
   { path: 'home', loadComponent: () => import('./home/advisor-home').then((m) => m.AdvisorHome) },
   {
     path: 'plots',
+    data: { breadcrumb: 'nav.supervisedPlots' },
     children: [
       {
         path: '',
@@ -17,6 +18,7 @@ export const ADVISOR_WORKSPACE_ROUTES: Routes = [
       { path: ':id/edit', redirectTo: '/app/home' },
       {
         path: ':id',
+        data: { breadcrumb: 'plots.detail' },
         loadComponent: () =>
           import('./plot-detail/advisor-plot-detail').then((m) => m.AdvisorPlotDetail),
       },
@@ -24,16 +26,19 @@ export const ADVISOR_WORKSPACE_ROUTES: Routes = [
   },
   {
     path: 'alerts',
+    data: { breadcrumb: 'nav.alerts' },
     loadComponent: () => import('./alerts/advisor-alerts').then((m) => m.AdvisorAlerts),
   },
   { path: 'advisor', loadChildren: () => import('./advisor.routes').then((m) => m.ADVISOR_ROUTES) },
   {
     path: 'subscription',
+    data: { breadcrumb: 'nav.subscription' },
     loadComponent: () =>
       import('./subscription/advisor-subscription').then((m) => m.AdvisorSubscription),
   },
   {
     path: 'settings',
+    data: { breadcrumb: 'nav.settings' },
     loadComponent: () => import('./settings/advisor-settings').then((m) => m.AdvisorSettings),
   },
   { path: '**', redirectTo: 'home' },

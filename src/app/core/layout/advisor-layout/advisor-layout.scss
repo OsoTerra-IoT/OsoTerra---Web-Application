@@ -1,8 +1,22 @@
-﻿:host {
+﻿// Advisor shell. Reuses the global OsoTerra classes and adds only what this layout needs.
+:host {
   display: block;
   min-height: 100dvh;
-  background: #fff;
 }
-main {
-  min-height: calc(100dvh - 80px);
+.sidebar-footer mat-icon {
+  color: #d4f398;
+}
+.breadcrumbs span[aria-hidden='true'] {
+  color: #7d8f84;
+}
+.profile-link {
+  display: inline-flex;
+  align-items: center;
+  color: #243b2e;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+}
+.profile-link:hover {
+  background: #eef3ef;
 }
