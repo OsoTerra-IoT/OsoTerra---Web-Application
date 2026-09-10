@@ -236,6 +236,7 @@
     "MAINTENANCE": "En mantenimiento"
   },
   "advisor": {
+  "noMatches": "Ninguna parcela supervisada coincide con estos filtros.", 
   "portfolio": "Cartera de clientes",
   "clients": "Clientes activos",
   "client": "Cliente",

@@ -236,6 +236,7 @@
     "MAINTENANCE": "Maintenance"
   },
   "advisor": {
+  "noMatches": "No supervised plots match these filters.",
   "portfolio": "Client portfolio",
   "clients": "Active clients",
   "client": "Client",

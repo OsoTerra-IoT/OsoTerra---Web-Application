@@ -1,1 +1,92 @@
-﻿<!-- TODO: Implement the AdvisorPlots screen. Intentionally empty. -->
+﻿<header class="page-header">
+  <div>
+    <p class="eyebrow">{{ 'plots.management' | translate }}</p>
+    <h1>{{ 'nav.supervisedPlots' | translate }}</h1>
+    <p class="muted">{{ 'clients.plotCount' | translate: { count: matches().length } }}</p>
+  </div>
+</header>
+<div class="filter-bar">
+  <mat-form-field class="search-field"
+    ><mat-label>{{ 'plots.search' | translate }}</mat-label
+    ><input matInput [ngModel]="data.search()" (ngModelChange)="data.search.set($event)" /><mat-icon
+      matPrefix
+      >search</mat-icon
+    ></mat-form-field
+  ><mat-form-field
+    ><mat-label>{{ 'advisor.client' | translate }}</mat-label
+    ><mat-select [value]="clientId()" (selectionChange)="clientId.set($event.value)"
+      ><mat-option value="">{{ 'common.all' | translate }}</mat-option>
+      @for (client of data.clients(); track client.id) {
+        <mat-option [value]="client.id"
+          >{{ client.user?.firstName }} {{ client.user?.lastName }}</mat-option
+        >
+      }
+    </mat-select></mat-form-field
+  ><mat-form-field
+    ><mat-label>{{ 'plots.crop' | translate }}</mat-label
+    ><mat-select [value]="cropId()" (selectionChange)="cropId.set($event.value)"
+      ><mat-option value="">{{ 'common.all' | translate }}</mat-option>
+      @for (crop of data.crops; track crop.id) {
+        <mat-option [value]="crop.id">{{ crop.nameKey | translate }}</mat-option>
+      }
+    </mat-select></mat-form-field
+  ><mat-form-field
+    ><mat-label>{{ 'metrics.salinity' | translate }}</mat-label
+    ><mat-select [value]="level()" (selectionChange)="level.set($event.value)"
+      ><mat-option value="">{{ 'common.all' | translate }}</mat-option>
+      @for (item of levels; track item) {
+        <mat-option [value]="item">{{ 'salinity.' + item | translate }}</mat-option>
+      }
+    </mat-select></mat-form-field
+  >
+</div>
+@for (group of groups(); track group.client.id) {
+  <section>
+    <div class="section-heading">
+      <div>
+        <h2>{{ group.client.user?.firstName }} {{ group.client.user?.lastName }}</h2>
+        <p class="muted">
+          {{ 'clients.plotCount' | translate: { count: group.plots.length } }} ·
+          {{ locale.number(group.client.areaHectares) }} {{ 'units.hectares' | translate }}
+        </p>
+      </div>
+      <a mat-button routerLink="/app/advisor/clients">{{ 'nav.clients' | translate }}</a>
+    </div>
+    <div class="plot-grid">
+      @for (plot of group.plots; track plot.id) {
+        <article class="plot-card">
+          <div class="plot-card-top">
+            <span class="crop-tag">{{ data.crop(plot).nameKey | translate }}</span
+            ><mat-icon aria-hidden="true">grass</mat-icon>
+          </div>
+          <p class="farm-name">{{ data.farm(plot)?.name }}</p>
+          <h3>
+            <a [routerLink]="['/app/plots', plot.id]">{{ plot.name }}</a>
+          </h3>
+          <p class="muted">
+            {{ locale.number(plot.areaHectares) }} {{ 'units.hectares' | translate }}
+          </p>
+          <app-salinity-status [crop]="data.crop(plot)" [reading]="data.latest(plot.id)" />
+          <div class="plot-card-footer">
+            <span
+              ><mat-icon aria-hidden="true">sensors</mat-icon>
+              @if (data.device(plot.id); as device) {
+                {{ 'deviceStatus.' + device.status | translate }}
+              } @else {
+                {{ 'devices.empty' | translate }}
+              }</span
+            ><a
+              [routerLink]="['/app/plots', plot.id]"
+              [attr.aria-label]="'plots.viewNamed' | translate: { name: plot.name }"
+              ><mat-icon>arrow_forward</mat-icon></a
+            >
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+} @empty {
+  <p class="empty-state">
+    {{ (data.plots().length ? 'advisor.noMatches' : 'advisor.noAssignments') | translate }}
+  </p>
+}

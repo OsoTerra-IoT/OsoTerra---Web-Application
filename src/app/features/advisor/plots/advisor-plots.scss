@@ -1,1 +1,10 @@
-﻿// Screen-specific advisor styles belong here.
+﻿// Supervised plots. Grouped by client instead of by farm, since the advisor works across owners.
+.filter-bar {
+  margin-bottom: 1rem;
+}
+.filter-bar .search-field {
+  width: 260px;
+}
+.plot-card-footer span {
+  text-transform: none;
+}
