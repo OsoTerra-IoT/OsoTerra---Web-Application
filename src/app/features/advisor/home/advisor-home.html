@@ -1,1 +1,115 @@
-﻿<!-- TODO: Implement the AdvisorHome screen. Intentionally empty. -->
+﻿<header class="page-header">
+  <div>
+    <p class="eyebrow">{{ 'advisor.portfolio' | translate }}</p>
+    <h1>{{ 'dashboard.greeting' | translate: { name: auth.user()?.firstName } }}</h1>
+    <p class="muted">{{ 'dashboard.advisorHint' | translate }}</p>
+  </div>
+  <span class="demo-chip">{{ 'common.demo' | translate }}</span>
+</header>
+<section class="summary-grid advisor-summary" [attr.aria-label]="'dashboard.summary' | translate">
+  <article class="summary-card">
+    <span><mat-icon aria-hidden="true">groups</mat-icon>{{ 'advisor.clients' | translate }}</span
+    ><strong>{{ locale.number(data.clients().length, 0) }}</strong
+    ><a routerLink="/app/advisor/clients">{{ 'nav.clients' | translate }}</a>
+  </article>
+  <article class="summary-card">
+    <span
+      ><mat-icon aria-hidden="true">landscape</mat-icon
+      >{{ 'nav.supervisedPlots' | translate }}</span
+    ><strong>{{ locale.number(data.plots().length, 0) }}</strong
+    ><small>{{ locale.number(area()) }} {{ 'units.hectares' | translate }}</small>
+  </article>
+  <article class="summary-card">
+    <span
+      ><mat-icon aria-hidden="true">notifications_active</mat-icon
+      >{{ 'dashboard.activeAlerts' | translate }}</span
+    ><strong>{{ locale.number(data.activeAlerts().length, 0) }}</strong
+    ><a routerLink="/app/alerts">{{ 'dashboard.reviewAlerts' | translate }}</a>
+  </article>
+  <article class="summary-card">
+    <span
+      ><mat-icon aria-hidden="true">sensors</mat-icon
+      >{{ 'dashboard.onlineDevices' | translate }}</span
+    ><strong
+      >{{ locale.number(online(), 0)
+      }}<small> / {{ locale.number(data.devices().length, 0) }}</small></strong
+    ><small>{{ 'dashboard.lastSync' | translate }}</small>
+  </article>
+</section>
+<section class="surface">
+  <div class="section-heading">
+    <div>
+      <h2>{{ 'nav.supervisedPlots' | translate }}</h2>
+      <p class="muted">{{ 'dashboard.priorities' | translate }}</p>
+    </div>
+    <a mat-stroked-button routerLink="/app/advisor/compare"
+      ><mat-icon>compare_arrows</mat-icon>{{ 'nav.compare' | translate }}</a
+    >
+  </div>
+  <div class="table-scroll">
+    <table>
+      <caption>
+        {{
+          'advisor.priorityCaption' | translate
+        }}
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">{{ 'plots.plot' | translate }}</th>
+          <th scope="col">{{ 'advisor.client' | translate }}</th>
+          <th scope="col">{{ 'plots.crop' | translate }}</th>
+          <th scope="col">{{ 'metrics.conductivity' | translate }}</th>
+          <th scope="col">{{ 'salinity.threshold' | translate }}</th>
+          <th scope="col">{{ 'advisor.ratio' | translate }}</th>
+          <th scope="col">{{ 'alerts.status' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (plot of ranked(); track plot.id) {
+          <tr>
+            <th scope="row">
+              <a [routerLink]="['/app/plots', plot.id]">{{ plot.name }}</a>
+              <small>{{ data.farm(plot)?.name }}</small>
+            </th>
+            <td>{{ data.owner(plot)?.firstName }} {{ data.owner(plot)?.lastName }}</td>
+            <td>{{ data.crop(plot).nameKey | translate }}</td>
+            <td>
+              @if (data.latest(plot.id); as reading) {
+                {{ locale.number(reading.conductivityDsM, 2) }} {{ 'units.dsM' | translate }}
+              } @else {
+                {{ 'common.unknown' | translate }}
+              }
+            </td>
+            <td>
+              {{ locale.number(data.crop(plot).salinityThresholdDsM, 2) }}
+              {{ 'units.dsM' | translate }}
+            </td>
+            <td>
+              @if (ratio(plot); as percent) {
+                {{ locale.number(percent, 0) }} {{ 'units.percent' | translate }}
+              } @else {
+                {{ 'common.unknown' | translate }}
+              }
+            </td>
+            <td>
+              <span [class]="'status-pill ' + data.level(plot)"
+                ><mat-icon aria-hidden="true">{{ icon(plot) }}</mat-icon
+                >{{ 'salinity.' + data.level(plot) | translate }}</span
+              >
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="empty-state">{{ 'advisor.noAssignments' | translate }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+@if (series().length) {
+  <section class="surface chart-surface">
+    <p class="muted">{{ 'advisor.trendCaption' | translate }}</p>
+    <app-trend-chart [series]="series()" />
+  </section>
+}

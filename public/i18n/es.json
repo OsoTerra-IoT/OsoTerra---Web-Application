@@ -235,6 +235,15 @@
     "OFFLINE": "Desconectado",
     "MAINTENANCE": "En mantenimiento"
   },
+  "advisor": {
+  "portfolio": "Cartera de clientes",
+  "clients": "Clientes activos",
+  "client": "Cliente",
+  "ratio": "Porcentaje del umbral",
+  "priorityCaption": "Parcelas supervisadas ordenadas por riesgo de salinidad",
+  "noAssignments": "Todavía no tienes parcelas asignadas a tu cuenta.",
+  "trendCaption": "Tendencia de las tres parcelas que requieren atención primero"
+  },
   "comparison": {
     "hint": "Selecciona de 2 a 4 parcelas para comparar sus mediciones en el mismo periodo.",
     "minimum": "Selecciona al menos 2 parcelas para mostrar la comparación."

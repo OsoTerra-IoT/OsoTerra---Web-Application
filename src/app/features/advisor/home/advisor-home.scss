@@ -1,1 +1,15 @@
-﻿// Screen-specific advisor styles belong here.
+﻿// Advisor home. Four indicators instead of the farmer's three, plus a dense priority table.
+.summary-grid.advisor-summary {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 215px), 1fr));
+}
+th[scope='row'] {
+  font-weight: 600;
+}
+th[scope='row'] small {
+  display: block;
+  font-weight: 400;
+  color: #53645a;
+}
+td .status-pill {
+  white-space: nowrap;
+}
