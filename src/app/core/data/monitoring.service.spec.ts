@@ -47,6 +47,21 @@ describe('MonitoringService permissions and workflows', () => {
     });
     expect(data.plots()).toHaveLength(0);
   });
+    it('builds the advisor client roster and hides it from farmers', () => {
+    login('farmer');
+    expect(data.clients()).toEqual([]);
+    login('advisor');
+    const clients = data.clients();
+    expect(clients.map((client) => client.id)).toEqual(['farmer-2', 'farmer-1']);
+    expect(clients[0].user?.lastName).toBe('Mendoza');
+    expect(clients[0].openAlerts).toBe(2);
+    expect(clients[0].plots.map((plot) => plot.id)).toEqual(['plot-3', 'plot-4']);
+    expect(clients[0].farms.map((farm) => farm.name)).toEqual(['Los Olivos']);
+    expect(clients[0].areaHectares).toBeCloseTo(9.6);
+    expect(clients[1].user?.lastName).toBe('Ramos');
+    expect(clients[1].openAlerts).toBe(1);
+    expect(data.owner(clients[0].plots[0])?.firstName).toBe('Carla');
+  });
   it('creates and updates owned plots but rejects invalid location and foreign farms', () => {
     login('farmer');
     const value = {

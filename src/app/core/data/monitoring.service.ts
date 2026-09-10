@@ -1,7 +1,16 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
-import { CorrectiveAction, Device, Farm, Plot, SoilReading } from '../models';
-import { ALERTS, CROPS, DEVICES, FARMS, PLOTS, READINGS } from './demo-data';
+import { CorrectiveAction, Device, Farm, Plot, SoilReading, User } from '../models';import { ALERTS, CROPS, DEVICES, FARMS, PLOTS, READINGS } from './demo-data';
+
+/** Aggregated view of one advisor client. Recomputed from the accessible plots. */
+export interface AdvisorClient {
+  id: string;
+  user: User | undefined;
+  plots: Plot[];
+  farms: Farm[];
+  areaHectares: number;
+  openAlerts: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class MonitoringService {
@@ -28,13 +37,35 @@ export class MonitoringService {
   readonly activeAlerts = computed(() =>
     this.alerts().filter((alert) => alert.status !== 'RESOLVED'),
   );
+    /** Client roster derived from the owners of the plots assigned to the signed-in advisor. */
+  readonly clients = computed<AdvisorClient[]>(() =>
+    this.auth.isAdvisor()
+      ? [...new Set(this.plots().map((plot) => plot.ownerId))]
+          .map((ownerId) => {
+            const plots = this.plots().filter((plot) => plot.ownerId === ownerId);
+            return {
+              id: ownerId,
+              user: this.auth.findUser(ownerId),
+              plots,
+              farms: this.farms().filter((farm) => plots.some((plot) => plot.farmId === farm.id)),
+              areaHectares: plots.reduce((sum, plot) => sum + plot.areaHectares, 0),
+              openAlerts: this.activeAlerts().filter((alert) =>
+                plots.some((plot) => plot.id === alert.plotId),
+              ).length,
+            };
+          })
+          .sort((a, b) => b.openAlerts - a.openAlerts || a.id.localeCompare(b.id))
+      : [],
+  );
   readonly search = signal('');
   readonly filteredPlots = computed(() =>
     this.plots().filter((plot) =>
       plot.name.toLowerCase().includes(this.search().trim().toLowerCase()),
     ),
   );
-
+  owner(plot: Plot): User | undefined {
+    return this.auth.findUser(plot.ownerId);
+  }
   canAccess(plot: Plot): boolean {
     const user = this.auth.user();
     return (
