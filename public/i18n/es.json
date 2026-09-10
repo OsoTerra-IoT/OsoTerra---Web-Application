@@ -236,6 +236,11 @@
     "MAINTENANCE": "En mantenimiento"
   },
   "advisor": {
+  "yieldLoss": "Pérdida de rendimiento estimada",
+  "yieldLossHint": "Estimación lineal de Maas y Hoffman a partir del umbral del cultivo y su pendiente. Solo referencial.",
+  "noCalibration": "Este dispositivo no tiene calibración registrada.",
+  "openCalibration": "Registrar calibración",
+  "plotAlerts": "Alertas de esta parcela",
   "noMatches": "Ninguna parcela supervisada coincide con estos filtros.", 
   "portfolio": "Cartera de clientes",
   "clients": "Clientes activos",

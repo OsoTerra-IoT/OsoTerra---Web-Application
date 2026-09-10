@@ -236,6 +236,11 @@
     "MAINTENANCE": "Maintenance"
   },
   "advisor": {
+  "yieldLoss": "Estimated yield loss",
+  "yieldLossHint": "Linear Maas & Hoffman estimate from the crop threshold and its slope. Indicative only.",
+  "noCalibration": "No calibration recorded for this device.",
+  "openCalibration": "Record calibration",
+  "plotAlerts": "Alerts for this plot",
   "noMatches": "No supervised plots match these filters.",
   "portfolio": "Client portfolio",
   "clients": "Active clients",

@@ -1,1 +1,16 @@
-﻿// Screen-specific advisor styles belong here.
+﻿// Advisor plot detail. Technical read-only view with room for five indicators.
+.summary-grid.detail-metrics {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+.detail-metrics .metric {
+  margin-top: 0;
+}
+.detail-metrics small {
+  display: block;
+  margin-top: 0.35rem;
+}
+.list-row .muted {
+  font-size: 0.9375rem;
+}
