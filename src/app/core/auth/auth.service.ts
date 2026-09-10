@@ -20,6 +20,16 @@ export const DEMO_USERS: readonly User[] = [
   },
   {
     ...base,
+    id: 'farmer-2',
+    firstName: 'Carla',
+    lastName: 'Mendoza',
+    email: 'farmer2@osoterra.demo',
+    province: 'Huaura',
+    role: 'Farmer',
+    advisorId: 'advisor-1',
+  },
+  {
+    ...base,
     id: 'advisor-1',
     firstName: 'Diego',
     lastName: 'Torres',
@@ -83,7 +93,11 @@ export class AuthService {
     this.currentUser.set(user);
     return 'SUCCESS';
   }
-
+  /** Directory lookup for demo relationships. A production API would scope this per request. */
+  findUser(id: string): User | undefined {
+    for (const account of this.accounts.values()) if (account.user.id === id) return account.user;
+    return undefined;
+  }
   hasRole(roles: readonly UserRole[]): boolean {
     const user = this.user();
     return !!user && roles.includes(user.role);

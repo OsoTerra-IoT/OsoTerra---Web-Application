@@ -8,6 +8,19 @@ import { routes } from './app.routes';
 import en from '../../public/i18n/en.json';
 import es from '../../public/i18n/es.json';
 
+const ADVISOR_URLS = [
+  '/app/home',
+  '/app/plots',
+  '/app/plots/plot-1',
+  '/app/alerts',
+  '/app/subscription',
+  '/app/settings',
+  '/app/advisor/compare',
+  '/app/advisor/reports',
+  '/app/advisor/clients',
+  '/app/advisor/calibration',
+];
+
 describe('OsoTerra routed application', () => {
   let auth: AuthService;
   let harness: RouterTestingHarness;
@@ -25,6 +38,10 @@ describe('OsoTerra routed application', () => {
   });
   const login = (role: string) =>
     auth.login({ email: role + '@osoterra.demo', password: DEMO_PASSWORD });
+  const signOutButton = () =>
+    [...(harness.routeNativeElement?.querySelectorAll('button') ?? [])].find((button) =>
+      button.textContent?.includes('Sign out'),
+    ) as HTMLButtonElement;
 
   it('redirects anonymous deep links to sign in with the return path', async () => {
     await harness.navigateByUrl('/app/plots/plot-1');
@@ -45,9 +62,8 @@ describe('OsoTerra routed application', () => {
     login('advisor');
     await harness.navigateByUrl('/app/plots/new');
     expect(TestBed.inject(Router).url).toBe('/app/home');
-    expect(harness.routeNativeElement?.querySelector('#advisor-content')?.textContent?.trim()).toBe(
-      '',
-    );
+    expect(harness.routeNativeElement?.querySelector('#advisor-sidebar')).toBeTruthy();
+    expect(harness.routeNativeElement?.querySelector('#primary-sidebar')).toBeNull();
   });
   it('renders authorized farmer routes and denies unowned detail IDs', async () => {
     login('farmer');
@@ -73,34 +89,30 @@ describe('OsoTerra routed application', () => {
     await harness.navigateByUrl('/app/plots/plot-3');
     expect(harness.routeNativeElement?.textContent).toContain('Plot not found');
   });
-  it('keeps every advisor screen blank with no sidebar, including direct links', async () => {
+  it('serves every advisor route from the advisor shell with its own sidebar', async () => {
     login('advisor');
-    for (const url of [
-      '/app/home',
-      '/app/plots',
-      '/app/plots/plot-1',
-      '/app/alerts',
-      '/app/subscription',
-      '/app/settings',
-      '/app/advisor/compare',
-      '/app/advisor/reports',
-      '/app/advisor/clients',
-      '/app/advisor/calibration',
-    ]) {
+    for (const url of ADVISOR_URLS) {
       await harness.navigateByUrl(url);
       expect(TestBed.inject(Router).url).toBe(url);
-      expect(harness.routeNativeElement?.querySelector('mat-sidenav')).toBeNull();
-      expect(harness.routeNativeElement?.querySelector('nav')).toBeNull();
+      expect(harness.routeNativeElement?.querySelector('#advisor-sidebar')).toBeTruthy();
+      expect(harness.routeNativeElement?.querySelector('#primary-sidebar')).toBeNull();
       expect(
-        harness.routeNativeElement?.querySelector('#advisor-content')?.textContent?.trim(),
-      ).toBe('');
+        harness.routeNativeElement?.querySelector('nav a[href="/app/advisor/compare"]'),
+      ).toBeTruthy();
+    }
+  });
+  it('keeps farmer-only destinations out of the advisor sidebar', async () => {
+    login('advisor');
+    await harness.navigateByUrl('/app/home');
+    for (const href of ['/app/devices', '/app/my-advisor', '/app/plots/new']) {
+      expect(harness.routeNativeElement?.querySelector(`nav a[href="${href}"]`)).toBeNull();
     }
   });
 
-  it('lets the advisor sign out from the empty workspace', async () => {
+  it('lets the advisor sign out from the workspace toolbar', async () => {
     login('advisor');
     await harness.navigateByUrl('/app/home');
-    (harness.routeNativeElement?.querySelector('button') as HTMLButtonElement).click();
+    signOutButton().click();
     await harness.fixture.whenStable();
     expect(auth.isAuthenticated()).toBe(false);
     expect(TestBed.inject(Router).url).toBe('/auth/login');
