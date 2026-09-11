@@ -255,6 +255,12 @@
   "maxPlots": "Select up to 4 plots. Selected: {{count}}.",
   "compareCaption": "Latest readings of the selected plots",
   "delta": "Change over the period",
+   "clientDirectory": "Clients supervised by your account",
+  "contact": "Contact",
+  "location": "Location",
+  "farms": "Farms",
+  "noClients": "No clients are linked to your account yet.",
+  "supervisedArea": "Supervised area",
   "alertSummary": "Active alerts by severity"  
 },
   "comparison": {

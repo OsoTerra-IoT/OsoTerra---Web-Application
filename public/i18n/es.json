@@ -255,6 +255,12 @@
   "compareCaption": "Últimas lecturas de las parcelas seleccionadas",
   "delta": "Cambio en el periodo",
   "alertSummary": "Alertas activas por severidad",
+  "clientDirectory": "Clientes supervisados por tu cuenta",
+  "contact": "Contacto",
+  "location": "Ubicación",
+  "farms": "Fincas",
+  "noClients": "Todavía no tienes clientes vinculados a tu cuenta.",
+  "supervisedArea": "Superficie supervisada",
   "trendCaption": "Tendencia de las tres parcelas que requieren atención primero"
   },
   "comparison": {
