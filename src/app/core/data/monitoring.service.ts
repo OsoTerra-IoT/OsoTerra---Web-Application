@@ -1,8 +1,9 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
-import { CorrectiveAction, Device, Farm, Plot, SoilReading, User } from '../models';import { ALERTS, CROPS, DEVICES, FARMS, PLOTS, READINGS } from './demo-data';
-
-/** Aggregated view of one advisor client. Recomputed from the accessible plots. */
+import { CorrectiveAction, Crop, Device, Farm, Plot, SoilReading, User } from '../models';
+import { ALERTS, CROPS, DEVICES, FARMS, PLOTS, READINGS } from './demo-data';
+/** Demo severity bands. Documented in README as prototype values, not agronomic guidance. */
+export type SalinityLevel = 'normal' | 'watch' | 'high' | 'critical' | 'unknown';
 export interface AdvisorClient {
   id: string;
   user: User | undefined;
@@ -89,6 +90,15 @@ export class MonitoringService {
   }
   device(plotId: string) {
     return this.devices().find((device) => device.plotId === plotId);
+  }
+  salinityLevel(crop: Crop, reading?: SoilReading): SalinityLevel {
+    if (!reading || reading.quality !== 'VALID' || reading.measurementBasis !== 'ECe')
+      return 'unknown';
+    const ratio = reading.conductivityDsM / crop.salinityThresholdDsM;
+    return ratio > 1.25 ? 'critical' : ratio > 1 ? 'high' : ratio >= 0.8 ? 'watch' : 'normal';
+  }
+  level(plot: Plot): SalinityLevel {
+    return this.salinityLevel(this.crop(plot), this.latest(plot.id));
   }
   risk(plot: Plot): number {
     const reading = this.latest(plot.id);

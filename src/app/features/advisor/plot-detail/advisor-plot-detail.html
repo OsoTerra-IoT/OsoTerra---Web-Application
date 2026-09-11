@@ -1,1 +1,146 @@
-﻿<!-- TODO: Implement the AdvisorPlotDetail screen. Intentionally empty. -->
+﻿@if (plot(); as plot) {
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">{{ data.farm(plot)?.name }}</p>
+      <h1>{{ plot.name }}</h1>
+      <p class="muted">
+        {{ data.crop(plot).nameKey | translate }} · {{ locale.number(plot.areaHectares) }}
+        {{ 'units.hectares' | translate }} · {{ data.owner(plot)?.firstName }}
+        {{ data.owner(plot)?.lastName }}
+      </p>
+    </div>
+    <a mat-stroked-button routerLink="/app/advisor/compare"
+      ><mat-icon>compare_arrows</mat-icon>{{ 'nav.compare' | translate }}</a
+    >
+  </header>
+  <mat-tab-group animationDuration="0ms">
+    <mat-tab [label]="'plots.currentStatus' | translate"
+      ><section class="surface tab-content">
+        <h2>{{ 'metrics.salinity' | translate }}</h2>
+        <app-salinity-status [crop]="data.crop(plot)" [reading]="reading()" />
+        <div class="summary-grid detail-metrics">
+          <article class="metric">
+            <mat-icon aria-hidden="true">percent</mat-icon>
+            <h3>{{ 'advisor.ratio' | translate }}</h3>
+            <strong>
+              @if (ratio(); as percent) {
+                {{ locale.number(percent, 0) }} {{ 'units.percent' | translate }}
+              } @else {
+                {{ 'common.unknown' | translate }}
+              }
+            </strong>
+          </article>
+          <article class="metric">
+            <mat-icon aria-hidden="true">trending_down</mat-icon>
+            <h3>{{ 'advisor.yieldLoss' | translate }}</h3>
+            <strong>
+              @if (yieldLoss() !== null) {
+                {{ locale.number(yieldLoss()!, 1) }} {{ 'units.percent' | translate }}
+              } @else {
+                {{ 'common.unknown' | translate }}
+              }
+            </strong>
+            <small>{{ 'advisor.yieldLossHint' | translate }}</small>
+          </article>
+          @if (reading(); as value) {
+            <article class="metric">
+              <mat-icon aria-hidden="true">water_drop</mat-icon>
+              <h3>{{ 'metrics.moisture' | translate }}</h3>
+              <strong
+                >{{ locale.number(value.moisturePercent) }}
+                {{ 'units.percent' | translate }}</strong
+              >
+            </article>
+            <article class="metric">
+              <mat-icon aria-hidden="true">thermostat</mat-icon>
+              <h3>{{ 'metrics.temperature' | translate }}</h3>
+              <strong
+                >{{ locale.number(value.temperatureCelsius) }}
+                {{ 'units.celsius' | translate }}</strong
+              >
+            </article>
+            <article class="metric">
+              <mat-icon aria-hidden="true">schedule</mat-icon>
+              <h3>{{ 'common.updated' | translate }}</h3>
+              <p>{{ locale.date(value.recordedAt) }}</p>
+            </article>
+          }
+        </div>
+      </section></mat-tab
+    >
+    <mat-tab [label]="'plots.history' | translate"
+      ><section class="surface tab-content">
+        <app-trend-chart [series]="series()" /></section
+    ></mat-tab>
+    <mat-tab [label]="'nav.alerts' | translate"
+      ><section class="surface tab-content">
+        <h2>{{ 'advisor.plotAlerts' | translate }}</h2>
+        @for (alert of alerts(); track alert.id) {
+          <div class="list-row">
+            <span [class]="'status-pill ' + alert.severity.toLowerCase()"
+              ><mat-icon aria-hidden="true">{{
+                alert.severity === 'WATCH' ? 'visibility' : 'warning'
+              }}</mat-icon
+              >{{ 'severity.' + alert.severity | translate }}</span
+            ><span>{{ 'alertStatus.' + alert.status | translate }}</span
+            ><span class="muted">{{ locale.date(alert.createdAt) }}</span
+            ><span class="muted"
+              >{{ locale.number(alert.conductivityDsM, 2) }} {{ 'units.dsM' | translate }}</span
+            ><a mat-button routerLink="/app/alerts" [queryParams]="{ plot: plot.id }">{{
+              'alerts.manage' | translate
+            }}</a>
+          </div>
+        } @empty {
+          <p>{{ 'alerts.empty' | translate }}</p>
+        }
+      </section></mat-tab
+    >
+    <mat-tab [label]="'plots.telemetry' | translate"
+      ><section class="surface tab-content">
+        @if (data.device(plot.id); as device) {
+          <h2>{{ device.serialNumber }}</h2>
+          <dl class="definition-grid">
+            <dt>{{ 'devices.status' | translate }}</dt>
+            <dd>{{ 'deviceStatus.' + device.status | translate }}</dd>
+            <dt>{{ 'devices.battery' | translate }}</dt>
+            <dd>{{ locale.number(device.batteryPercent) }} {{ 'units.percent' | translate }}</dd>
+            <dt>{{ 'devices.signal' | translate }}</dt>
+            <dd>{{ locale.number(device.signalDbm) }} {{ 'units.dbm' | translate }}</dd>
+            <dt>{{ 'devices.lastSeen' | translate }}</dt>
+            <dd>{{ locale.date(device.lastSeenAt) }}</dd>
+            <dt>{{ 'devices.firmware' | translate }}</dt>
+            <dd>{{ device.firmwareVersion }}</dd>
+          </dl>
+          <h3>{{ 'nav.calibration' | translate }}</h3>
+          @if (device.calibration; as calibration) {
+            <dl class="definition-grid">
+              <dt>{{ 'calibration.sensorDsM' | translate }}</dt>
+              <dd>{{ locale.number(calibration.sensorDsM, 2) }} {{ 'units.dsM' | translate }}</dd>
+              <dt>{{ 'calibration.laboratoryEceDsM' | translate }}</dt>
+              <dd>
+                {{ locale.number(calibration.laboratoryEceDsM, 2) }} {{ 'units.dsM' | translate }}
+              </dd>
+              <dt>{{ 'calibration.offset' | translate }}</dt>
+              <dd>{{ locale.number(calibration.offsetDsM, 2) }} {{ 'units.dsM' | translate }}</dd>
+              <dt>{{ 'common.date' | translate }}</dt>
+              <dd>{{ locale.date(calibration.calibratedAt) }}</dd>
+              <dt>{{ 'common.notes' | translate }}</dt>
+              <dd>{{ calibration.notes }}</dd>
+            </dl>
+            <p class="muted">{{ 'calibration.limitation' | translate }}</p>
+          } @else {
+            <p>{{ 'advisor.noCalibration' | translate }}</p>
+          }
+          <a mat-flat-button routerLink="/app/advisor/calibration">{{
+            'advisor.openCalibration' | translate
+          }}</a>
+        } @else {
+          <p>{{ 'devices.empty' | translate }}</p>
+        }
+      </section></mat-tab
+    >
+  </mat-tab-group>
+} @else {
+  <h1>{{ 'plots.notFound' | translate }}</h1>
+  <a routerLink="/app/plots">{{ 'common.back' | translate }}</a>
+}

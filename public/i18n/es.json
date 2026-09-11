@@ -235,6 +235,21 @@
     "OFFLINE": "Desconectado",
     "MAINTENANCE": "En mantenimiento"
   },
+  "advisor": {
+  "yieldLoss": "Pérdida de rendimiento estimada",
+  "yieldLossHint": "Estimación lineal de Maas y Hoffman a partir del umbral del cultivo y su pendiente. Solo referencial.",
+  "noCalibration": "Este dispositivo no tiene calibración registrada.",
+  "openCalibration": "Registrar calibración",
+  "plotAlerts": "Alertas de esta parcela",
+  "noMatches": "Ninguna parcela supervisada coincide con estos filtros.", 
+  "portfolio": "Cartera de clientes",
+  "clients": "Clientes activos",
+  "client": "Cliente",
+  "ratio": "Porcentaje del umbral",
+  "priorityCaption": "Parcelas supervisadas ordenadas por riesgo de salinidad",
+  "noAssignments": "Todavía no tienes parcelas asignadas a tu cuenta.",
+  "trendCaption": "Tendencia de las tres parcelas que requieren atención primero"
+  },
   "comparison": {
     "hint": "Selecciona de 2 a 4 parcelas para comparar sus mediciones en el mismo periodo.",
     "minimum": "Selecciona al menos 2 parcelas para mostrar la comparación."
