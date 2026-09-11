@@ -1,1 +1,133 @@
-﻿<!-- TODO: Implement the AdvisorAlerts screen. Intentionally empty. -->
+﻿<header class="page-header">
+  <div>
+    <p class="eyebrow">{{ 'advisor.triage' | translate }}</p>
+    <h1>{{ 'nav.alerts' | translate }}</h1>
+    <p class="muted">{{ 'alerts.hint' | translate }}</p>
+  </div>
+</header>
+<section class="summary-grid alert-summary" [attr.aria-label]="'advisor.alertSummary' | translate">
+  @for (item of counts(); track item.severity) {
+    <article class="summary-card">
+      <span [class]="'status-pill ' + item.severity.toLowerCase()"
+        ><mat-icon aria-hidden="true">{{
+          item.severity === 'WATCH' ? 'visibility' : 'warning'
+        }}</mat-icon
+        >{{ 'severity.' + item.severity | translate }}</span
+      ><strong>{{ locale.number(item.count, 0) }}</strong>
+    </article>
+  }
+</section>
+<div class="filter-bar">
+  <mat-form-field
+    ><mat-label>{{ 'alerts.severity' | translate }}</mat-label
+    ><mat-select [value]="severity()" (selectionChange)="severity.set($event.value)"
+      ><mat-option value="">{{ 'common.all' | translate }}</mat-option>
+      @for (item of severities; track item) {
+        <mat-option [value]="item">{{ 'severity.' + item | translate }}</mat-option>
+      }
+    </mat-select></mat-form-field
+  ><mat-form-field
+    ><mat-label>{{ 'alerts.status' | translate }}</mat-label
+    ><mat-select [value]="status()" (selectionChange)="status.set($event.value)"
+      ><mat-option value="">{{ 'common.all' | translate }}</mat-option>
+      @for (item of statuses; track item) {
+        <mat-option [value]="item">{{ 'alertStatus.' + item | translate }}</mat-option>
+      }
+    </mat-select></mat-form-field
+  ><mat-form-field
+    ><mat-label>{{ 'advisor.client' | translate }}</mat-label
+    ><mat-select [value]="clientId()" (selectionChange)="clientId.set($event.value)"
+      ><mat-option value="">{{ 'common.all' | translate }}</mat-option>
+      @for (client of data.clients(); track client.id) {
+        <mat-option [value]="client.id"
+          >{{ client.user?.firstName }} {{ client.user?.lastName }}</mat-option
+        >
+      }
+    </mat-select></mat-form-field
+  ><mat-form-field
+    ><mat-label>{{ 'plots.plot' | translate }}</mat-label
+    ><mat-select [value]="plotId()" (selectionChange)="plotId.set($event.value)"
+      ><mat-option value="">{{ 'common.all' | translate }}</mat-option>
+      @for (plot of data.plots(); track plot.id) {
+        <mat-option [value]="plot.id">{{ plot.name }}</mat-option>
+      }
+    </mat-select></mat-form-field
+  >
+</div>
+<section class="surface">
+  <div class="table-scroll">
+    <table>
+      <caption>
+        {{
+          'alerts.inbox' | translate
+        }}
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">{{ 'plots.plot' | translate }}</th>
+          <th scope="col">{{ 'advisor.client' | translate }}</th>
+          <th scope="col">{{ 'alerts.severity' | translate }}</th>
+          <th scope="col">{{ 'alerts.status' | translate }}</th>
+          <th scope="col">{{ 'metrics.conductivity' | translate }}</th>
+          <th scope="col">{{ 'common.date' | translate }}</th>
+          <th scope="col">{{ 'alerts.actions' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (alert of filtered(); track alert.id) {
+          <tr>
+            <th scope="row">
+              <a [routerLink]="['/app/plots', alert.plotId]">{{ plot(alert)?.name }}</a>
+            </th>
+            <td>{{ clientName(alert) }}</td>
+            <td>
+              <span [class]="'status-pill ' + alert.severity.toLowerCase()"
+                ><mat-icon aria-hidden="true">{{
+                  alert.severity === 'WATCH' ? 'visibility' : 'warning'
+                }}</mat-icon
+                >{{ 'severity.' + alert.severity | translate }}</span
+              >
+            </td>
+            <td>{{ 'alertStatus.' + alert.status | translate }}</td>
+            <td>
+              {{ locale.number(alert.conductivityDsM, 2) }} {{ 'units.dsM' | translate }}
+              <small
+                >{{ 'salinity.threshold' | translate }}
+                {{ locale.number(alert.thresholdDsM, 2) }}</small
+              >
+            </td>
+            <td>{{ locale.date(alert.createdAt) }}</td>
+            <td>
+              @if (alert.status === 'OPEN') {
+                <button mat-button (click)="data.acknowledge(alert.id)">
+                  {{ 'alerts.acknowledge' | translate }}
+                </button>
+              }
+              @if (alert.status !== 'RESOLVED') {
+                <button mat-stroked-button (click)="openAction(alert)">
+                  {{ 'alerts.recordAction' | translate }}
+                </button>
+              }
+              <details>
+                <summary>
+                  {{ 'alerts.actionCount' | translate: { count: alert.actions.length } }}
+                </summary>
+                @for (action of alert.actions; track action.id) {
+                  <p>
+                    <strong>{{ 'actionTypes.' + action.type | translate }}</strong> ·
+                    {{ locale.date(action.performedAt) }}
+                  </p>
+                  <p>{{ action.notes }}</p>
+                }
+              </details>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="empty-state">{{ 'alerts.empty' | translate }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

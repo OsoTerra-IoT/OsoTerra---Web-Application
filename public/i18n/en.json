@@ -248,7 +248,20 @@
   "ratio": "Share of threshold",
   "priorityCaption": "Supervised plots ordered by salinity risk",
   "noAssignments": "No plots are assigned to your account yet.",
-  "trendCaption": "Trend of the three plots that need attention first"
+  "trendCaption": "Trend of the three plots that need attention first",
+  "triage": "Alert triage",
+  "actionOwner": "The action is recorded in the history of the client plot.",
+  "selectPlots": "Plots to compare",
+  "maxPlots": "Select up to 4 plots. Selected: {{count}}.",
+  "compareCaption": "Latest readings of the selected plots",
+  "delta": "Change over the period",
+   "clientDirectory": "Clients supervised by your account",
+  "contact": "Contact",
+  "location": "Location",
+  "farms": "Farms",
+  "noClients": "No clients are linked to your account yet.",
+  "supervisedArea": "Supervised area",
+  "alertSummary": "Active alerts by severity"  
 },
   "comparison": {
     "hint": "Select 2 to 4 plots to compare their measurements over the same period.",

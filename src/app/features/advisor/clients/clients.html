@@ -1,1 +1,71 @@
-﻿<!-- TODO: Implement the Clients screen. Intentionally empty. -->
+﻿<header class="page-header">
+  <div>
+    <p class="eyebrow">{{ 'advisor.portfolio' | translate }}</p>
+    <h1>{{ 'nav.clients' | translate }}</h1>
+    <p class="muted">{{ 'advisor.clientDirectory' | translate }}</p>
+  </div>
+  <span class="demo-chip">{{ 'common.demo' | translate }}</span>
+</header>
+<section class="summary-grid" [attr.aria-label]="'dashboard.summary' | translate">
+  <article class="summary-card">
+    <span><mat-icon aria-hidden="true">groups</mat-icon>{{ 'advisor.clients' | translate }}</span
+    ><strong>{{ locale.number(data.clients().length, 0) }}</strong>
+  </article>
+  <article class="summary-card">
+    <span
+      ><mat-icon aria-hidden="true">landscape</mat-icon
+      >{{ 'advisor.supervisedArea' | translate }}</span
+    ><strong
+      >{{ locale.number(area()) }}<small> {{ 'units.hectares' | translate }}</small></strong
+    ><small>{{ 'clients.plotCount' | translate: { count: data.plots().length } }}</small>
+  </article>
+  <article class="summary-card">
+    <span
+      ><mat-icon aria-hidden="true">notifications_active</mat-icon
+      >{{ 'dashboard.activeAlerts' | translate }}</span
+    ><strong>{{ locale.number(data.activeAlerts().length, 0) }}</strong
+    ><a routerLink="/app/alerts">{{ 'dashboard.reviewAlerts' | translate }}</a>
+  </article>
+</section>
+<div class="plot-grid">
+  @for (client of data.clients(); track client.id) {
+    <article class="surface client-card">
+      <div class="client-head">
+        <span class="avatar">{{ client.user?.firstName?.charAt(0) }}</span>
+        <div>
+          <h2>{{ client.user?.firstName }} {{ client.user?.lastName }}</h2>
+          <p class="muted">{{ 'roles.Farmer' | translate }}</p>
+        </div>
+      </div>
+      <dl class="definition-grid">
+        <dt>{{ 'advisor.contact' | translate }}</dt>
+        <dd>{{ client.user?.email }}</dd>
+        <dt>{{ 'advisor.location' | translate }}</dt>
+        <dd>{{ client.user?.department }} · {{ client.user?.province }}</dd>
+        <dt>{{ 'advisor.farms' | translate }}</dt>
+        <dd>
+          @for (farm of client.farms; track farm.id) {
+            <span class="crop-tag">{{ farm.name }}</span>
+          }
+        </dd>
+        <dt>{{ 'advisor.supervisedArea' | translate }}</dt>
+        <dd>{{ locale.number(client.areaHectares) }} {{ 'units.hectares' | translate }}</dd>
+        <dt>{{ 'dashboard.activeAlerts' | translate }}</dt>
+        <dd>{{ locale.number(client.openAlerts, 0) }}</dd>
+      </dl>
+      <h3>{{ 'clients.plotCount' | translate: { count: client.plots.length } }}</h3>
+      <ul class="client-plots">
+        @for (plot of client.plots; track plot.id) {
+          <li>
+            <a [routerLink]="['/app/plots', plot.id]">{{ plot.name }}</a>
+            <span [class]="'status-pill ' + data.level(plot)">{{
+              'salinity.' + data.level(plot) | translate
+            }}</span>
+          </li>
+        }
+      </ul>
+    </article>
+  } @empty {
+    <p class="empty-state">{{ 'advisor.noClients' | translate }}</p>
+  }
+</div>

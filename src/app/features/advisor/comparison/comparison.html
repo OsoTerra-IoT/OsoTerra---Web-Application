@@ -1,1 +1,96 @@
-﻿<!-- TODO: Implement the Comparison screen. Intentionally empty. -->
+﻿<header class="page-header">
+  <div>
+    <p class="eyebrow">{{ 'advisor.portfolio' | translate }}</p>
+    <h1>{{ 'nav.compare' | translate }}</h1>
+    <p class="muted">{{ 'comparison.hint' | translate }}</p>
+  </div>
+</header>
+<section class="surface">
+  <h2>{{ 'advisor.selectPlots' | translate }}</h2>
+  <p class="muted">{{ 'advisor.maxPlots' | translate: { count: selected().length } }}</p>
+  <div class="selection-grid plot-selection">
+    @for (plot of data.plots(); track plot.id) {
+      <mat-checkbox
+        [checked]="isSelected(plot.id)"
+        [disabled]="isDisabled(plot.id)"
+        (change)="toggle(plot.id)"
+      >
+        {{ plot.name }}
+        <small
+          >{{ data.owner(plot)?.firstName }} {{ data.owner(plot)?.lastName }} ·
+          {{ data.crop(plot).nameKey | translate }}</small
+        >
+      </mat-checkbox>
+    } @empty {
+      <p class="empty-state">{{ 'advisor.noAssignments' | translate }}</p>
+    }
+  </div>
+</section>
+@if (ready()) {
+  <section class="surface">
+    <app-trend-chart [series]="series()" />
+  </section>
+  <section class="surface">
+    <div class="table-scroll">
+      <table>
+        <caption>
+          {{
+            'advisor.compareCaption' | translate
+          }}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">{{ 'plots.plot' | translate }}</th>
+            <th scope="col">{{ 'advisor.client' | translate }}</th>
+            <th scope="col">{{ 'plots.crop' | translate }}</th>
+            <th scope="col">{{ 'metrics.conductivity' | translate }}</th>
+            <th scope="col">{{ 'salinity.threshold' | translate }}</th>
+            <th scope="col">{{ 'advisor.ratio' | translate }}</th>
+            <th scope="col">{{ 'advisor.delta' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (plot of plots(); track plot.id) {
+            <tr>
+              <th scope="row">
+                <a [routerLink]="['/app/plots', plot.id]">{{ plot.name }}</a>
+                <span [class]="'status-pill ' + data.level(plot)">{{
+                  'salinity.' + data.level(plot) | translate
+                }}</span>
+              </th>
+              <td>{{ data.owner(plot)?.firstName }} {{ data.owner(plot)?.lastName }}</td>
+              <td>{{ data.crop(plot).nameKey | translate }}</td>
+              <td>
+                @if (data.latest(plot.id); as reading) {
+                  {{ locale.number(reading.conductivityDsM, 2) }} {{ 'units.dsM' | translate }}
+                } @else {
+                  {{ 'common.unknown' | translate }}
+                }
+              </td>
+              <td>
+                {{ locale.number(data.crop(plot).salinityThresholdDsM, 2) }}
+                {{ 'units.dsM' | translate }}
+              </td>
+              <td>
+                @if (ratio(plot); as percent) {
+                  {{ locale.number(percent, 0) }} {{ 'units.percent' | translate }}
+                } @else {
+                  {{ 'common.unknown' | translate }}
+                }
+              </td>
+              <td>
+                @if (delta(plot) !== null) {
+                  {{ locale.number(delta(plot)!, 2) }} {{ 'units.dsM' | translate }}
+                } @else {
+                  {{ 'common.noData' | translate }}
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+} @else {
+  <p class="empty-state">{{ 'comparison.minimum' | translate }}</p>
+}

@@ -1,0 +1,34 @@
+<h2 mat-dialog-title id="advisor-action-title">{{ 'alerts.recordAction' | translate }}</h2>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content class="stack"
+    ><p class="muted">{{ plotName }} · {{ 'advisor.actionOwner' | translate }}</p>
+    <mat-form-field
+      ><mat-label>{{ 'alerts.actionType' | translate }}</mat-label
+      ><mat-select formControlName="type">
+        @for (type of types; track type) {
+          <mat-option [value]="type">{{ 'actionTypes.' + type | translate }}</mat-option>
+        }
+      </mat-select></mat-form-field
+    ><mat-form-field
+      ><mat-label>{{ 'common.date' | translate }}</mat-label
+      ><input
+        matInput
+        type="datetime-local"
+        formControlName="performedAt"
+        [max]="maxDate"
+      /><mat-error>{{ 'validation.date' | translate }}</mat-error></mat-form-field
+    ><mat-form-field
+      ><mat-label>{{ 'common.notes' | translate }}</mat-label
+      ><textarea matInput formControlName="notes" rows="4"></textarea
+      ><mat-error>{{ 'validation.required' | translate }}</mat-error></mat-form-field
+    ><mat-checkbox formControlName="resolve">{{ 'alerts.resolve' | translate }}</mat-checkbox>
+    @if (error()) {
+      <p role="alert" class="form-error">{{ 'validation.action' | translate }}</p>
+    }</mat-dialog-content
+  ><mat-dialog-actions align="end"
+    ><button mat-button type="button" mat-dialog-close>{{ 'common.cancel' | translate }}</button
+    ><button mat-flat-button type="submit">
+      {{ 'common.save' | translate }}
+    </button></mat-dialog-actions
+  >
+</form>
