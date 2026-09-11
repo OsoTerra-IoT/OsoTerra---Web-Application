@@ -250,6 +250,10 @@
   "noAssignments": "Todavía no tienes parcelas asignadas a tu cuenta.",
   "triage": "Atención de alertas",
   "actionOwner": "La acción queda registrada en el historial de la parcela del cliente.",
+  "selectPlots": "Parcelas a comparar",
+  "maxPlots": "Selecciona hasta 4 parcelas. Seleccionadas: {{count}}.",
+  "compareCaption": "Últimas lecturas de las parcelas seleccionadas",
+  "delta": "Cambio en el periodo",
   "alertSummary": "Alertas activas por severidad",
   "trendCaption": "Tendencia de las tres parcelas que requieren atención primero"
   },

@@ -1,1 +1,14 @@
-﻿// Screen-specific advisor styles belong here.
+﻿// Plot comparison. Selection cards plus the shared chart and an equivalent table.
+.selection-grid.plot-selection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 0.5rem 1rem;
+  margin-top: 1rem;
+}
+.plot-selection mat-checkbox small {
+  display: block;
+  color: #53645a;
+}
+th[scope='row'] .status-pill {
+  margin-top: 0.35rem;
+}

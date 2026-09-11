@@ -251,6 +251,10 @@
   "trendCaption": "Trend of the three plots that need attention first",
   "triage": "Alert triage",
   "actionOwner": "The action is recorded in the history of the client plot.",
+  "selectPlots": "Plots to compare",
+  "maxPlots": "Select up to 4 plots. Selected: {{count}}.",
+  "compareCaption": "Latest readings of the selected plots",
+  "delta": "Change over the period",
   "alertSummary": "Active alerts by severity"  
 },
   "comparison": {
