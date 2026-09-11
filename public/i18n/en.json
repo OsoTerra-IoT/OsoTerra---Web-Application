@@ -261,6 +261,12 @@
   "farms": "Farms",
   "noClients": "No clients are linked to your account yet.",
   "supervisedArea": "Supervised area",
+  "preparedBy": "Prepared by",
+  "generatedOn": "Generated on {{date}}",
+  "reportFooter": "Demo data. Crop thresholds refer to ECe (Maas & Hoffman, 1977).",
+  "reportEmpty": "Select at least one plot to build the report.",
+  "period": "Period",
+  "noActions": "No corrective actions recorded.",
   "noCalibrationRecords": "No calibration has been recorded in this demo session.",
   "calibrationSaved": "Calibration recorded for this demo session.",
   "alertSummary": "Active alerts by severity"  
