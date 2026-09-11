@@ -248,7 +248,10 @@
   "ratio": "Share of threshold",
   "priorityCaption": "Supervised plots ordered by salinity risk",
   "noAssignments": "No plots are assigned to your account yet.",
-  "trendCaption": "Trend of the three plots that need attention first"
+  "trendCaption": "Trend of the three plots that need attention first",
+  "triage": "Alert triage",
+  "actionOwner": "The action is recorded in the history of the client plot.",
+  "alertSummary": "Active alerts by severity"  
 },
   "comparison": {
     "hint": "Select 2 to 4 plots to compare their measurements over the same period.",
