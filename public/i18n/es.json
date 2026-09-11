@@ -259,6 +259,8 @@
   "contact": "Contacto",
   "location": "Ubicación",
   "farms": "Fincas",
+  "planFeatures": "Incluido en este espacio",
+  "usage": "Uso actual",
   "noClients": "Todavía no tienes clientes vinculados a tu cuenta.",
   "supervisedArea": "Superficie supervisada",
   "preparedBy": "Preparado por",

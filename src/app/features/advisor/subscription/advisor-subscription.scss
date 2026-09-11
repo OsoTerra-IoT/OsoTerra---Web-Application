@@ -1,1 +1,23 @@
-﻿// Screen-specific advisor styles belong here.
+﻿// Advisor subscription. Plan summary plus the workspace usage of the demo session.
+.plan-card mat-icon {
+  color: #3d6650;
+}
+.feature-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 0.5rem;
+}
+.feature-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.feature-list mat-icon {
+  color: #1b6234;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}

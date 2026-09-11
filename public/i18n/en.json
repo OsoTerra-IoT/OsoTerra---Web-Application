@@ -237,6 +237,8 @@
   },
   "advisor": {
   "yieldLoss": "Estimated yield loss",
+  "planFeatures": "Included in this workspace",
+  "usage": "Current usage",
   "yieldLossHint": "Linear Maas & Hoffman estimate from the crop threshold and its slope. Indicative only.",
   "noCalibration": "No calibration recorded for this device.",
   "openCalibration": "Record calibration",
