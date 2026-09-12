@@ -96,10 +96,50 @@ describe('OsoTerra routed application', () => {
       expect(TestBed.inject(Router).url).toBe(url);
       expect(harness.routeNativeElement?.querySelector('#advisor-sidebar')).toBeTruthy();
       expect(harness.routeNativeElement?.querySelector('#primary-sidebar')).toBeNull();
+      expect(harness.routeNativeElement?.querySelector('h1')).toBeTruthy();
       expect(
         harness.routeNativeElement?.querySelector('nav a[href="/app/advisor/compare"]'),
       ).toBeTruthy();
     }
+  });
+  it('redirects farmer-only URLs back to the advisor home', async () => {
+    login('advisor');
+    for (const url of [
+      '/app/devices',
+      '/app/my-advisor',
+      '/app/plots/new',
+      '/app/plots/plot-1/edit',
+      '/app/plots/farms/new',
+    ]) {
+      await harness.navigateByUrl(url);
+      expect(TestBed.inject(Router).url).toBe('/app/home');
+    }
+  });
+  it('shows every supervised client with numeric readings on the advisor home', async () => {
+    login('advisor');
+    await harness.navigateByUrl('/app/home');
+    const text = harness.routeNativeElement?.textContent ?? '';
+    expect(text).toContain('Sector Norte');
+    expect(text).toContain('Campo Este');
+    expect(text).toContain('Ramos');
+    expect(text).toContain('Mendoza');
+    expect(text).toContain('dS/m');
+  });
+  it('lists the alerts of every supervised client in the triage table', async () => {
+    login('advisor');
+    await harness.navigateByUrl('/app/alerts');
+    const rows = harness.routeNativeElement?.querySelectorAll('tbody tr');
+    expect(rows?.length).toBe(3);
+    expect(harness.routeNativeElement?.textContent).toContain('El Mirador');
+  });
+  it('translates advisor screens without leaving the workspace', async () => {
+    login('advisor');
+    await harness.navigateByUrl('/app/advisor/clients');
+    await TestBed.inject(LocaleService).setLocale('es_419');
+    harness.detectChanges();
+    expect(harness.routeNativeElement?.textContent).toContain('Mis clientes');
+    expect(harness.routeNativeElement?.textContent).toContain('Clientes activos');
+    expect(TestBed.inject(Router).url).toBe('/app/advisor/clients');
   });
   it('keeps farmer-only destinations out of the advisor sidebar', async () => {
     login('advisor');
