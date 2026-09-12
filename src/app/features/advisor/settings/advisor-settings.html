@@ -1,1 +1,32 @@
-﻿<!-- TODO: Implement the AdvisorSettings screen. Intentionally empty. -->
+﻿<header class="page-header">
+  <div>
+    <p class="eyebrow">{{ 'roles.Advisor' | translate }}</p>
+    <h1>{{ 'nav.settings' | translate }}</h1>
+  </div>
+  <span class="demo-chip">{{ 'common.demo' | translate }}</span>
+</header>
+<section class="surface form-surface">
+  <h2>{{ 'nav.profile' | translate }}</h2>
+  <dl class="definition-grid">
+    <dt>{{ 'auth.firstName' | translate }}</dt>
+    <dd>{{ user?.firstName }}</dd>
+    <dt>{{ 'auth.lastName' | translate }}</dt>
+    <dd>{{ user?.lastName }}</dd>
+    <dt>{{ 'auth.email' | translate }}</dt>
+    <dd>{{ user?.email }}</dd>
+    <dt>{{ 'auth.cipNumber' | translate }}</dt>
+    <dd>{{ cipNumber }}</dd>
+    <dt>{{ 'auth.department' | translate }}</dt>
+    <dd>{{ user?.department }}</dd>
+    <dt>{{ 'auth.province' | translate }}</dt>
+    <dd>{{ user?.province }}</dd>
+  </dl>
+</section>
+<section class="surface form-surface">
+  <h2>{{ 'common.language' | translate }}</h2>
+  <app-language-switcher />
+  <p class="muted">{{ 'account.sessionHint' | translate }}</p>
+  <button mat-stroked-button (click)="logout()">
+    <mat-icon>logout</mat-icon>{{ 'auth.logout' | translate }}
+  </button>
+</section>
