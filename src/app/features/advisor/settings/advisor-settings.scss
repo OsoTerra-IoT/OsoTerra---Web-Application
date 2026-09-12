@@ -1,1 +1,8 @@
-﻿// Screen-specific advisor styles belong here.
+﻿// Advisor settings. Profile summary, language preference and sign out.
+.definition-grid {
+  margin-bottom: 0;
+}
+app-language-switcher {
+  display: block;
+  margin-bottom: 1rem;
+}

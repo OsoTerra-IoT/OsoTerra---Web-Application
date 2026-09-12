@@ -1,1 +1,105 @@
-﻿<!-- TODO: Implement the Reports screen. Intentionally empty. -->
+﻿<header class="page-header">
+  <div>
+    <p class="eyebrow">{{ 'advisor.portfolio' | translate }}</p>
+    <h1>{{ 'nav.reports' | translate }}</h1>
+    <p class="muted">{{ 'reports.hint' | translate }}</p>
+  </div>
+  <button mat-flat-button [disabled]="!plots().length || exporting()" (click)="exportPdf()">
+    <mat-icon>picture_as_pdf</mat-icon>{{ 'reports.export' | translate }}
+  </button>
+</header>
+<section class="surface">
+  <h2>{{ 'reports.select' | translate }}</h2>
+  <div class="selection-grid report-selection">
+    @for (plot of data.plots(); track plot.id) {
+      <mat-checkbox [checked]="isSelected(plot.id)" (change)="toggle(plot.id)">
+        {{ plot.name }}
+        <small>{{ ownerName(plot) }} · {{ data.crop(plot).nameKey | translate }}</small>
+      </mat-checkbox>
+    } @empty {
+      <p class="empty-state">{{ 'advisor.noAssignments' | translate }}</p>
+    }
+  </div>
+  @if (error()) {
+    <p role="alert" class="form-error">{{ 'reports.exportError' | translate }}</p>
+  }
+</section>
+<section class="surface">
+  <h2>{{ 'reports.preview' | translate }}</h2>
+  <p class="muted">
+    {{ 'advisor.preparedBy' | translate }}: {{ auth.user()?.firstName }}
+    {{ auth.user()?.lastName }}
+  </p>
+  @for (plot of plots(); track plot.id) {
+    <article class="report-plot">
+      <h3>
+        <a [routerLink]="['/app/plots', plot.id]">{{ plot.name }}</a>
+      </h3>
+      <dl class="definition-grid">
+        <dt>{{ 'advisor.client' | translate }}</dt>
+        <dd>{{ ownerName(plot) }}</dd>
+        <dt>{{ 'plots.farm' | translate }}</dt>
+        <dd>{{ data.farm(plot)?.name }}</dd>
+        <dt>{{ 'plots.crop' | translate }}</dt>
+        <dd>{{ data.crop(plot).nameKey | translate }}</dd>
+        <dt>{{ 'plots.areaHectares' | translate }}</dt>
+        <dd>{{ locale.number(plot.areaHectares) }} {{ 'units.hectares' | translate }}</dd>
+        <dt>{{ 'advisor.period' | translate }}</dt>
+        <dd>{{ period(plot) }}</dd>
+        <dt>{{ 'metrics.conductivity' | translate }}</dt>
+        <dd>
+          @if (data.latest(plot.id); as reading) {
+            {{ locale.number(reading.conductivityDsM, 2) }} {{ 'units.dsM' | translate }}
+          } @else {
+            {{ 'common.unknown' | translate }}
+          }
+        </dd>
+        <dt>{{ 'salinity.threshold' | translate }}</dt>
+        <dd>
+          {{ locale.number(data.crop(plot).salinityThresholdDsM, 2) }}
+          {{ 'units.dsM' | translate }}
+        </dd>
+        <dt>{{ 'reports.trend' | translate }}</dt>
+        <dd>
+          @if (delta(plot) !== null) {
+            {{ locale.number(delta(plot)!, 2) }} {{ 'units.dsM' | translate }}
+          } @else {
+            {{ 'common.noData' | translate }}
+          }
+        </dd>
+        <dt>{{ 'metrics.salinity' | translate }}</dt>
+        <dd>
+          <span [class]="'status-pill ' + data.level(plot)">{{
+            'salinity.' + data.level(plot) | translate
+          }}</span>
+        </dd>
+      </dl>
+      <h4>{{ 'reports.alertsActions' | translate }}</h4>
+      @for (alert of alerts(plot); track alert.id) {
+        <div class="list-row">
+          <span [class]="'status-pill ' + alert.severity.toLowerCase()">{{
+            'severity.' + alert.severity | translate
+          }}</span
+          ><span>{{ 'alertStatus.' + alert.status | translate }}</span
+          ><span class="muted">{{ locale.date(alert.createdAt) }}</span
+          ><span class="muted"
+            >{{ locale.number(alert.conductivityDsM, 2) }} {{ 'units.dsM' | translate }}</span
+          >
+        </div>
+        @for (action of alert.actions; track action.id) {
+          <p class="action-entry">
+            <strong>{{ 'actionTypes.' + action.type | translate }}</strong> ·
+            {{ locale.date(action.performedAt) }} · {{ action.notes }}
+          </p>
+        } @empty {
+          <p class="action-entry muted">{{ 'advisor.noActions' | translate }}</p>
+        }
+      } @empty {
+        <p>{{ 'alerts.empty' | translate }}</p>
+      }
+    </article>
+  } @empty {
+    <p class="empty-state">{{ 'advisor.reportEmpty' | translate }}</p>
+  }
+  <p class="muted report-footer">{{ 'advisor.reportFooter' | translate }}</p>
+</section>

@@ -1,1 +1,37 @@
-﻿<!-- TODO: Implement the AdvisorSubscription screen. Intentionally empty. -->
+﻿<header class="page-header">
+  <div>
+    <p class="eyebrow">{{ 'advisor.portfolio' | translate }}</p>
+    <h1>{{ 'nav.subscription' | translate }}</h1>
+    <p class="muted">{{ 'account.subscriptionHint' | translate }}</p>
+  </div>
+  <span class="demo-chip">{{ 'common.demo' | translate }}</span>
+</header>
+<section class="surface plan-card">
+  <mat-icon aria-hidden="true">workspace_premium</mat-icon>
+  <h2>{{ 'account.demoPlan' | translate }}</h2>
+  <p class="muted">{{ 'roles.Advisor' | translate }} · {{ auth.user()?.email }}</p>
+  <h3>{{ 'advisor.planFeatures' | translate }}</h3>
+  <ul class="feature-list">
+    @for (feature of features; track feature) {
+      <li><mat-icon aria-hidden="true">check_circle</mat-icon>{{ feature | translate }}</li>
+    }
+  </ul>
+</section>
+<section class="summary-grid" [attr.aria-label]="'advisor.usage' | translate">
+  <article class="summary-card">
+    <span><mat-icon aria-hidden="true">groups</mat-icon>{{ 'advisor.clients' | translate }}</span
+    ><strong>{{ locale.number(data.clients().length, 0) }}</strong>
+  </article>
+  <article class="summary-card">
+    <span
+      ><mat-icon aria-hidden="true">landscape</mat-icon
+      >{{ 'nav.supervisedPlots' | translate }}</span
+    ><strong>{{ locale.number(data.plots().length, 0) }}</strong
+    ><small>{{ locale.number(area()) }} {{ 'units.hectares' | translate }}</small>
+  </article>
+  <article class="summary-card">
+    <span><mat-icon aria-hidden="true">sensors</mat-icon>{{ 'devices.device' | translate }}</span
+    ><strong>{{ locale.number(data.devices().length, 0) }}</strong>
+  </article>
+</section>
+<p class="muted">{{ 'account.sessionHint' | translate }}</p>

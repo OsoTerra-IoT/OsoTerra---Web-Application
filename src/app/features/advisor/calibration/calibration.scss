@@ -1,1 +1,14 @@
-﻿// Screen-specific advisor styles belong here.
+﻿// Calibration. The scope limitation stays visible above the form.
+.limitation {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  color: #53645a;
+  background: #f6f9f6;
+}
+.limitation mat-icon {
+  color: #3d6650;
+}
+[role='status'] {
+  color: #1b6234;
+}

@@ -1,1 +1,21 @@
-﻿// Screen-specific advisor styles belong here.
+﻿// Reports. Screen preview mirrors the sections written into the exported PDF.
+.selection-grid.report-selection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 0.5rem 1rem;
+  margin-top: 1rem;
+}
+.report-selection mat-checkbox small {
+  display: block;
+  color: #53645a;
+}
+.report-plot h4 {
+  margin: 1.25rem 0 0.5rem;
+}
+.action-entry {
+  margin: 0.25rem 0 0.75rem;
+}
+.report-footer {
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+}

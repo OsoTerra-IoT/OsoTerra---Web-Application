@@ -259,8 +259,18 @@
   "contact": "Contacto",
   "location": "Ubicación",
   "farms": "Fincas",
+  "planFeatures": "Incluido en este espacio",
+  "usage": "Uso actual",
   "noClients": "Todavía no tienes clientes vinculados a tu cuenta.",
   "supervisedArea": "Superficie supervisada",
+  "preparedBy": "Preparado por",
+  "generatedOn": "Generado el {{date}}",
+  "reportFooter": "Datos de demostración. Los umbrales de cultivo corresponden a ECe (Maas y Hoffman, 1977).",
+  "reportEmpty": "Selecciona al menos una parcela para construir el reporte.",
+  "period": "Periodo",
+  "noActions": "Sin acciones correctivas registradas.",
+  "noCalibrationRecords": "No se ha registrado ninguna calibración en esta sesión de demostración.",
+  "calibrationSaved": "Calibración registrada para esta sesión de demostración.",
   "trendCaption": "Tendencia de las tres parcelas que requieren atención primero"
   },
   "comparison": {

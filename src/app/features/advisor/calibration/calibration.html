@@ -1,1 +1,101 @@
-﻿<!-- TODO: Implement the Calibration screen. Intentionally empty. -->
+﻿<header class="page-header">
+  <div>
+    <p class="eyebrow">{{ 'advisor.triage' | translate }}</p>
+    <h1>{{ 'nav.calibration' | translate }}</h1>
+    <p class="muted">{{ 'calibration.hint' | translate }}</p>
+  </div>
+</header>
+<p class="surface limitation">
+  <mat-icon aria-hidden="true">info</mat-icon>{{ 'calibration.limitation' | translate }}
+</p>
+<form class="surface form-surface stack" [formGroup]="form" (ngSubmit)="save()">
+  <mat-form-field
+    ><mat-label>{{ 'devices.device' | translate }}</mat-label
+    ><mat-select formControlName="deviceId">
+      @for (device of data.devices(); track device.id) {
+        <mat-option [value]="device.id"
+          >{{ device.serialNumber }} · {{ plotName(device.plotId) }}</mat-option
+        >
+      }</mat-select
+    ><mat-error>{{ 'validation.required' | translate }}</mat-error></mat-form-field
+  >
+  <div class="form-grid">
+    <mat-form-field
+      ><mat-label>{{ 'calibration.sensorDsM' | translate }}</mat-label
+      ><input matInput type="number" step="any" formControlName="sensorDsM" /><span matSuffix>{{
+        'units.dsM' | translate
+      }}</span
+      ><mat-error>{{ 'validation.range' | translate }}</mat-error></mat-form-field
+    ><mat-form-field
+      ><mat-label>{{ 'calibration.laboratoryEceDsM' | translate }}</mat-label
+      ><input matInput type="number" step="any" formControlName="laboratoryEceDsM" /><span
+        matSuffix
+        >{{ 'units.dsM' | translate }}</span
+      ><mat-error>{{ 'validation.range' | translate }}</mat-error></mat-form-field
+    >
+  </div>
+  <mat-form-field
+    ><mat-label>{{ 'calibration.notes' | translate }}</mat-label
+    ><textarea matInput formControlName="notes" rows="3"></textarea
+    ><mat-error>{{ 'validation.required' | translate }}</mat-error></mat-form-field
+  >
+  @if (error()) {
+    <p role="alert" class="form-error">{{ 'validation.checkForm' | translate }}</p>
+  }
+  @if (saved()) {
+    <p role="status">{{ 'advisor.calibrationSaved' | translate }}</p>
+  }
+  <div class="button-row">
+    <button mat-flat-button type="submit">{{ 'common.save' | translate }}</button>
+  </div>
+</form>
+<section class="surface">
+  <div class="table-scroll">
+    <table>
+      <caption>
+        {{
+          'calibration.records' | translate
+        }}
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">{{ 'devices.device' | translate }}</th>
+          <th scope="col">{{ 'plots.plot' | translate }}</th>
+          <th scope="col">{{ 'calibration.sensorDsM' | translate }}</th>
+          <th scope="col">{{ 'calibration.laboratoryEceDsM' | translate }}</th>
+          <th scope="col">{{ 'calibration.offset' | translate }}</th>
+          <th scope="col">{{ 'common.date' | translate }}</th>
+          <th scope="col">{{ 'common.notes' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (device of calibrated(); track device.id) {
+          <tr>
+            <th scope="row">{{ device.serialNumber }}</th>
+            <td>
+              <a [routerLink]="['/app/plots', device.plotId]">{{ plotName(device.plotId) }}</a>
+            </td>
+            <td>
+              {{ locale.number(device.calibration!.sensorDsM, 2) }} {{ 'units.dsM' | translate }}
+            </td>
+            <td>
+              {{ locale.number(device.calibration!.laboratoryEceDsM, 2) }}
+              {{ 'units.dsM' | translate }}
+            </td>
+            <td>
+              {{ locale.number(device.calibration!.offsetDsM, 2) }} {{ 'units.dsM' | translate }}
+            </td>
+            <td>{{ locale.date(device.calibration!.calibratedAt) }}</td>
+            <td>{{ device.calibration!.notes }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="empty-state">
+              {{ 'advisor.noCalibrationRecords' | translate }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
