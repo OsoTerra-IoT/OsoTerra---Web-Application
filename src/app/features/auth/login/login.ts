@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, DEMO_PASSWORD, DEMO_USERS } from '../../../core/auth/auth.service';
+import { UserRole } from '../../../core/models';
 import { UI_IMPORTS } from '../../../shared/ui-imports';
 import { AuthFrame } from '../auth-frame';
 @Component({
@@ -30,8 +31,10 @@ export class Login {
     const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
     void this.router.navigateByUrl(returnUrl?.startsWith('/app/') ? returnUrl : '/app/home');
   }
-  demo(index: number): void {
-    this.form.setValue({ email: DEMO_USERS[index].email, password: DEMO_PASSWORD });
+  demo(role: UserRole): void {
+    const user = DEMO_USERS.find((candidate) => candidate.role === role);
+    if (!user) return;
+    this.form.setValue({ email: user.email, password: DEMO_PASSWORD });
     this.submit();
   }
 }
