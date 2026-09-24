@@ -47,7 +47,7 @@ describe('MonitoringService permissions and workflows', () => {
     });
     expect(data.plots()).toHaveLength(0);
   });
-    it('builds the advisor client roster and hides it from farmers', () => {
+  it('builds the advisor client roster and hides it from farmers', () => {
     login('farmer');
     expect(data.clients()).toEqual([]);
     login('advisor');
@@ -70,7 +70,7 @@ describe('MonitoringService permissions and workflows', () => {
       latitude: -11.4,
       longitude: -77.2,
       areaHectares: 1.2,
-      cropId: 'corn',
+      cropId: 'avocado',
     };
     expect(data.savePlot({ ...value, latitude: 91 })).toBeNull();
     expect(data.savePlot({ ...value, farmId: 'farm-2' })).toBeNull();

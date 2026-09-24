@@ -150,9 +150,9 @@
     "notFound": "Parcela no encontrada o no disponible para esta cuenta."
   },
   "crops": {
-    "corn": "Maíz",
-    "tomato": "Tomate",
-    "wheat": "Trigo"
+    "avocado": "Palto",
+    "tableGrape": "Uva de mesa",
+    "blueberry": "Arándano"
   },
   "units": {
     "dsM": "dS/m",
@@ -175,7 +175,6 @@
     "unknown": "Sin lectura comparable",
     "threshold": "Umbral del cultivo",
     "ece": "ECe",
-    "source": "Maas y Hoffman, 1977",
     "showValue": "Ver medición en dS/m",
     "showHistory": "Ver historial numérico",
     "needsCalibration": "Se requiere una medición de ECe comparable para evaluar el umbral del cultivo."

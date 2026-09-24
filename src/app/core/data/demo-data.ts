@@ -1,38 +1,55 @@
 import { Crop, Device, Farm, Plot, SalinityAlert, SoilReading } from '../models';
 
-const reference = {
+const maasHoffman = {
   authors: 'Maas & Hoffman',
   year: 1977,
   title: 'Crop salt tolerance — current assessment',
   url: 'https://www.ars.usda.gov/arsuserfiles/20360500/pdf_pubs/P572.pdf',
 };
+/**
+ * Demo crops of the north-coast segment. Only table grape has a Maas & Hoffman threshold and slope.
+ * Avocado and blueberry are rated salt-sensitive without a published ECe slope, so their thresholds
+ * are reference values and no yield-loss slope is given.
+ */
 export const CROPS: Crop[] = [
   {
-    id: 'corn',
-    nameKey: 'crops.corn',
-    scientificName: 'Zea mays',
-    salinityThresholdDsM: 1.7,
-    yieldLossPercentPerDsM: 12,
+    id: 'avocado',
+    nameKey: 'crops.avocado',
+    scientificName: 'Persea americana',
+    // ECw 0.75 dS/m water-quality threshold converted with ECe ≈ 1.5 × ECw (FAO Paper 29).
+    salinityThresholdDsM: 1.1,
+    yieldLossPercentPerDsM: null,
     measurementBasis: 'ECe',
-    reference,
+    reference: {
+      authors: 'Acosta-Rangel et al.',
+      year: 2019,
+      title: "The physiological response of 'Hass' avocado to salinity as influenced by rootstock",
+      url: 'https://www.ars.usda.gov/arsuserfiles/20361500/pdf_pubs/P2665.pdf',
+    },
   },
   {
-    id: 'tomato',
-    nameKey: 'crops.tomato',
-    scientificName: 'Solanum lycopersicum',
-    salinityThresholdDsM: 2.5,
-    yieldLossPercentPerDsM: 9.9,
+    id: 'table-grape',
+    nameKey: 'crops.tableGrape',
+    scientificName: 'Vitis vinifera',
+    salinityThresholdDsM: 1.5,
+    yieldLossPercentPerDsM: 9.6,
     measurementBasis: 'ECe',
-    reference,
+    reference: maasHoffman,
   },
   {
-    id: 'wheat',
-    nameKey: 'crops.wheat',
-    scientificName: 'Triticum aestivum',
-    salinityThresholdDsM: 6,
-    yieldLossPercentPerDsM: 7.1,
+    id: 'blueberry',
+    nameKey: 'crops.blueberry',
+    scientificName: 'Vaccinium corymbosum',
+    salinityThresholdDsM: 1.5,
+    yieldLossPercentPerDsM: null,
     measurementBasis: 'ECe',
-    reference,
+    reference: {
+      authors: 'Machado, Bryla & Vargas',
+      year: 2014,
+      title:
+        'Effects of salinity induced by ammonium sulfate fertilizer on root and shoot growth of highbush blueberry',
+      url: 'https://ishs.org/ishs-article/1017_49/',
+    },
   },
 ];
 export const FARMS: Farm[] = [
@@ -49,7 +66,7 @@ export const PLOTS: Plot[] = [
     latitude: -11.49,
     longitude: -77.21,
     areaHectares: 4.2,
-    cropId: 'corn',
+    cropId: 'avocado',
     deviceId: 'device-1',
     createdAt: '2026-09-01T12:00:00Z',
   },
@@ -62,7 +79,7 @@ export const PLOTS: Plot[] = [
     latitude: -11.5,
     longitude: -77.2,
     areaHectares: 2.8,
-    cropId: 'tomato',
+    cropId: 'table-grape',
     deviceId: 'device-2',
     createdAt: '2026-09-01T12:00:00Z',
   },
@@ -75,7 +92,7 @@ export const PLOTS: Plot[] = [
     latitude: -11.07,
     longitude: -77.59,
     areaHectares: 6.5,
-    cropId: 'wheat',
+    cropId: 'blueberry',
     deviceId: 'device-3',
     createdAt: '2026-09-01T12:00:00Z',
   },
@@ -88,7 +105,7 @@ export const PLOTS: Plot[] = [
     latitude: -11.08,
     longitude: -77.58,
     areaHectares: 3.1,
-    cropId: 'corn',
+    cropId: 'table-grape',
     deviceId: 'device-4',
     createdAt: '2026-09-01T12:00:00Z',
   },
@@ -111,7 +128,7 @@ export const READINGS: SoilReading[] = PLOTS.flatMap((plot, index) =>
     deviceId: plot.deviceId!,
     recordedAt: new Date(now - (13 - day) * 86_400_000 - 300_000).toISOString(),
     conductivityDsM: +(
-      [2.4, 1.5, 5.1, 1.8][index] +
+      [1.6, 0.9, 1.27, 1.6][index] +
       (day - 13) * 0.02 +
       Math.sin(day) * 0.04
     ).toFixed(2),
@@ -128,8 +145,8 @@ export const ALERTS: SalinityAlert[] = [
     readingId: 'plot-1-reading-13',
     severity: 'CRITICAL',
     status: 'OPEN',
-    conductivityDsM: 2.42,
-    thresholdDsM: 1.7,
+    conductivityDsM: 1.62,
+    thresholdDsM: 1.1,
     createdAt: new Date(now - 3_600_000).toISOString(),
     actions: [],
   },
@@ -139,8 +156,8 @@ export const ALERTS: SalinityAlert[] = [
     readingId: 'plot-4-reading-13',
     severity: 'WARNING',
     status: 'OPEN',
-    conductivityDsM: 1.82,
-    thresholdDsM: 1.7,
+    conductivityDsM: 1.62,
+    thresholdDsM: 1.5,
     createdAt: new Date(now - 7_200_000).toISOString(),
     actions: [],
   },
@@ -150,8 +167,8 @@ export const ALERTS: SalinityAlert[] = [
     readingId: 'plot-3-reading-13',
     severity: 'WATCH',
     status: 'ACKNOWLEDGED',
-    conductivityDsM: 5.12,
-    thresholdDsM: 6,
+    conductivityDsM: 1.29,
+    thresholdDsM: 1.5,
     createdAt: new Date(now - 86_400_000).toISOString(),
     acknowledgedAt: new Date(now - 43_200_000).toISOString(),
     actions: [],

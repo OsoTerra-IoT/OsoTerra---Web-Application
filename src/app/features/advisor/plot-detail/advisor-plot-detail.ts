@@ -1,4 +1,4 @@
-﻿import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -40,6 +40,7 @@ export class AdvisorPlotDetail {
     if (!plot || !reading || reading.quality !== 'VALID' || reading.measurementBasis !== 'ECe')
       return null;
     const crop = this.data.crop(plot);
+    if (crop.yieldLossPercentPerDsM === null) return null;
     const excess = reading.conductivityDsM - crop.salinityThresholdDsM;
     return excess <= 0 ? 0 : Math.min(100, excess * crop.yieldLossPercentPerDsM);
   });

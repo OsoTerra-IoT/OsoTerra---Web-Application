@@ -21,8 +21,8 @@
   <p class="reference">
     {{ 'salinity.threshold' | translate }} {{ locale.number(crop().salinityThresholdDsM) }}
     {{ 'units.dsM' | translate }} <span>{{ 'salinity.ece' | translate }}</span
-    ><br /><a [href]="crop().reference.url" target="_blank" rel="noopener">{{
-      'salinity.source' | translate
-    }}</a>
+    ><br /><a [href]="crop().reference.url" target="_blank" rel="noopener"
+      >{{ crop().reference.authors }}, {{ crop().reference.year }}</a
+    >
   </p>
 }
