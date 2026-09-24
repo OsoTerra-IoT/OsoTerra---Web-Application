@@ -85,7 +85,8 @@
         ><span class="profile-name">{{ auth.user()?.firstName }}</span></a
       >
       <button mat-stroked-button (click)="logout()">
-        <mat-icon>logout</mat-icon>{{ 'auth.logout' | translate }}
+        <mat-icon aria-hidden="true">logout</mat-icon
+        ><span class="logout-label">{{ 'auth.logout' | translate }}</span>
       </button>
     </mat-toolbar>
     <main id="advisor-content" class="main-content" tabindex="-1">
