@@ -12,10 +12,14 @@
 </header>
 <mat-form-field class="search-field"
   ><mat-label>{{ 'plots.search' | translate }}</mat-label
-  ><input matInput [ngModel]="data.search()" (ngModelChange)="data.search.set($event)" /><mat-icon
-    matPrefix
-    >search</mat-icon
-  ></mat-form-field
+  ><input
+    matInput
+    name="plotSearch"
+    type="search"
+    autocomplete="off"
+    [ngModel]="data.search()"
+    (ngModelChange)="data.search.set($event)"
+  /><mat-icon matPrefix>search</mat-icon></mat-form-field
 >
 @for (farm of data.farms(); track farm.id) {
   <section>

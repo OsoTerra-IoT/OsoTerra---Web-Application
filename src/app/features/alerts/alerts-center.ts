@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MonitoringService } from '../../core/data/monitoring.service';
 import { LocaleService } from '../../core/i18n/locale.service';
@@ -14,9 +14,12 @@ export class AlertsCenter {
   readonly data = inject(MonitoringService);
   readonly locale = inject(LocaleService);
   private readonly dialog = inject(MatDialog);
-  readonly severity = signal('');
-  readonly status = signal('');
-  readonly plotId = signal(inject(ActivatedRoute).snapshot.queryParamMap.get('plot') ?? '');
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly query = this.route.snapshot.queryParamMap;
+  readonly severity = signal(this.query.get('severity') ?? '');
+  readonly status = signal(this.query.get('status') ?? '');
+  readonly plotId = signal(this.query.get('plot') ?? '');
   readonly severities = ['WATCH', 'WARNING', 'CRITICAL'];
   readonly statuses = ['OPEN', 'ACKNOWLEDGED', 'RESOLVED'];
   readonly filtered = computed(() =>
@@ -29,6 +32,16 @@ export class AlertsCenter {
           (!this.plotId() || alert.plotId === this.plotId()),
       ),
   );
+  /** Keeps the active filters in the URL so the view can be shared and restored. */
+  setFilter(name: 'severity' | 'status' | 'plot', value: string) {
+    ({ severity: this.severity, status: this.status, plot: this.plotId })[name].set(value);
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { [name]: value || null },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
+  }
   plotName(id: string) {
     return this.data.plots().find((plot) => plot.id === id)?.name;
   }

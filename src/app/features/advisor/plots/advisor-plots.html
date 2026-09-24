@@ -1,4 +1,4 @@
-﻿<header class="page-header">
+<header class="page-header">
   <div>
     <p class="eyebrow">{{ 'plots.management' | translate }}</p>
     <h1>{{ 'nav.supervisedPlots' | translate }}</h1>
@@ -8,10 +8,14 @@
 <div class="filter-bar">
   <mat-form-field class="search-field"
     ><mat-label>{{ 'plots.search' | translate }}</mat-label
-    ><input matInput [ngModel]="data.search()" (ngModelChange)="data.search.set($event)" /><mat-icon
-      matPrefix
-      >search</mat-icon
-    ></mat-form-field
+    ><input
+      matInput
+      name="plotSearch"
+      type="search"
+      autocomplete="off"
+      [ngModel]="data.search()"
+      (ngModelChange)="data.search.set($event)"
+    /><mat-icon matPrefix>search</mat-icon></mat-form-field
   ><mat-form-field
     ><mat-label>{{ 'advisor.client' | translate }}</mat-label
     ><mat-select [value]="clientId()" (selectionChange)="clientId.set($event.value)"

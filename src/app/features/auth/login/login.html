@@ -5,9 +5,13 @@
   <form [formGroup]="form" (ngSubmit)="submit()" class="stack">
     <mat-form-field
       ><mat-label>{{ 'auth.email' | translate }}</mat-label
-      ><input matInput type="email" autocomplete="username" formControlName="email" /><mat-error>{{
-        'validation.email' | translate
-      }}</mat-error></mat-form-field
+      ><input
+        matInput
+        type="email"
+        autocomplete="username"
+        spellcheck="false"
+        formControlName="email"
+      /><mat-error>{{ 'validation.email' | translate }}</mat-error></mat-form-field
     >
     <mat-form-field
       ><mat-label>{{ 'auth.password' | translate }}</mat-label
@@ -35,7 +39,9 @@
     <p>{{ 'auth.demoHint' | translate }}</p>
     <div class="button-row">
       <button mat-stroked-button (click)="demo('Farmer')">{{ 'roles.Farmer' | translate }}</button
-      ><button mat-stroked-button (click)="demo('Advisor')">{{ 'roles.Advisor' | translate }}</button>
+      ><button mat-stroked-button (click)="demo('Advisor')">
+        {{ 'roles.Advisor' | translate }}
+      </button>
     </div>
   </div></app-auth-frame
 >

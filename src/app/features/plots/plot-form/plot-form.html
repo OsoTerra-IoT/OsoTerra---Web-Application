@@ -2,7 +2,7 @@
 <form class="surface form-surface stack" [formGroup]="form" (ngSubmit)="save()">
   <mat-form-field
     ><mat-label>{{ 'plots.name' | translate }}</mat-label
-    ><input matInput formControlName="name" /><mat-error>{{
+    ><input matInput formControlName="name" name="plotName" autocomplete="off" /><mat-error>{{
       'validation.required' | translate
     }}</mat-error></mat-form-field
   >
@@ -25,9 +25,14 @@
     @for (field of numberFields; track field) {
       <mat-form-field
         ><mat-label>{{ 'plots.' + field | translate }}</mat-label
-        ><input matInput type="number" step="any" [formControlName]="field" /><mat-error>{{
-          'validation.range' | translate
-        }}</mat-error></mat-form-field
+        ><input
+          matInput
+          type="number"
+          step="any"
+          [formControlName]="field"
+          [name]="field"
+          autocomplete="off"
+        /><mat-error>{{ 'validation.range' | translate }}</mat-error></mat-form-field
       >
     }
   </div>
