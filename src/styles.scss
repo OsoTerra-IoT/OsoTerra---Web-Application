@@ -1,5 +1,10 @@
 @use '@angular/material' as mat;
 @import '@fontsource/material-icons/index.css';
+@import '@fontsource/plus-jakarta-sans/400.css';
+@import '@fontsource/plus-jakarta-sans/500.css';
+@import '@fontsource/plus-jakarta-sans/600.css';
+@import '@fontsource/plus-jakarta-sans/700.css';
+@import '@fontsource/plus-jakarta-sans/800.css';
 
 // @fontsource only ships the @font-face; the utility class that actually
 // applies it to icon elements (normally bundled with Google's hosted
@@ -26,22 +31,58 @@ html {
     (
       color: (
         primary: mat.$green-palette,
-        tertiary: mat.$orange-palette,
+        tertiary: mat.$cyan-palette,
       ),
-      typography: 'Segoe UI',
+      typography: 'Plus Jakarta Sans',
       density: 0,
     )
   );
   @include mat.theme-overrides(
     (
-      primary: #17673f,
+      primary: #047857,
       on-primary: #ffffff,
-      primary-container: #d5efd9,
-      on-primary-container: #102c1c,
+      primary-container: #d1fae5,
+      on-primary-container: #064e3b,
+      secondary: #059669,
+      on-secondary: #ffffff,
+      secondary-container: #ecfdf5,
+      on-secondary-container: #065f46,
       surface: #ffffff,
-      on-surface: #172d23,
+      on-surface: #111827,
+      on-surface-variant: #4b5563,
+      outline: #6b7280,
+      outline-variant: #e5e7eb,
+      error: #a12426,
+      surface-variant: #f3f4f6,
+      surface-container-lowest: #ffffff,
+      surface-container-low: #f9fafb,
+      surface-container: #f3f4f6,
+      surface-container-high: #f3f4f6,
+      surface-container-highest: #f3f4f6,
     )
   );
+}
+// Design tokens from the Style Guidelines (report section 5.1), shared with the Landing Page.
+:root {
+  --os-primary-50: #ecfdf5;
+  --os-primary-100: #d1fae5;
+  --os-primary-600: #059669;
+  --os-primary-700: #047857;
+  --os-primary-800: #065f46;
+  --os-primary-900: #064e3b;
+  --os-surface-green: #f0fdf4;
+  --os-neutral-0: #ffffff;
+  --os-neutral-50: #f9fafb;
+  --os-neutral-100: #f3f4f6;
+  --os-neutral-200: #e5e7eb;
+  --os-neutral-500: #6b7280;
+  --os-neutral-600: #4b5563;
+  --os-neutral-900: #111827;
+  --os-focus: #2563eb;
+  --os-radius-md: 12px;
+  --os-radius-lg: 20px;
+  --os-radius-xl: 28px;
+  --os-radius-pill: 999px;
 }
 * {
   box-sizing: border-box;
@@ -49,11 +90,11 @@ html {
 body {
   margin: 0;
   min-height: 100%;
-  color: #172d23;
-  background: #f4f7f5;
+  color: #111827;
+  background: #f9fafb;
   font:
-    1rem/1.55 'Segoe UI',
-    Arial,
+    1rem/1.6 'Plus Jakarta Sans',
+    system-ui,
     sans-serif;
   color-scheme: light;
 }
@@ -64,12 +105,17 @@ h4,
 p {
   margin-top: 0;
 }
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
 h1 {
   font-size: clamp(1.75rem, 3vw, 2.25rem);
   line-height: 1.2;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.025em;
   margin-bottom: 0.75rem;
-  font-weight: 650;
+  font-weight: 700;
 }
 h2 {
   font-size: 1.45rem;
@@ -81,7 +127,7 @@ h3 {
   line-height: 1.4;
 }
 a {
-  color: #16613b;
+  color: #047857;
   text-underline-offset: 3px;
 }
 button,
@@ -91,8 +137,8 @@ textarea {
   font: inherit;
 }
 :focus-visible {
-  outline: 3px solid #175caa !important;
-  outline-offset: 4px;
+  outline: 3px solid var(--os-focus) !important;
+  outline-offset: 3px;
 }
 button:disabled {
   cursor: not-allowed;
@@ -106,14 +152,14 @@ mat-form-field {
 summary {
   cursor: pointer;
   padding: 0.65rem 0;
-  color: #345846;
+  color: #047857;
 }
 details p {
   margin: 0.25rem 0 0.75rem;
 }
 small,
 .muted {
-  color: #53645a;
+  color: #6b7280;
 }
 small {
   font-size: 0.875rem;
@@ -140,11 +186,11 @@ small {
 }
 .app-shell {
   min-height: 100dvh;
-  background: #f4f7f5;
+  background: #f9fafb;
 }
 .sidebar {
   width: 260px;
-  background: #123e2e !important;
+  background: #065f46 !important;
   color: #fff;
   border: 0 !important;
   border-radius: 0 !important;
@@ -168,19 +214,19 @@ small {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-top: 0.15rem;
-  color: #c3d9c9;
+  color: #a7f3d0;
 }
 .brand-mark {
   display: grid;
   place-items: center;
   width: 40px;
   height: 40px;
-  background: #d4f398;
-  color: #123e2e;
+  background: #d1fae5;
+  color: #065f46;
   border-radius: 12px;
 }
 .sidebar-label {
-  color: #c3d9c9;
+  color: #a7f3d0;
   font-size: 0.875rem;
   padding: 0.7rem 1.5rem 0;
 }
@@ -190,23 +236,23 @@ small {
 .sidebar .mat-mdc-list-item {
   margin-bottom: 0.25rem;
   border-radius: 0.65rem;
-  --mat-list-list-item-label-text-color: #dbe9e0;
-  --mat-list-list-item-leading-icon-color: #b5d0bf;
+  --mat-list-list-item-label-text-color: #ecfdf5;
+  --mat-list-list-item-leading-icon-color: #a7f3d0;
   --mat-list-list-item-hover-label-text-color: #fff;
   --mat-list-list-item-hover-leading-icon-color: #fff;
   --mat-list-list-item-focus-label-text-color: #fff;
 }
 .sidebar .active-link {
-  background: #d4f398 !important;
-  --mat-list-list-item-label-text-color: #173d25;
-  --mat-list-list-item-leading-icon-color: #173d25;
-  --mat-list-list-item-hover-label-text-color: #173d25;
-  --mat-list-list-item-hover-leading-icon-color: #173d25;
-  --mat-list-list-item-focus-label-text-color: #173d25;
+  background: #d1fae5 !important;
+  --mat-list-list-item-label-text-color: #064e3b;
+  --mat-list-list-item-leading-icon-color: #064e3b;
+  --mat-list-list-item-hover-label-text-color: #064e3b;
+  --mat-list-list-item-hover-leading-icon-color: #064e3b;
+  --mat-list-list-item-focus-label-text-color: #064e3b;
 }
 .sidebar-footer {
   padding: 2rem 1.5rem;
-  color: #c3d9c9;
+  color: #a7f3d0;
   font-size: 0.875rem;
 }
 .sidebar-footer p {
@@ -221,7 +267,7 @@ small {
   gap: 1rem;
   padding: 0 2rem !important;
   background: #fff !important;
-  border-bottom: 1px solid #e0e8e2;
+  border-bottom: 1px solid #e5e7eb;
 }
 .toolbar-space {
   flex: 1;
@@ -232,7 +278,7 @@ small {
   align-items: center;
   max-width: 440px;
   width: 45%;
-  color: #53645a;
+  color: #6b7280;
 }
 .quick-search input {
   width: 100%;
@@ -243,9 +289,9 @@ small {
   font-size: 0.9375rem;
 }
 .language-switcher select {
-  border: 1px solid #b7c7be;
+  border: 1px solid #d1d5db;
   border-radius: 8px;
-  color: #243b2e;
+  color: #111827;
   background: #fff;
   padding: 0.55rem 0.5rem;
   min-height: 44px;
@@ -257,9 +303,9 @@ small {
   width: 32px;
   height: 32px;
   margin-right: 0.5rem;
-  background: #e0ebdf;
+  background: #d1fae5;
   border-radius: 50%;
-  color: #123e2e;
+  color: #065f46;
 }
 .main-content {
   max-width: 1500px;
@@ -282,17 +328,17 @@ small {
   font-size: 0.75rem;
   letter-spacing: 0.14em;
   font-weight: 700;
-  color: #3d6650;
+  color: #047857;
   margin-bottom: 0.6rem;
 }
 .demo-chip {
   display: inline-flex;
   white-space: nowrap;
-  background: #e8efe9;
-  border: 1px solid #becfc1;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
   border-radius: 99px;
   padding: 0.3rem 0.7rem;
-  color: #385942;
+  color: #065f46;
   font-size: 0.75rem;
   font-weight: 600;
 }
@@ -304,8 +350,8 @@ small {
 }
 .summary-card {
   background: #fff;
-  border: 1px solid #dfe7e2;
-  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: var(--os-radius-lg);
   padding: 1.4rem;
   display: flex;
   flex-direction: column;
@@ -316,13 +362,14 @@ small {
   align-items: center;
   gap: 0.65rem;
   font-size: 0.875rem;
-  color: #53645a;
+  color: #6b7280;
 }
 .summary-card strong {
   font-size: 2.35rem;
-  font-weight: 600;
+  font-weight: 800;
   line-height: 1.2;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
 }
 .summary-card strong small {
   font-size: 1.15rem;
@@ -352,8 +399,8 @@ small {
 }
 .plot-card {
   background: #fff;
-  border: 1px solid #d7e2da;
-  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: var(--os-radius-lg);
   padding: 1.4rem;
   overflow: hidden;
 }
@@ -362,35 +409,35 @@ small {
   margin: 0.15rem 0 0.5rem;
 }
 .plot-card h3 a {
-  color: #172d23;
+  color: #111827;
   text-decoration: none;
 }
 .plot-card-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #477254;
+  color: #059669;
   margin-bottom: 1rem;
 }
 .crop-tag {
   font-size: 0.875rem;
   font-weight: 600;
   padding: 0.3rem 0.6rem;
-  background: #edf4ed;
-  color: #33583c;
-  border-radius: 5px;
+  background: #f0fdf4;
+  color: #047857;
+  border-radius: var(--os-radius-pill);
   display: inline-block;
 }
 .farm-name {
   font-size: 0.875rem;
-  color: #53645a;
+  color: #6b7280;
   margin-bottom: 0.2rem;
 }
 .plot-card-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid #e5ece7;
+  border-top: 1px solid #e5e7eb;
   padding-top: 1rem;
   margin-top: 1.25rem;
 }
@@ -398,7 +445,7 @@ small {
   display: flex;
   gap: 0.3rem;
   align-items: center;
-  color: #365d4b;
+  color: #4b5563;
   font-size: 0.875rem;
 }
 .plot-card-footer a {
@@ -407,14 +454,14 @@ small {
   min-width: 44px;
   min-height: 44px;
   border-radius: 50%;
-  background: #edf4ed;
+  background: #f0fdf4;
 }
 .status-pill {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.35rem 0.65rem;
-  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--os-radius-pill);
   font-size: 0.875rem;
   font-weight: 600;
   background: #e6ebea;
@@ -444,12 +491,13 @@ small {
 }
 .salinity-value {
   font-size: 1.8rem;
-  font-weight: 600;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
   margin: 0.75rem 0 0.25rem;
 }
 .reference {
   font-size: 0.875rem;
-  color: #53645a;
+  color: #6b7280;
   margin-bottom: 0.5rem;
 }
 .reference span {
@@ -457,8 +505,8 @@ small {
 }
 .surface {
   background: white;
-  border: 1px solid #dfe7e2;
-  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: var(--os-radius-lg);
   padding: 1.5rem;
   margin-bottom: 1.25rem;
 }
@@ -488,7 +536,7 @@ small {
   justify-content: center;
   gap: 1rem;
   margin: 0.8rem 0;
-  color: #53645a;
+  color: #6b7280;
   font-size: 0.875rem;
 }
 .chart-legend span span {
@@ -530,7 +578,7 @@ small {
 }
 .empty-state {
   padding: 2rem;
-  color: #53645a;
+  color: #6b7280;
   text-align: center;
 }
 .breadcrumbs {
@@ -545,7 +593,7 @@ small {
 .metric {
   margin-top: 1rem;
   padding: 1rem;
-  background: #f4f7f5;
+  background: #f9fafb;
   border-radius: 10px;
 }
 .metric h3 {
@@ -553,6 +601,7 @@ small {
 }
 .metric strong {
   font-size: 1.5rem;
+  font-variant-numeric: tabular-nums;
 }
 .definition-grid {
   display: grid;
@@ -560,7 +609,7 @@ small {
   gap: 0.6rem;
 }
 .definition-grid dt {
-  color: #53645a;
+  color: #6b7280;
 }
 .definition-grid dd {
   margin: 0;
@@ -572,7 +621,7 @@ small {
   flex-wrap: wrap;
   align-items: center;
   padding: 1rem 0;
-  border-bottom: 1px solid #e0e8e2;
+  border-bottom: 1px solid #e5e7eb;
 }
 .table-scroll {
   overflow-x: auto;
@@ -581,6 +630,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9375rem;
+  font-variant-numeric: tabular-nums;
 }
 caption {
   text-align: left;
@@ -592,19 +642,19 @@ th,
 td {
   text-align: left;
   padding: 1rem;
-  border-bottom: 1px solid #e0e8e2;
+  border-bottom: 1px solid #e5e7eb;
 }
 th {
-  color: #53645a;
+  color: #6b7280;
   font-size: 0.875rem;
   font-weight: 600;
-  background: #f5f8f6;
+  background: #f9fafb;
 }
 td details {
   min-width: 150px;
 }
 .report-plot {
-  border-top: 1px solid #dfe7e2;
+  border-top: 1px solid #e5e7eb;
   margin-top: 2rem;
   padding-top: 1.5rem;
 }
@@ -614,7 +664,7 @@ td details {
   grid-template-columns: minmax(340px, 0.9fr) minmax(450px, 1.1fr);
 }
 .auth-story {
-  background: #123e2e;
+  background: #065f46;
   color: white;
   padding: 3rem 3.5rem;
   display: flex;
@@ -630,22 +680,22 @@ td details {
   font-weight: 550;
 }
 .auth-story p {
-  color: #cfdfd3;
+  color: #d1fae5;
   max-width: 430px;
 }
 .auth-story .eyebrow {
-  color: #d4f398;
+  color: #d1fae5;
 }
 .soil-lines {
   height: 100px;
-  border-block: 1px solid #46735a;
+  border-block: 1px solid #047857;
   margin-top: 3rem;
   background: repeating-linear-gradient(
     0deg,
     transparent 0,
     transparent 24px,
-    #345c47 24px,
-    #345c47 25px
+    rgba(167, 243, 208, 0.25) 24px,
+    rgba(167, 243, 208, 0.25) 25px
   );
 }
 .auth-panel {
@@ -677,25 +727,25 @@ td details {
 .demo-box {
   margin-top: 2rem;
   padding: 1.25rem;
-  border: 1px dashed #b7c7be;
+  border: 1px dashed #d1d5db;
   border-radius: 12px;
-  background: #f6f9f6;
+  background: #f9fafb;
   font-size: 0.875rem;
 }
 .demo-box p {
   margin: 0.5rem 0 1rem;
-  color: #53645a;
+  color: #6b7280;
 }
 .role-card {
   display: block;
   padding: 1.25rem;
-  border: 1px solid #b7c7be;
+  border: 1px solid #d1d5db;
   border-radius: 12px;
-  color: #123e2e;
+  color: #065f46;
   text-decoration: none;
 }
 .role-card:hover {
-  background: #f0f7ef;
+  background: #f0fdf4;
 }
 .role-card strong {
   display: block;
@@ -703,7 +753,7 @@ td details {
 }
 .role-card p {
   font-size: 0.9375rem;
-  color: #53645a;
+  color: #6b7280;
   margin-bottom: 0;
 }
 @media (max-width: 1100px) {
@@ -789,9 +839,9 @@ td details {
 }
 
 .sidebar :focus-visible {
-  outline-color: #d4f398 !important;
+  outline-color: #d1fae5 !important;
 }
 .language-switcher select,
 .role-card {
-  border-color: #6a7e70;
+  border-color: #6b7280;
 }
