@@ -10,6 +10,7 @@
             matInput
             [type]="field.type"
             [autocomplete]="field.autocomplete"
+            [attr.spellcheck]="field.type === 'email' ? 'false' : null"
             [formControlName]="field.name"
           /><mat-error>{{
             (field.name === 'email'

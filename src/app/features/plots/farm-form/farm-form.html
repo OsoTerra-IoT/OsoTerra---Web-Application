@@ -3,7 +3,7 @@
   @for (field of fields; track field) {
     <mat-form-field
       ><mat-label>{{ 'plots.' + field | translate }}</mat-label
-      ><input matInput [formControlName]="field" /><mat-error>{{
+      ><input matInput [formControlName]="field" [name]="field" autocomplete="off" /><mat-error>{{
         'validation.required' | translate
       }}</mat-error></mat-form-field
     >

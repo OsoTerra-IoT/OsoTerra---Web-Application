@@ -59,6 +59,8 @@
         <mat-icon aria-hidden="true">search</mat-icon
         ><input
           name="search"
+          type="search"
+          autocomplete="off"
           [ngModel]="data.search()"
           (ngModelChange)="data.search.set($event)"
           [placeholder]="'plots.search' | translate"

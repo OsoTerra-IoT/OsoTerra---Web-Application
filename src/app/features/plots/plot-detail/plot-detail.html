@@ -14,7 +14,11 @@
       }}</a>
     }
   </header>
-  <mat-tab-group animationDuration="0ms">
+  <mat-tab-group
+    animationDuration="0ms"
+    [selectedIndex]="tabIndex"
+    (selectedIndexChange)="selectTab($event)"
+  >
     <mat-tab [label]="'plots.currentStatus' | translate"
       ><section class="surface tab-content">
         <h2>{{ 'metrics.salinity' | translate }}</h2>

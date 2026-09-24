@@ -1,5 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AuthService } from '../../../core/auth/auth.service';
@@ -17,7 +17,23 @@ export class PlotDetail {
   readonly auth = inject(AuthService);
   readonly data = inject(MonitoringService);
   readonly locale = inject(LocaleService);
-  private readonly params = toSignal(inject(ActivatedRoute).paramMap);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly params = toSignal(this.route.paramMap);
+  readonly tabs = ['status', 'history', 'alerts', 'telemetry', 'settings'];
+  readonly tabIndex = Math.max(
+    0,
+    this.tabs.indexOf(this.route.snapshot.queryParamMap.get('tab') ?? ''),
+  );
+  /** Keeps the open tab in the URL (?tab=history) so it survives reloads and can be shared. */
+  selectTab(index: number) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { tab: index ? this.tabs[index] : null },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
+  }
   readonly plot = computed(() =>
     this.data.plots().find((plot) => plot.id === this.params()?.get('id')),
   );

@@ -23,7 +23,7 @@
 <div class="filter-bar">
   <mat-form-field
     ><mat-label>{{ 'alerts.severity' | translate }}</mat-label
-    ><mat-select [value]="severity()" (selectionChange)="severity.set($event.value)"
+    ><mat-select [value]="severity()" (selectionChange)="setFilter('severity', $event.value)"
       ><mat-option value="">{{ 'common.all' | translate }}</mat-option>
       @for (item of severities; track item) {
         <mat-option [value]="item">{{ 'severity.' + item | translate }}</mat-option>
@@ -31,7 +31,7 @@
     </mat-select></mat-form-field
   ><mat-form-field
     ><mat-label>{{ 'alerts.status' | translate }}</mat-label
-    ><mat-select [value]="status()" (selectionChange)="status.set($event.value)"
+    ><mat-select [value]="status()" (selectionChange)="setFilter('status', $event.value)"
       ><mat-option value="">{{ 'common.all' | translate }}</mat-option>
       @for (item of statuses; track item) {
         <mat-option [value]="item">{{ 'alertStatus.' + item | translate }}</mat-option>
@@ -39,7 +39,7 @@
     </mat-select></mat-form-field
   ><mat-form-field
     ><mat-label>{{ 'advisor.client' | translate }}</mat-label
-    ><mat-select [value]="clientId()" (selectionChange)="clientId.set($event.value)"
+    ><mat-select [value]="clientId()" (selectionChange)="setFilter('client', $event.value)"
       ><mat-option value="">{{ 'common.all' | translate }}</mat-option>
       @for (client of data.clients(); track client.id) {
         <mat-option [value]="client.id"
@@ -49,7 +49,7 @@
     </mat-select></mat-form-field
   ><mat-form-field
     ><mat-label>{{ 'plots.plot' | translate }}</mat-label
-    ><mat-select [value]="plotId()" (selectionChange)="plotId.set($event.value)"
+    ><mat-select [value]="plotId()" (selectionChange)="setFilter('plot', $event.value)"
       ><mat-option value="">{{ 'common.all' | translate }}</mat-option>
       @for (plot of data.plots(); track plot.id) {
         <mat-option [value]="plot.id">{{ plot.name }}</mat-option>
