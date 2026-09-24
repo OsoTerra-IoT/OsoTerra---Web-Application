@@ -266,7 +266,7 @@
     "supervisedArea": "Superficie supervisada",
     "preparedBy": "Preparado por",
     "generatedOn": "Generado el {{date}}",
-    "reportFooter": "Datos de demostración. Los umbrales de cultivo corresponden a ECe (Maas y Hoffman, 1977).",
+    "reportFooter": "Datos de demostración. Los umbrales de cultivo corresponden a ECe; la fuente de cada cultivo se indica junto a su umbral.",
     "reportEmpty": "Selecciona al menos una parcela para construir el reporte.",
     "period": "Periodo",
     "noActions": "Sin acciones correctivas registradas.",

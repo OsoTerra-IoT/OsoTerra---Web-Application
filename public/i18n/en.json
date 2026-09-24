@@ -266,7 +266,7 @@
     "supervisedArea": "Supervised area",
     "preparedBy": "Prepared by",
     "generatedOn": "Generated on {{date}}",
-    "reportFooter": "Demo data. Crop thresholds refer to ECe (Maas & Hoffman, 1977).",
+    "reportFooter": "Demo data. Crop thresholds refer to ECe; each crop shows its source next to its threshold.",
     "reportEmpty": "Select at least one plot to build the report.",
     "period": "Period",
     "noActions": "No corrective actions recorded.",
