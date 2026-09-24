@@ -16,7 +16,7 @@ export class TrendChart {
   readonly locale = inject(LocaleService);
   readonly series = input<ChartSeries[]>([]);
   readonly metric = signal<Metric>('conductivityDsM');
-  readonly colors = ['#167448', '#a34c0b', '#175caa', '#813598'];
+  readonly colors = ['#047857', '#b45309', '#2563eb', '#7c3aed'];
   readonly dashes = ['', '10 5', '3 4', '12 4 3 4'];
   readonly markers = ['━', '┄', '┈', '┅'];
   readonly metrics = [

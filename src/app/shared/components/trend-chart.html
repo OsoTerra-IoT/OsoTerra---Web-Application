@@ -23,9 +23,9 @@
           x2="775"
           [attr.y1]="20 + tick * 45"
           [attr.y2]="20 + tick * 45"
-          stroke="#dfe7e2"
+          stroke="#e5e7eb"
         />
-        <text x="4" [attr.y]="25 + tick * 45" fill="#53645a" font-size="13">
+        <text x="4" [attr.y]="25 + tick * 45" fill="#6b7280" font-size="13">
           {{ locale.number((maximum() * (4 - tick)) / 4) }}
         </text>
       }
@@ -38,8 +38,8 @@
           [attr.stroke-dasharray]="dashes[index % 4]"
         />
       }
-      <text x="55" y="229" fill="#53645a" font-size="13">{{ 'chart.start' | translate }}</text>
-      <text x="685" y="229" fill="#53645a" font-size="13">{{ 'chart.latest' | translate }}</text>
+      <text x="55" y="229" fill="#6b7280" font-size="13">{{ 'chart.start' | translate }}</text>
+      <text x="685" y="229" fill="#6b7280" font-size="13">{{ 'chart.latest' | translate }}</text>
     </svg>
     <figcaption class="chart-legend">
       @for (item of series(); track item.name; let index = $index) {
