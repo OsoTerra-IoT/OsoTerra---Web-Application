@@ -13,7 +13,7 @@ export class PlotForm {
   readonly form = inject(FormBuilder).nonNullable.group({
     name: ['', Validators.required],
     farmId: ['', Validators.required],
-    cropId: ['corn', Validators.required],
+    cropId: ['avocado', Validators.required],
     latitude: [0, [Validators.required, Validators.min(-90), Validators.max(90)]],
     longitude: [0, [Validators.required, Validators.min(-180), Validators.max(180)]],
     areaHectares: [1, [Validators.required, Validators.min(0.001)]],

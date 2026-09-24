@@ -150,9 +150,9 @@
     "notFound": "Plot not found or unavailable for this account."
   },
   "crops": {
-    "corn": "Corn",
-    "tomato": "Tomato",
-    "wheat": "Wheat"
+    "avocado": "Avocado",
+    "tableGrape": "Table grape",
+    "blueberry": "Blueberry"
   },
   "units": {
     "dsM": "dS/m",
@@ -175,7 +175,6 @@
     "unknown": "No comparable reading",
     "threshold": "Crop threshold",
     "ece": "ECe",
-    "source": "Maas & Hoffman, 1977",
     "showValue": "Show measurement in dS/m",
     "showHistory": "Show numerical history",
     "needsCalibration": "A comparable ECe measurement is required to assess the crop threshold."

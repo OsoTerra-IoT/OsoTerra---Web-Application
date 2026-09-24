@@ -32,8 +32,9 @@ describe('Role-based salinity presentation', () => {
     const element = create('advisor').nativeElement as HTMLElement;
     expect(element.querySelector('details')).toBeNull();
     expect(element.querySelector('.salinity-value')?.textContent).toContain('dS/m');
-    expect(element.querySelector('.reference')?.textContent).toContain('1.7');
-    expect(element.querySelector('a')?.href).toContain('P572.pdf');
+    expect(element.querySelector('.reference')?.textContent).toContain('1.1');
+    expect(element.querySelector('a')?.href).toContain('P2665.pdf');
+    expect(element.querySelector('a')?.textContent).toContain('Acosta-Rangel et al., 2019');
   });
   it('shows the threshold even when there is no measurement, without inventing a value', () => {
     const element = create('advisor', false).nativeElement as HTMLElement;
