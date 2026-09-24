@@ -1,4 +1,4 @@
-﻿import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MonitoringService } from '../../../core/data/monitoring.service';
@@ -50,12 +50,22 @@ export class AdvisorAlerts {
     const owner = plot && this.data.owner(plot);
     return owner ? `${owner.firstName} ${owner.lastName}` : '';
   }
+  readonly announcement = signal('');
+  acknowledge(id: string) {
+    this.data.acknowledge(id);
+    this.announcement.set('alerts.acknowledgedAnnouncement');
+  }
   openAction(alert: SalinityAlert) {
-    this.dialog.open(AdvisorActionDialog, {
-      data: { id: alert.id, plot: this.plot(alert)?.name ?? '' },
-      width: '560px',
-      maxWidth: '95vw',
-      ariaLabelledBy: 'advisor-action-title',
-    });
+    this.dialog
+      .open(AdvisorActionDialog, {
+        data: { id: alert.id, plot: this.plot(alert)?.name ?? '' },
+        width: '560px',
+        maxWidth: '95vw',
+        ariaLabelledBy: 'advisor-action-title',
+      })
+      .afterClosed()
+      .subscribe((saved) => {
+        if (saved) this.announcement.set('alerts.actionRecordedAnnouncement');
+      });
   }
 }

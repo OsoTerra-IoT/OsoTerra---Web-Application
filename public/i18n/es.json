@@ -190,6 +190,8 @@
     "value": "Valor"
   },
   "alerts": {
+    "acknowledgedAnnouncement": "Alerta reconocida.",
+    "actionRecordedAnnouncement": "Acción correctiva registrada.",
     "monitoring": "Monitoreo del suelo",
     "hint": "Revisa las alertas, registra observaciones y sigue las acciones correctivas.",
     "severity": "Severidad",

@@ -1,10 +1,13 @@
-﻿<header class="page-header">
+<header class="page-header">
   <div>
     <p class="eyebrow">{{ 'advisor.triage' | translate }}</p>
     <h1>{{ 'nav.alerts' | translate }}</h1>
     <p class="muted">{{ 'alerts.hint' | translate }}</p>
   </div>
 </header>
+<p class="sr-only" role="status" aria-live="polite">
+  {{ announcement() ? (announcement() | translate) : '' }}
+</p>
 <section class="summary-grid alert-summary" [attr.aria-label]="'advisor.alertSummary' | translate">
   @for (item of counts(); track item.severity) {
     <article class="summary-card">
@@ -99,7 +102,7 @@
             <td>{{ locale.date(alert.createdAt) }}</td>
             <td>
               @if (alert.status === 'OPEN') {
-                <button mat-button (click)="data.acknowledge(alert.id)">
+                <button mat-button (click)="acknowledge(alert.id)">
                   {{ 'alerts.acknowledge' | translate }}
                 </button>
               }
