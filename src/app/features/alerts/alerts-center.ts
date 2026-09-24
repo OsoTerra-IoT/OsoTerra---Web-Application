@@ -32,12 +32,22 @@ export class AlertsCenter {
   plotName(id: string) {
     return this.data.plots().find((plot) => plot.id === id)?.name;
   }
+  readonly announcement = signal('');
+  acknowledge(id: string) {
+    this.data.acknowledge(id);
+    this.announcement.set('alerts.acknowledgedAnnouncement');
+  }
   openAction(id: string) {
-    this.dialog.open(CorrectiveActionDialog, {
-      data: { id },
-      width: '560px',
-      maxWidth: '95vw',
-      ariaLabelledBy: 'corrective-action-title',
-    });
+    this.dialog
+      .open(CorrectiveActionDialog, {
+        data: { id },
+        width: '560px',
+        maxWidth: '95vw',
+        ariaLabelledBy: 'corrective-action-title',
+      })
+      .afterClosed()
+      .subscribe((saved) => {
+        if (saved) this.announcement.set('alerts.actionRecordedAnnouncement');
+      });
   }
 }

@@ -5,6 +5,9 @@
     <p class="muted">{{ 'alerts.hint' | translate }}</p>
   </div>
 </header>
+<p class="sr-only" role="status" aria-live="polite">
+  {{ announcement() ? (announcement() | translate) : '' }}
+</p>
 <div class="filter-bar">
   <mat-form-field
     ><mat-label>{{ 'alerts.severity' | translate }}</mat-label
@@ -67,7 +70,7 @@
             <td>{{ locale.date(alert.createdAt) }}</td>
             <td>
               @if (alert.status === 'OPEN') {
-                <button mat-button (click)="data.acknowledge(alert.id)">
+                <button mat-button (click)="acknowledge(alert.id)">
                   {{ 'alerts.acknowledge' | translate }}
                 </button>
               }

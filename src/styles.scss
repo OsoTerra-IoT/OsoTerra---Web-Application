@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
 @import '@fontsource/material-icons/index.css';
+@import '@fontsource/material-icons-outlined/index.css';
 @import '@fontsource/plus-jakarta-sans/400.css';
 @import '@fontsource/plus-jakarta-sans/500.css';
 @import '@fontsource/plus-jakarta-sans/600.css';
@@ -9,7 +10,8 @@
 // @fontsource only ships the @font-face; the utility class that actually
 // applies it to icon elements (normally bundled with Google's hosted
 // stylesheet) has to be declared ourselves.
-.material-icons {
+.material-icons,
+.material-icons-outlined {
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
@@ -23,6 +25,10 @@
   direction: ltr;
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
+}
+// Line icons, as defined in the Style Guidelines (5.1). Same ligature names as Material Icons.
+.material-icons-outlined {
+  font-family: 'Material Icons Outlined';
 }
 
 html {
