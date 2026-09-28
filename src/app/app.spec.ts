@@ -39,9 +39,7 @@ describe('OsoTerra routed application', () => {
   const login = (role: string) =>
     auth.login({ email: role + '@osoterra.demo', password: DEMO_PASSWORD });
   const signOutButton = () =>
-    [...(harness.routeNativeElement?.querySelectorAll('button') ?? [])].find((button) =>
-      button.textContent?.includes('Sign out'),
-    ) as HTMLButtonElement;
+    harness.routeNativeElement?.querySelector('button[aria-label="Sign out"]') as HTMLButtonElement;
 
   it('redirects anonymous deep links to sign in with the return path', async () => {
     await harness.navigateByUrl('/app/plots/plot-1');

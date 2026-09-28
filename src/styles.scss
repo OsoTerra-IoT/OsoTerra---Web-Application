@@ -89,6 +89,12 @@ html {
   --os-radius-lg: 20px;
   --os-radius-xl: 28px;
   --os-radius-pill: 999px;
+  // Redesign 2026-09-28: cool "salt" background and soil ink, same brand greens.
+  --os-ink: #16211c;
+  --os-salt: #f5f7f6;
+  --os-line: #e3e8e5;
+  --os-track: #eaefec;
+  --os-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 * {
   box-sizing: border-box;
@@ -96,8 +102,8 @@ html {
 body {
   margin: 0;
   min-height: 100%;
-  color: #111827;
-  background: #f9fafb;
+  color: var(--os-ink);
+  background: var(--os-salt);
   font:
     1rem/1.6 'Plus Jakarta Sans',
     system-ui,
@@ -192,108 +198,10 @@ small {
 }
 .app-shell {
   min-height: 100dvh;
-  background: #f9fafb;
-}
-.sidebar {
-  width: 260px;
-  background: #065f46 !important;
-  color: #fff;
-  border: 0 !important;
-  border-radius: 0 !important;
-}
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: inherit;
-  font-weight: 700;
-  font-size: 1.2rem;
-  letter-spacing: -0.03em;
-  text-decoration: none;
-}
-.sidebar .brand {
-  padding: 2rem 1.4rem;
-  color: #ffffff;
-}
-.auth-story .brand {
-  color: #ffffff;
-}
-.brand small {
-  display: block;
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-top: 0.15rem;
-  color: #a7f3d0;
-}
-.brand-symbol {
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-  border-radius: 50%;
-}
-.sidebar-label {
-  color: #a7f3d0;
-  font-size: 0.875rem;
-  padding: 0.7rem 1.5rem 0;
-}
-.sidebar mat-nav-list {
-  padding: 0 0.75rem;
-}
-.sidebar .mat-mdc-list-item {
-  margin-bottom: 0.25rem;
-  border-radius: 0.65rem;
-  --mat-list-list-item-label-text-color: #ecfdf5;
-  --mat-list-list-item-leading-icon-color: #a7f3d0;
-  --mat-list-list-item-hover-label-text-color: #fff;
-  --mat-list-list-item-hover-leading-icon-color: #fff;
-  --mat-list-list-item-focus-label-text-color: #fff;
-}
-.sidebar .active-link {
-  background: #d1fae5 !important;
-  --mat-list-list-item-label-text-color: #064e3b;
-  --mat-list-list-item-leading-icon-color: #064e3b;
-  --mat-list-list-item-hover-label-text-color: #064e3b;
-  --mat-list-list-item-hover-leading-icon-color: #064e3b;
-  --mat-list-list-item-focus-label-text-color: #064e3b;
-}
-.sidebar-footer {
-  padding: 2rem 1.5rem;
-  color: #a7f3d0;
-  font-size: 0.875rem;
-}
-.sidebar-footer p {
-  margin: 0.5rem 0 1rem;
-  max-width: 170px;
-}
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  height: 80px;
-  gap: 1rem;
-  padding: 0 2rem !important;
-  background: #fff !important;
-  border-bottom: 1px solid #e5e7eb;
+  background: var(--os-salt);
 }
 .toolbar-space {
   flex: 1;
-}
-.quick-search {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  max-width: 440px;
-  width: 45%;
-  color: #6b7280;
-}
-.quick-search input {
-  width: 100%;
-  min-width: 0;
-  padding: 0.65rem 0;
-  border: 0;
-  background: transparent;
-  font-size: 0.9375rem;
 }
 .language-switcher select {
   border: 1px solid #d1d5db;
@@ -665,72 +573,6 @@ td details {
   margin-top: 2rem;
   padding-top: 1.5rem;
 }
-.auth-page {
-  min-height: 100dvh;
-  display: grid;
-  grid-template-columns: minmax(340px, 0.9fr) minmax(450px, 1.1fr);
-}
-.auth-story {
-  background: #065f46;
-  color: white;
-  padding: 3rem 3.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 4rem;
-}
-.auth-story h1 {
-  font-size: clamp(2.8rem, 4.5vw, 4.2rem);
-  max-width: 550px;
-  line-height: 1.1;
-  margin: 1rem 0 1.5rem;
-  font-weight: 550;
-}
-.auth-story p {
-  color: #d1fae5;
-  max-width: 430px;
-}
-.auth-story .eyebrow {
-  color: #d1fae5;
-}
-.soil-lines {
-  height: 100px;
-  border-block: 1px solid #047857;
-  margin-top: 3rem;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent 0,
-    transparent 24px,
-    rgba(167, 243, 208, 0.25) 24px,
-    rgba(167, 243, 208, 0.25) 25px
-  );
-}
-.auth-panel {
-  background: #fff;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-}
-.auth-language {
-  display: flex;
-  justify-content: flex-end;
-}
-.auth-form {
-  width: 100%;
-  max-width: 490px;
-  margin: auto;
-  padding: 2rem 0;
-}
-.auth-form h2 {
-  font-size: 2rem;
-  margin-bottom: 0.7rem;
-}
-.auth-form form {
-  margin: 1.5rem 0;
-}
-.auth-form form > button {
-  min-height: 48px;
-}
 .demo-box {
   margin-top: 2rem;
   padding: 1.25rem;
@@ -767,35 +609,8 @@ td details {
   .main-content {
     padding: 1.5rem;
   }
-  .topbar {
-    padding: 0 1rem !important;
-    gap: 0.5rem;
-  }
-  .profile-name {
-    display: none;
-  }
-  .auth-story {
-    padding: 2.5rem;
-  }
 }
 @media (max-width: 700px) {
-  .auth-page {
-    grid-template-columns: 1fr;
-  }
-  .auth-story {
-    padding: 1.5rem;
-    gap: 1rem;
-  }
-  .auth-story > div,
-  .auth-story > p {
-    display: none;
-  }
-  .auth-panel {
-    padding: 1rem 1.5rem;
-  }
-  .auth-form {
-    padding-top: 1rem;
-  }
   .summary-grid {
     grid-template-columns: 1fr;
     gap: 0.65rem;
@@ -810,14 +625,6 @@ td details {
   .section-heading {
     align-items: flex-start;
     flex-wrap: wrap;
-  }
-  .quick-search {
-    width: auto;
-    flex: 1;
-  }
-  .quick-search > mat-icon,
-  .toolbar-space {
-    display: none;
   }
   .main-content {
     padding: 1rem;
@@ -835,21 +642,6 @@ td details {
     width: 100%;
   }
 }
-@media (max-width: 600px) {
-  // On phones the plot search lives in "My plots"; the top bar keeps only the actions.
-  .quick-search {
-    display: none;
-  }
-  // Keep the accessible name of icon + text buttons while showing only the icon.
-  .logout-label {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-}
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -860,10 +652,10 @@ td details {
   }
 }
 
-.sidebar :focus-visible {
-  outline-color: #d1fae5 !important;
-}
 .language-switcher select,
 .role-card {
   border-color: #6b7280;
 }
+
+// Redesign of the shell, sign-in and home pages.
+@import 'styles/redesign';

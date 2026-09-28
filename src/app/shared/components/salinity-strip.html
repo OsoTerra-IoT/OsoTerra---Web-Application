@@ -1,0 +1,53 @@
+<div class="strip-head">
+  <div class="strip-name">
+    <a [routerLink]="['/app/plots', plot().id]">{{ plot().name }}</a>
+    <span class="strip-meta"
+      ><span>{{ subtitle() }}</span
+      ><span>{{ crop().nameKey | translate }}</span
+      ><span
+        >{{ locale.number(plot().areaHectares) }} {{ 'units.hectares' | translate }}</span
+      ></span
+    >
+  </div>
+  <p class="strip-reading" [attr.data-level]="level()">
+    @if (ratio() >= 0 && reading(); as current) {
+      <strong>{{ locale.number(current.conductivityDsM, 2) }}</strong>
+      <span>{{ 'units.dsM' | translate }}</span>
+    } @else {
+      <span>{{ 'salinity.unknown' | translate }}</span>
+    }
+  </p>
+</div>
+<div
+  class="strip-track"
+  [class.is-empty]="ratio() < 0"
+  role="img"
+  [attr.aria-label]="
+    ratio() < 0
+      ? ('salinity.unknown' | translate)
+      : ('home.stripLabel'
+        | translate
+          : {
+              percent: locale.number(ratio() * 100, 0),
+              threshold: locale.number(crop().salinityThresholdDsM, 1),
+            })
+  "
+>
+  <span class="strip-fill" [attr.data-level]="level()" [style.--fill]="fill()"></span>
+  <span class="strip-threshold" [style.left.%]="thresholdAt * 100"></span>
+</div>
+<div class="strip-foot">
+  <span class="strip-status" [attr.data-level]="level()">{{
+    'salinity.' + level() | translate
+  }}</span>
+  @if (ratio() >= 0) {
+    <span class="strip-threshold-label">{{
+      'home.thresholdShort'
+        | translate
+          : {
+              percent: locale.number(ratio() * 100, 0),
+              threshold: locale.number(crop().salinityThresholdDsM, 1),
+            }
+    }}</span>
+  }
+</div>

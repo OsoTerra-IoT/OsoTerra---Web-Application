@@ -45,7 +45,9 @@
     "clients": "My clients",
     "calibration": "Calibration",
     "subscription": "Subscription",
-    "settings": "Settings"
+    "settings": "Settings",
+    "collapse": "Collapse menu",
+    "expand": "Expand menu"
   },
   "auth": {
     "headline": "Know your soil. Protect your next harvest.",
@@ -84,7 +86,9 @@
     "localReset": "Demo only: no email is sent. This local, single-use link expires in 15 minutes and is lost on reload.",
     "resetSuccess": "Password updated. Sign in with your new password.",
     "resetInvalid": "This link is invalid or expired, or the password is too short.",
-    "recoveryResult": "If this email matches a demo account, a recovery link is available below."
+    "recoveryResult": "If this email matches a demo account, a recovery link is available below.",
+    "demoFarmer": "Enter as a grower",
+    "demoAdvisor": "Enter as an advisor"
   },
   "validation": {
     "email": "Enter a valid email address.",
@@ -305,5 +309,17 @@
     "demoPlan": "Prototype workspace",
     "subscriptionHint": "Subscription view prepared for a future billing integration. No payments are enabled.",
     "noAdvisor": "No advisor is assigned to your account."
+  },
+  "home": {
+    "attention": "{{count}} of your {{total}} plots needs attention.",
+    "allClear": "All {{total}} of your plots are below their crop threshold.",
+    "attentionAdvisor": "{{count}} of {{total}} plots across your {{clients}} clients need a visit.",
+    "allClearAdvisor": "All {{total}} plots you supervise are below their threshold.",
+    "profileTitle": "Salinity by plot",
+    "profileTitleAdvisor": "Plots by priority",
+    "profileHint": "Each strip shows current EC against the crop threshold.",
+    "legend": "The vertical mark is the crop salinity threshold.",
+    "stripLabel": "EC at {{percent}}% of the {{threshold}} dS/m threshold",
+    "thresholdShort": "{{percent}}% of threshold ({{threshold}} dS/m)"
   }
 }

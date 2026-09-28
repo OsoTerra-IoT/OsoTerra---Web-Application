@@ -1,26 +1,27 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { AuthService } from '../../core/auth/auth.service';
 import { MonitoringService } from '../../core/data/monitoring.service';
 import { LocaleService } from '../../core/i18n/locale.service';
 import { UI_IMPORTS } from '../../shared/ui-imports';
-import { SalinityStatus } from '../../shared/components/salinity-status';
+import { SalinityStrip } from '../../shared/components/salinity-strip';
 import { TrendChart } from '../../shared/components/trend-chart';
+
+/** Farmer home: one sentence about the field, then every plot as a salinity strip. */
 @Component({
   selector: 'app-dashboard',
-  imports: [...UI_IMPORTS, SalinityStatus, TrendChart],
+  imports: [...UI_IMPORTS, SalinityStrip, TrendChart],
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
   readonly auth = inject(AuthService);
   readonly data = inject(MonitoringService);
   readonly locale = inject(LocaleService);
-  readonly sort = signal('risk');
   readonly orderedPlots = computed(() =>
-    [...this.data.plots()].sort((a, b) =>
-      this.sort() === 'client'
-        ? a.ownerId.localeCompare(b.ownerId)
-        : this.data.risk(b) - this.data.risk(a),
-    ),
+    [...this.data.plots()].sort((a, b) => this.data.risk(b) - this.data.risk(a)),
+  );
+  /** Plots at or above 80 % of their crop threshold. */
+  readonly attention = computed(
+    () => this.data.plots().filter((plot) => this.data.risk(plot) >= 0.8).length,
   );
   readonly area = computed(() =>
     this.data.plots().reduce((sum, plot) => sum + plot.areaHectares, 0),

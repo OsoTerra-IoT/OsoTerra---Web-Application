@@ -1,0 +1,52 @@
+<div class="side-top">
+  <a class="side-brand" routerLink="/app/home" [attr.aria-label]="'brand.name' | translate"
+    ><img src="brand/ososense-symbol.png" alt="" width="36" height="36" /><span class="side-text">{{
+      'brand.name' | translate
+    }}</span></a
+  >
+  @if (canCollapse()) {
+    <button
+      type="button"
+      class="side-collapse"
+      (click)="collapsedChange.emit(!collapsed())"
+      [attr.aria-expanded]="!collapsed()"
+      [attr.aria-label]="(collapsed() ? 'nav.expand' : 'nav.collapse') | translate"
+    >
+      <mat-icon aria-hidden="true">{{ collapsed() ? 'menu' : 'menu_open' }}</mat-icon>
+    </button>
+  }
+</div>
+<nav class="side-nav" [attr.aria-label]="'nav.primary' | translate">
+  @if (active() >= 0) {
+    <span class="side-indicator" aria-hidden="true" [style.--active]="active()"></span>
+  }
+  @for (item of items(); track item.path; let index = $index) {
+    <a
+      class="side-link"
+      [class.is-active]="index === active()"
+      [routerLink]="'/app/' + item.path"
+      [attr.aria-current]="index === active() ? 'page' : null"
+      [attr.title]="collapsed() ? (item.label | translate) : null"
+      ><mat-icon aria-hidden="true">{{ item.icon }}</mat-icon
+      ><span class="side-text">{{ item.label | translate }}</span></a
+    >
+  }
+</nav>
+<div class="side-user">
+  <a class="side-profile" routerLink="/app/settings" [attr.aria-label]="'nav.profile' | translate"
+    ><span class="side-avatar" aria-hidden="true">{{ initial() }}</span
+    ><span class="side-text side-who"
+      ><strong>{{ auth.user()?.firstName }} {{ auth.user()?.lastName }}</strong
+      ><small>{{ roleLabel() | translate }}</small></span
+    ></a
+  >
+  <button
+    type="button"
+    class="side-logout"
+    (click)="logout.emit()"
+    [attr.aria-label]="'auth.logout' | translate"
+    [attr.title]="'auth.logout' | translate"
+  >
+    <mat-icon aria-hidden="true">logout</mat-icon>
+  </button>
+</div>

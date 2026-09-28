@@ -1,21 +1,47 @@
 <div class="auth-page">
-  <aside class="auth-story">
-    <a class="brand" routerLink="/auth/login"
-      ><img
-        class="brand-symbol"
-        src="brand/ososense-symbol-white.png"
-        alt=""
-        width="40"
-        height="40"
-      />{{ 'brand.name' | translate }}</a
+  <aside class="auth-scene">
+    <a class="auth-brand" routerLink="/auth/login"
+      ><img src="brand/ososense-symbol-white.png" alt="" width="36" height="36" />{{
+        'brand.name' | translate
+      }}</a
     >
-    <div>
-      <p class="eyebrow">{{ 'brand.caption' | translate }}</p>
-      <h1>{{ 'auth.headline' | translate }}</h1>
-      <p>{{ 'auth.description' | translate }}</p>
-      <div class="soil-lines" aria-hidden="true"></div>
-    </div>
-    <p>{{ 'brand.footer' | translate }}</p>
+    <h1 class="auth-title">{{ 'auth.headline' | translate }}</h1>
+    <figure class="soil-figure" aria-hidden="true">
+      <svg viewBox="0 0 480 300" preserveAspectRatio="xMidYMax slice">
+        <path class="horizon h1" d="M0 70 C 80 58, 160 82, 240 70 S 400 58, 480 72 V300 H0Z" />
+        <path
+          class="horizon h2"
+          d="M0 128 C 90 118, 170 140, 250 128 S 410 116, 480 130 V300 H0Z"
+        />
+        <path
+          class="horizon h3"
+          d="M0 190 C 70 180, 180 202, 260 190 S 400 178, 480 192 V300 H0Z"
+        />
+        <path
+          class="horizon h4"
+          d="M0 246 C 100 238, 190 256, 270 246 S 420 236, 480 248 V300 H0Z"
+        />
+        <g class="salt">
+          <circle cx="42" cy="150" r="2.2" />
+          <circle cx="118" cy="214" r="1.6" />
+          <circle cx="176" cy="160" r="1.8" />
+          <circle cx="330" cy="224" r="2" />
+          <circle cx="392" cy="156" r="1.6" />
+          <circle cx="440" cy="268" r="2.2" />
+
+          <circle cx="364" cy="104" r="1.5" />
+        </g>
+        <g class="probe">
+          <rect x="236" y="-40" width="8" height="220" rx="4" />
+          <circle class="probe-pulse" cx="240" cy="176" r="10" />
+        </g>
+      </svg>
+      <div class="probe-reading">
+        <span class="probe-value">{{ locale.number(1.2, 1) }}</span>
+        <span class="probe-unit">{{ 'units.dsM' | translate }}</span>
+      </div>
+    </figure>
+    <p class="auth-footer">{{ 'auth.description' | translate }}</p>
   </aside>
   <section class="auth-panel">
     <div class="auth-language"><app-language-switcher /></div>
