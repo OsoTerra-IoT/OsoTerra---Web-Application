@@ -45,7 +45,9 @@
     "clients": "Mis clientes",
     "calibration": "Calibración",
     "subscription": "Suscripción",
-    "settings": "Configuración"
+    "settings": "Configuración",
+    "collapse": "Contraer menú",
+    "expand": "Expandir menú"
   },
   "auth": {
     "headline": "Conoce tu suelo. Protege tu próxima cosecha.",
@@ -84,7 +86,9 @@
     "localReset": "Solo demostración: no se envían correos. Este enlace local de un solo uso vence en 15 minutos y se pierde al recargar.",
     "resetSuccess": "Contraseña actualizada. Inicia sesión con tu nueva contraseña.",
     "resetInvalid": "El enlace no es válido, ha vencido o la contraseña es demasiado corta.",
-    "recoveryResult": "Si este correo corresponde a una cuenta de demostración, verás un enlace de recuperación abajo."
+    "recoveryResult": "Si este correo corresponde a una cuenta de demostración, verás un enlace de recuperación abajo.",
+    "demoFarmer": "Entrar como productor",
+    "demoAdvisor": "Entrar como asesor técnico"
   },
   "validation": {
     "email": "Ingresa un correo electrónico válido.",
@@ -305,5 +309,17 @@
     "demoPlan": "Espacio de prototipo",
     "subscriptionHint": "Vista de suscripción preparada para una futura integración de facturación. No hay pagos habilitados.",
     "noAdvisor": "Tu cuenta no tiene un asesor asignado."
+  },
+  "home": {
+    "attention": "{{count}} de tus {{total}} parcelas necesita atención.",
+    "allClear": "Tus {{total}} parcelas están por debajo del umbral de su cultivo.",
+    "attentionAdvisor": "{{count}} de {{total}} parcelas de tus {{clients}} clientes necesitan una visita.",
+    "allClearAdvisor": "Las {{total}} parcelas que supervisas están por debajo del umbral.",
+    "profileTitle": "Salinidad por parcela",
+    "profileTitleAdvisor": "Parcelas por prioridad",
+    "profileHint": "Cada franja muestra la CE actual frente al umbral del cultivo.",
+    "legend": "La marca vertical es el umbral de salinidad del cultivo.",
+    "stripLabel": "CE al {{percent}} % del umbral de {{threshold}} dS/m",
+    "thresholdShort": "{{percent}} % del umbral ({{threshold}} dS/m)"
   }
 }

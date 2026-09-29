@@ -1,12 +1,10 @@
-﻿import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatListModule } from '@angular/material/list';
-import { MatBadgeModule } from '@angular/material/badge';
+import { Sidebar, SidebarState } from '../sidebar/sidebar';
 import { UI_IMPORTS } from '../../../shared/ui-imports';
 import { LanguageSwitcher } from '../../../shared/components/language-switcher';
 import { AuthService } from '../../auth/auth.service';
@@ -16,14 +14,7 @@ import { ADVISOR_NAVIGATION } from './advisor-navigation';
 
 @Component({
   selector: 'app-advisor-layout',
-  imports: [
-    ...UI_IMPORTS,
-    LanguageSwitcher,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatListModule,
-    MatBadgeModule,
-  ],
+  imports: [...UI_IMPORTS, LanguageSwitcher, MatSidenavModule, Sidebar],
   templateUrl: './advisor-layout.html',
   styleUrl: './advisor-layout.scss',
 })
@@ -39,6 +30,8 @@ export class AdvisorLayout {
     { initialValue: false },
   );
   readonly menuOpen = signal(false);
+  private readonly sidebarState = inject(SidebarState);
+  readonly collapsed = this.sidebarState.collapsed;
   readonly breadcrumbs = signal<{ label: string; url: string }[]>([]);
   constructor() {
     inject(PlotToolsService).register(inject(DestroyRef));
@@ -60,6 +53,9 @@ export class AdvisorLayout {
         this.breadcrumbs.set(items);
         queueMicrotask(() => document.getElementById('advisor-content')?.focus());
       });
+  }
+  setCollapsed(value: boolean): void {
+    this.sidebarState.set(value);
   }
   search(): void {
     void this.router.navigate(['/app/plots']);
