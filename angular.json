@@ -60,6 +60,17 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "real-api": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.real-api.ts"
+                }
+              ],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -72,6 +83,9 @@
             },
             "development": {
               "buildTarget": "osoterra-web-app:build:development"
+            },
+            "real-api": {
+              "buildTarget": "osoterra-web-app:build:real-api"
             }
           },
           "defaultConfiguration": "development"
