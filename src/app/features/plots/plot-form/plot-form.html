@@ -17,7 +17,7 @@
     ><mat-form-field
       ><mat-label>{{ 'plots.crop' | translate }}</mat-label
       ><mat-select formControlName="cropId">
-        @for (crop of data.crops; track crop.id) {
+        @for (crop of data.crops(); track crop.id) {
           <mat-option [value]="crop.id">{{ crop.nameKey | translate }}</mat-option>
         }</mat-select
       ><mat-error>{{ 'validation.required' | translate }}</mat-error></mat-form-field

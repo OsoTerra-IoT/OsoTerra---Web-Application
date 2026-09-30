@@ -46,8 +46,8 @@ export class AlertsCenter {
     return this.data.plots().find((plot) => plot.id === id)?.name;
   }
   readonly announcement = signal('');
-  acknowledge(id: string) {
-    this.data.acknowledge(id);
+  async acknowledge(id: string) {
+    await this.data.acknowledge(id);
     this.announcement.set('alerts.acknowledgedAnnouncement');
   }
   openAction(id: string) {

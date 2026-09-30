@@ -45,9 +45,10 @@
     >
   </div>
   <mat-form-field
-    ><mat-label>{{ 'calibration.notes' | translate }}</mat-label
-    ><textarea matInput formControlName="notes" rows="3"></textarea
-    ><mat-error>{{ 'validation.required' | translate }}</mat-error></mat-form-field
+    ><mat-label>{{ 'calibration.laboratory' | translate }}</mat-label
+    ><input matInput formControlName="laboratory" autocomplete="organization" /><mat-error>{{
+      'validation.required' | translate
+    }}</mat-error></mat-form-field
   >
   @if (error()) {
     <p role="alert" class="form-error">{{ 'validation.checkForm' | translate }}</p>
@@ -75,7 +76,7 @@
           <th scope="col">{{ 'calibration.laboratoryEceDsM' | translate }}</th>
           <th scope="col">{{ 'calibration.offset' | translate }}</th>
           <th scope="col">{{ 'common.date' | translate }}</th>
-          <th scope="col">{{ 'common.notes' | translate }}</th>
+          <th scope="col">{{ 'calibration.laboratory' | translate }}</th>
         </tr>
       </thead>
       <tbody>
@@ -96,7 +97,7 @@
               {{ locale.number(device.calibration!.offsetDsM, 2) }} {{ 'units.dsM' | translate }}
             </td>
             <td>{{ locale.date(device.calibration!.calibratedAt) }}</td>
-            <td>{{ device.calibration!.notes }}</td>
+            <td>{{ device.calibration!.laboratory }}</td>
           </tr>
         } @empty {
           <tr>

@@ -4,6 +4,7 @@ export interface Farm {
   ownerId: string;
   department: string;
   province: string;
+  district: string;
 }
 
 export interface Plot {

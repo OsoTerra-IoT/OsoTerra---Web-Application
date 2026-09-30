@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService, DEMO_USERS } from '../../core/auth/auth.service';
+import { AuthService } from '../../core/auth/auth.service';
 import { UI_IMPORTS } from '../../shared/ui-imports';
 import { LanguageSwitcher } from '../../shared/components/language-switcher';
 @Component({
@@ -15,8 +15,6 @@ export class Account {
   readonly title = this.route.snapshot.data['breadcrumb'] as string;
   readonly advisor = (() => {
     const user = this.auth.user();
-    return user?.role === 'Farmer'
-      ? DEMO_USERS.find((advisor) => advisor.id === user.advisorId)
-      : undefined;
+    return user?.role === 'Farmer' ? this.auth.findUser(user.advisorId ?? '') : undefined;
   })();
 }

@@ -21,7 +21,7 @@ export class Calibration {
     deviceId: ['', Validators.required],
     sensorDsM: [0, [Validators.required, Validators.min(0.001)]],
     laboratoryEceDsM: [0, [Validators.required, Validators.min(0)]],
-    notes: ['', [Validators.required, Validators.maxLength(2000)]],
+    laboratory: ['', [Validators.required, Validators.maxLength(120)]],
   });
   constructor() {
     this.form.patchValue({ deviceId: this.data.devices()[0]?.id ?? '' });
@@ -29,17 +29,24 @@ export class Calibration {
   plotName(plotId: string): string {
     return this.data.plots().find((plot) => plot.id === plotId)?.name ?? '';
   }
-  save() {
+  async save() {
     this.saved.set(false);
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
     const value = this.form.getRawValue();
-    if (this.data.calibrate(value.deviceId, value.sensorDsM, value.laboratoryEceDsM, value.notes)) {
+    if (
+      await this.data.calibrate(
+        value.deviceId,
+        value.sensorDsM,
+        value.laboratoryEceDsM,
+        value.laboratory,
+      )
+    ) {
       this.error.set(false);
       this.saved.set(true);
-      this.form.patchValue({ notes: '' });
+      this.form.patchValue({ laboratory: '' });
     } else this.error.set(true);
   }
 }

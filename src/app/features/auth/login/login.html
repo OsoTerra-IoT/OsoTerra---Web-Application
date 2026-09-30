@@ -25,28 +25,30 @@
       <p role="alert" class="form-error">{{ 'auth.invalidCredentials' | translate }}</p>
     }
     <a class="auth-forgot" routerLink="/auth/recovery">{{ 'auth.forgot' | translate }}</a
-    ><button mat-flat-button type="submit" class="auth-submit">
+    ><button mat-flat-button type="submit" class="auth-submit" [disabled]="submitting()">
       {{ 'auth.login' | translate }}
     </button>
   </form>
-  <section class="demo-access" aria-labelledby="demo-title">
-    <h3 id="demo-title">{{ 'auth.demoTitle' | translate }}</h3>
-    <p class="muted">{{ 'auth.demoHint' | translate }}</p>
-    <button type="button" class="demo-option" (click)="demo('Farmer')">
-      <mat-icon aria-hidden="true">grass</mat-icon
-      ><span
-        ><strong>{{ 'auth.demoFarmer' | translate }}</strong
-        ><small>{{ 'auth.farmerDescription' | translate }}</small></span
-      >
-    </button>
-    <button type="button" class="demo-option" (click)="demo('Advisor')">
-      <mat-icon aria-hidden="true">insights</mat-icon
-      ><span
-        ><strong>{{ 'auth.demoAdvisor' | translate }}</strong
-        ><small>{{ 'auth.advisorDescription' | translate }}</small></span
-      >
-    </button>
-  </section>
+  @if (demoAvailable) {
+    <section class="demo-access" aria-labelledby="demo-title">
+      <h3 id="demo-title">{{ 'auth.demoTitle' | translate }}</h3>
+      <p class="muted">{{ 'auth.demoHint' | translate }}</p>
+      <button type="button" class="demo-option" (click)="demo('Farmer')">
+        <mat-icon aria-hidden="true">grass</mat-icon
+        ><span
+          ><strong>{{ 'auth.demoFarmer' | translate }}</strong
+          ><small>{{ 'auth.farmerDescription' | translate }}</small></span
+        >
+      </button>
+      <button type="button" class="demo-option" (click)="demo('Advisor')">
+        <mat-icon aria-hidden="true">insights</mat-icon
+        ><span
+          ><strong>{{ 'auth.demoAdvisor' | translate }}</strong
+          ><small>{{ 'auth.advisorDescription' | translate }}</small></span
+        >
+      </button>
+    </section>
+  }
   <p class="auth-switch">
     {{ 'auth.noAccount' | translate }}
     <a routerLink="/auth/register">{{ 'auth.register' | translate }}</a>

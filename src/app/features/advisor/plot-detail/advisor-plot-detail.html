@@ -103,13 +103,21 @@
             <dt>{{ 'devices.status' | translate }}</dt>
             <dd>{{ 'deviceStatus.' + device.status | translate }}</dd>
             <dt>{{ 'devices.battery' | translate }}</dt>
-            <dd>{{ locale.number(device.batteryPercent) }} {{ 'units.percent' | translate }}</dd>
-            <dt>{{ 'devices.signal' | translate }}</dt>
-            <dd>{{ locale.number(device.signalDbm) }} {{ 'units.dbm' | translate }}</dd>
+            <dd>
+              {{
+                device.batteryPercent === null
+                  ? '—'
+                  : locale.number(device.batteryPercent) + ' ' + ('units.percent' | translate)
+              }}
+            </dd>
+            @if (device.signalDbm !== undefined) {
+              <dt>{{ 'devices.signal' | translate }}</dt>
+              <dd>{{ locale.number(device.signalDbm) }} {{ 'units.dbm' | translate }}</dd>
+            }
             <dt>{{ 'devices.lastSeen' | translate }}</dt>
-            <dd>{{ locale.date(device.lastSeenAt) }}</dd>
+            <dd>{{ device.lastSeenAt ? locale.date(device.lastSeenAt) : '—' }}</dd>
             <dt>{{ 'devices.firmware' | translate }}</dt>
-            <dd>{{ device.firmwareVersion }}</dd>
+            <dd>{{ device.firmwareVersion ?? '—' }}</dd>
           </dl>
           <h3>{{ 'nav.calibration' | translate }}</h3>
           @if (device.calibration; as calibration) {
@@ -124,8 +132,8 @@
               <dd>{{ locale.number(calibration.offsetDsM, 2) }} {{ 'units.dsM' | translate }}</dd>
               <dt>{{ 'common.date' | translate }}</dt>
               <dd>{{ locale.date(calibration.calibratedAt) }}</dd>
-              <dt>{{ 'common.notes' | translate }}</dt>
-              <dd>{{ calibration.notes }}</dd>
+              <dt>{{ 'calibration.laboratory' | translate }}</dt>
+              <dd>{{ calibration.laboratory }}</dd>
             </dl>
             <p class="muted">{{ 'calibration.limitation' | translate }}</p>
           } @else {

@@ -1,66 +1,51 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
+import { IamApi } from '../api/iam.api';
+import { toUser } from '../api/mappers';
+import { SessionTokenStore } from '../api/session-token.store';
 import { LoginCredentials, RegistrationRequest, User, UserRole } from '../models';
 
-export const DEMO_PASSWORD = 'OsoTerra2026!';
-const base = {
-  department: 'Lima',
-  province: 'Huaral',
-  locale: 'en_US' as const,
-  termsAcceptedAt: '2026-09-01T12:00:00Z',
-};
-export const DEMO_USERS: readonly User[] = [
-  {
-    ...base,
-    id: 'farmer-1',
-    firstName: 'Elena',
-    lastName: 'Ramos',
-    email: 'farmer@osoterra.demo',
-    role: 'Farmer',
-    advisorId: 'advisor-1',
-  },
-  {
-    ...base,
-    id: 'farmer-2',
-    firstName: 'Carla',
-    lastName: 'Mendoza',
-    email: 'farmer2@osoterra.demo',
-    province: 'Huaura',
-    role: 'Farmer',
-    advisorId: 'advisor-1',
-  },
-  {
-    ...base,
-    id: 'advisor-1',
-    firstName: 'Diego',
-    lastName: 'Torres',
-    email: 'advisor@osoterra.demo',
-    role: 'Advisor',
-    cipNumber: '123456',
-  },
-];
+export { DEMO_ACCOUNTS, DEMO_PASSWORD } from '../api/fake/fake-database';
 
-/** Development adapter. Accounts, passwords and reset tokens live in memory only.
- * A production API must authenticate, authorize every request and issue secure sessions.
+export type RegistrationResult = 'SUCCESS' | 'EXISTS' | 'INVALID';
+
+/**
+ * Session of the signed-in user, backed by the IAM endpoints. It keeps the user and the
+ * accounts linked to them by advisory links (an advisor's farmers, a farmer's advisors),
+ * which is all the directory the views need.
  */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private readonly api = inject(IamApi);
+  private readonly tokens = inject(SessionTokenStore);
   private readonly currentUser = signal<User | null>(null);
-  private readonly accounts = new Map(
-    DEMO_USERS.map((user) => [user.email, { user, password: DEMO_PASSWORD }]),
-  );
-  private readonly resetTokens = new Map<string, { email: string; expiresAt: number }>();
+  private readonly linkedUsers = signal<User[]>([]);
+  private readonly sessionListeners: ((user: User | null) => Promise<void> | void)[] = [];
   readonly user = this.currentUser.asReadonly();
+  /** The signed-in user's linked counterparts (an advisor's farmers, a farmer's advisors). */
+  readonly linked = this.linkedUsers.asReadonly();
   readonly isAuthenticated = computed(() => this.user() !== null);
   readonly isAdvisor = computed(() => this.user()?.role === 'Advisor');
 
-  login(credentials: LoginCredentials): boolean {
-    const account = this.accounts.get(credentials.email.trim().toLowerCase());
-    if (!account || account.password !== credentials.password) return false;
-    this.currentUser.set(account.user);
-    return true;
+  async login(credentials: LoginCredentials): Promise<boolean> {
+    try {
+      const session = await firstValueFrom(
+        this.api.signIn({
+          email: credentials.email.trim().toLowerCase(),
+          password: credentials.password,
+        }),
+      );
+      this.tokens.set(session.token);
+      await this.startSession();
+      return true;
+    } catch (error) {
+      if (error instanceof HttpErrorResponse && [400, 401].includes(error.status)) return false;
+      throw error;
+    }
   }
 
-  register(request: RegistrationRequest): 'SUCCESS' | 'EXISTS' | 'INVALID' {
+  async register(request: RegistrationRequest): Promise<RegistrationResult> {
     const email = request.email.trim().toLowerCase();
     if (
       !request.acceptsTerms ||
@@ -74,57 +59,100 @@ export class AuthService {
       (request.role === 'Advisor' && !/^\d{4,10}$/.test(request.cipNumber ?? ''))
     )
       return 'INVALID';
-    if (this.accounts.has(email)) return 'EXISTS';
-    const common = {
-      id: crypto.randomUUID(),
-      email,
-      firstName: request.firstName.trim(),
-      lastName: request.lastName.trim(),
-      department: request.department.trim(),
-      province: request.province.trim(),
-      locale: 'en_US' as const,
-      termsAcceptedAt: new Date().toISOString(),
-    };
-    const user: User =
-      request.role === 'Advisor'
-        ? { ...common, role: 'Advisor', cipNumber: request.cipNumber! }
-        : { ...common, role: 'Farmer' };
-    this.accounts.set(email, { user, password: request.password });
-    this.currentUser.set(user);
-    return 'SUCCESS';
+    try {
+      await firstValueFrom(
+        this.api.signUp({
+          email,
+          password: request.password,
+          firstName: request.firstName.trim(),
+          lastName: request.lastName.trim(),
+          role: request.role === 'Advisor' ? 'ADVISOR' : 'FARMER',
+          professionalLicenseNumber: request.role === 'Advisor' ? request.cipNumber! : null,
+          department: request.department.trim(),
+          province: request.province.trim(),
+        }),
+      );
+    } catch (error) {
+      if (error instanceof HttpErrorResponse && error.status === 409) return 'EXISTS';
+      if (error instanceof HttpErrorResponse && error.status === 400) return 'INVALID';
+      throw error;
+    }
+    return (await this.login({ email, password: request.password })) ? 'SUCCESS' : 'INVALID';
   }
-  /** Directory lookup for demo relationships. A production API would scope this per request. */
+
+  /** Restores the session of a reload from the stored token, if it is still valid. */
+  async restoreSession(): Promise<void> {
+    if (!this.tokens.token()) return;
+    try {
+      await this.startSession();
+    } catch {
+      this.logout();
+    }
+  }
+
+  /** Accounts the current user can see: themselves and their linked counterparts. */
   findUser(id: string): User | undefined {
-    for (const account of this.accounts.values()) if (account.user.id === id) return account.user;
-    return undefined;
+    const user = this.user();
+    return user?.id === id ? user : this.linkedUsers().find((linked) => linked.id === id);
   }
+
+  /** Ids of the advisors linked to the signed-in farmer. */
+  readonly advisorIds = computed(() =>
+    this.isAdvisor() ? [] : this.linkedUsers().map((linked) => linked.id),
+  );
+
   hasRole(roles: readonly UserRole[]): boolean {
     const user = this.user();
     return !!user && roles.includes(user.role);
   }
 
-  requestPasswordReset(email: string): string | null {
-    const normalizedEmail = email.trim().toLowerCase();
-    if (!this.accounts.has(normalizedEmail)) return null;
-    for (const [key, entry] of this.resetTokens)
-      if (entry.email === normalizedEmail) this.resetTokens.delete(key);
-    const token = crypto.randomUUID();
-    this.resetTokens.set(token, { email: normalizedEmail, expiresAt: Date.now() + 15 * 60_000 });
-    return token;
+  /**
+   * Asks for a reset link. The real Backend emails it; the fake API has no mailbox and
+   * returns the token instead, so the demo can show the link on screen.
+   */
+  async requestPasswordReset(email: string): Promise<string | null> {
+    const response = await firstValueFrom(
+      this.api.requestPasswordReset({ email: email.trim().toLowerCase() }),
+    );
+    return response?.demoResetToken ?? null;
   }
 
-  resetPassword(token: string, password: string): boolean {
-    const reset = this.resetTokens.get(token);
-    if (!reset || reset.expiresAt <= Date.now() || password.length < 12) return false;
-    const account = this.accounts.get(reset.email);
-    if (!account) return false;
-    account.password = password;
-    this.resetTokens.delete(token);
+  async resetPassword(token: string, password: string): Promise<boolean> {
+    if (password.length < 12) return false;
+    try {
+      await firstValueFrom(this.api.resetPassword({ token, newPassword: password }));
+    } catch (error) {
+      if (error instanceof HttpErrorResponse && error.status === 400) return false;
+      throw error;
+    }
     this.logout();
     return true;
   }
 
   logout(): void {
+    this.tokens.clear();
+    this.linkedUsers.set([]);
     this.currentUser.set(null);
+    for (const listener of this.sessionListeners) void listener(null);
+  }
+
+  /**
+   * Runs `listener` whenever a session starts or ends. Sign-in resolves only after the
+   * listeners finish, so the first screen already has its data.
+   */
+  onSessionChange(listener: (user: User | null) => Promise<void> | void): void {
+    this.sessionListeners.push(listener);
+  }
+
+  private async startSession(): Promise<void> {
+    const [me, linked] = await Promise.all([
+      firstValueFrom(this.api.currentUser()),
+      firstValueFrom(this.api.linkedAccounts()),
+    ]);
+    const linkedUsers = linked.map((account) => toUser(account));
+    this.linkedUsers.set(linkedUsers);
+    const user = toUser(me, me.role === 'FARMER' ? linkedUsers[0]?.id : undefined);
+    this.currentUser.set(user);
+    await Promise.all(this.sessionListeners.map((listener) => listener(user)));
   }
 }

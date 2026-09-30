@@ -22,19 +22,20 @@ export class Password {
   });
   readonly message = signal('');
   readonly resetToken = signal<string | null>(null);
-  submit(): void {
+  async submit(): Promise<void> {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
+    const value = this.form.getRawValue().value;
     if (this.token)
       this.message.set(
-        this.auth.resetPassword(this.token, this.form.getRawValue().value)
+        (await this.auth.resetPassword(this.token, value))
           ? 'auth.resetSuccess'
           : 'auth.resetInvalid',
       );
     else {
-      this.resetToken.set(this.auth.requestPasswordReset(this.form.getRawValue().value));
+      this.resetToken.set(await this.auth.requestPasswordReset(value));
       this.message.set('auth.recoveryResult');
     }
   }
