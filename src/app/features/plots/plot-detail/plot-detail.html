@@ -85,13 +85,21 @@
             <dt>{{ 'devices.status' | translate }}</dt>
             <dd>{{ 'deviceStatus.' + device.status | translate }}</dd>
             <dt>{{ 'devices.battery' | translate }}</dt>
-            <dd>{{ locale.number(device.batteryPercent) }} {{ 'units.percent' | translate }}</dd>
-            <dt>{{ 'devices.signal' | translate }}</dt>
-            <dd>{{ locale.number(device.signalDbm) }} {{ 'units.dbm' | translate }}</dd>
+            <dd>
+              {{
+                device.batteryPercent === null
+                  ? '—'
+                  : locale.number(device.batteryPercent) + ' ' + ('units.percent' | translate)
+              }}
+            </dd>
+            @if (device.signalDbm !== undefined) {
+              <dt>{{ 'devices.signal' | translate }}</dt>
+              <dd>{{ locale.number(device.signalDbm) }} {{ 'units.dbm' | translate }}</dd>
+            }
             <dt>{{ 'devices.lastSeen' | translate }}</dt>
-            <dd>{{ locale.date(device.lastSeenAt) }}</dd>
+            <dd>{{ device.lastSeenAt ? locale.date(device.lastSeenAt) : '—' }}</dd>
             <dt>{{ 'devices.firmware' | translate }}</dt>
-            <dd>{{ device.firmwareVersion }}</dd>
+            <dd>{{ device.firmwareVersion ?? '—' }}</dd>
           </dl>
         } @else {
           <p>{{ 'devices.empty' | translate }}</p>

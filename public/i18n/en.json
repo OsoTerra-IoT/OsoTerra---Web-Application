@@ -151,12 +151,25 @@
     "history": "Historical trends",
     "telemetry": "Device telemetry",
     "settings": "Plot settings",
-    "notFound": "Plot not found or unavailable for this account."
+    "notFound": "Plot not found or unavailable for this account.",
+    "district": "District"
   },
   "crops": {
     "avocado": "Avocado",
     "tableGrape": "Table grape",
-    "blueberry": "Blueberry"
+    "blueberry": "Blueberry",
+    "barley": "Barley",
+    "cotton": "Cotton",
+    "sugarBeet": "Sugar beet",
+    "wheat": "Wheat",
+    "asparagus": "Asparagus",
+    "rice": "Rice",
+    "tomato": "Tomato",
+    "corn": "Corn",
+    "potato": "Potato",
+    "onion": "Onion",
+    "strawberry": "Strawberry",
+    "unassigned": "Crop not assigned"
   },
   "units": {
     "dsM": "dS/m",
@@ -207,8 +220,7 @@
     "acknowledge": "Acknowledge",
     "recordAction": "Record action",
     "actionCount": "Recorded actions: {{count}}",
-    "actionType": "Action type",
-    "resolve": "Mark this alert as resolved"
+    "actionType": "Action type"
   },
   "severity": {
     "WATCH": "Watch",
@@ -221,10 +233,11 @@
     "RESOLVED": "Resolved"
   },
   "actionTypes": {
-    "INSPECTION": "Field inspection",
-    "IRRIGATION_REVIEW": "Irrigation review",
-    "DRAINAGE_REVIEW": "Drainage review",
-    "LAB_SAMPLE": "Laboratory sample"
+    "LEACHING": "Salt leaching",
+    "IRRIGATION_ADJUSTMENT": "Irrigation adjustment",
+    "DRAINAGE_IMPROVEMENT": "Drainage improvement",
+    "SOIL_AMENDMENT": "Soil amendment",
+    "CROP_ROTATION": "Crop rotation"
   },
   "devices": {
     "device": "Device",
@@ -289,10 +302,10 @@
     "hint": "Record a paired sensor and laboratory observation.",
     "sensorDsM": "Sensor conductivity",
     "laboratoryEceDsM": "Laboratory ECe",
-    "notes": "Sample reference and notes",
     "limitation": "This prototype records a single-point offset only. It does not convert raw sensor readings to ECe or update historical measurements.",
     "records": "Calibration records",
-    "offset": "Recorded offset"
+    "offset": "Recorded offset",
+    "laboratory": "Laboratory"
   },
   "reports": {
     "hint": "Select plots, preview their history and export a PDF report.",

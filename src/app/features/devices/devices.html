@@ -9,11 +9,19 @@
       </p>
       <dl class="definition-grid">
         <dt>{{ 'devices.battery' | translate }}</dt>
-        <dd>{{ locale.number(device.batteryPercent) }} {{ 'units.percent' | translate }}</dd>
-        <dt>{{ 'devices.signal' | translate }}</dt>
-        <dd>{{ locale.number(device.signalDbm) }} {{ 'units.dbm' | translate }}</dd>
+        <dd>
+          {{
+            device.batteryPercent === null
+              ? '—'
+              : locale.number(device.batteryPercent) + ' ' + ('units.percent' | translate)
+          }}
+        </dd>
+        @if (device.signalDbm !== undefined) {
+          <dt>{{ 'devices.signal' | translate }}</dt>
+          <dd>{{ locale.number(device.signalDbm) }} {{ 'units.dbm' | translate }}</dd>
+        }
         <dt>{{ 'devices.lastSeen' | translate }}</dt>
-        <dd>{{ locale.date(device.lastSeenAt) }}</dd>
+        <dd>{{ device.lastSeenAt ? locale.date(device.lastSeenAt) : '—' }}</dd>
       </dl>
       <a [routerLink]="['/app/plots', device.plotId]">{{ 'plots.view' | translate }}</a>
     </article>

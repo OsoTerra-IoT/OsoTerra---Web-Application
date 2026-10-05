@@ -10,17 +10,14 @@
       </mat-select></mat-form-field
     ><mat-form-field
       ><mat-label>{{ 'common.date' | translate }}</mat-label
-      ><input
-        matInput
-        type="datetime-local"
-        formControlName="performedAt"
-        [max]="maxDate"
-      /><mat-error>{{ 'validation.date' | translate }}</mat-error></mat-form-field
+      ><input matInput type="date" formControlName="performedAt" [max]="maxDate" /><mat-error>{{
+        'validation.date' | translate
+      }}</mat-error></mat-form-field
     ><mat-form-field
       ><mat-label>{{ 'common.notes' | translate }}</mat-label
       ><textarea matInput formControlName="notes" rows="4"></textarea
       ><mat-error>{{ 'validation.required' | translate }}</mat-error></mat-form-field
-    ><mat-checkbox formControlName="resolve">{{ 'alerts.resolve' | translate }}</mat-checkbox>
+    >
     @if (error()) {
       <p role="alert">{{ 'validation.action' | translate }}</p>
     }</mat-dialog-content

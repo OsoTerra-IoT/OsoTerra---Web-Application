@@ -70,8 +70,8 @@ export class AdvisorAlerts {
     });
   }
   readonly announcement = signal('');
-  acknowledge(id: string) {
-    this.data.acknowledge(id);
+  async acknowledge(id: string) {
+    await this.data.acknowledge(id);
     this.announcement.set('alerts.acknowledgedAnnouncement');
   }
   openAction(alert: SalinityAlert) {

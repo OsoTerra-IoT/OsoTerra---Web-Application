@@ -40,12 +40,12 @@ export class Registration {
     if (!['farmer', 'advisor'].includes(this.route.snapshot.paramMap.get('role') ?? ''))
       void this.router.navigate(['/auth/register']);
   }
-  submit(): void {
+  async submit(): Promise<void> {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
-    const result = this.auth.register({ ...this.form.getRawValue(), role: this.role });
+    const result = await this.auth.register({ ...this.form.getRawValue(), role: this.role });
     if (result === 'SUCCESS') void this.router.navigate(['/app/home']);
     else this.error.set(result === 'EXISTS' ? 'auth.accountExists' : 'validation.checkForm');
   }

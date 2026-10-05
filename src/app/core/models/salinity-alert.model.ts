@@ -1,11 +1,23 @@
 export type AlertSeverity = 'WATCH' | 'WARNING' | 'CRITICAL';
 export type AlertStatus = 'OPEN' | 'ACKNOWLEDGED' | 'RESOLVED';
 export type CorrectiveActionType =
-  'INSPECTION' | 'IRRIGATION_REVIEW' | 'DRAINAGE_REVIEW' | 'LAB_SAMPLE';
+  | 'LEACHING'
+  | 'DRAINAGE_IMPROVEMENT'
+  | 'IRRIGATION_ADJUSTMENT'
+  | 'SOIL_AMENDMENT'
+  | 'CROP_ROTATION';
+export const CORRECTIVE_ACTION_TYPES: readonly CorrectiveActionType[] = [
+  'LEACHING',
+  'IRRIGATION_ADJUSTMENT',
+  'DRAINAGE_IMPROVEMENT',
+  'SOIL_AMENDMENT',
+  'CROP_ROTATION',
+];
 
 export interface CorrectiveAction {
   id: string;
   type: CorrectiveActionType;
+  /** Calendar date the action was carried out (YYYY-MM-DD). */
   performedAt: string;
   notes: string;
   createdBy: string;

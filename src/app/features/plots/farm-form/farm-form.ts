@@ -8,12 +8,13 @@ export class FarmForm {
   private readonly data = inject(MonitoringService);
   private readonly router = inject(Router);
   readonly id = inject(ActivatedRoute).snapshot.paramMap.get('id') ?? undefined;
-  readonly fields = ['name', 'department', 'province'];
+  readonly fields = ['name', 'department', 'province', 'district'];
   readonly error = signal(false);
   readonly form = inject(FormBuilder).nonNullable.group({
     name: ['', Validators.required],
     department: ['', Validators.required],
     province: ['', Validators.required],
+    district: ['', Validators.required],
   });
   constructor() {
     if (this.id) {
@@ -22,12 +23,12 @@ export class FarmForm {
       else void this.router.navigate(['/app/plots']);
     }
   }
-  save() {
+  async save() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
-    if (this.data.saveFarm(this.form.getRawValue(), this.id))
+    if (await this.data.saveFarm(this.form.getRawValue(), this.id))
       void this.router.navigate(['/app/plots']);
     else this.error.set(true);
   }

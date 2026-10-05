@@ -151,12 +151,25 @@
     "history": "Tendencias históricas",
     "telemetry": "Telemetría del dispositivo",
     "settings": "Configuración de parcela",
-    "notFound": "Parcela no encontrada o no disponible para esta cuenta."
+    "notFound": "Parcela no encontrada o no disponible para esta cuenta.",
+    "district": "Distrito"
   },
   "crops": {
     "avocado": "Palto",
     "tableGrape": "Uva de mesa",
-    "blueberry": "Arándano"
+    "blueberry": "Arándano",
+    "barley": "Cebada",
+    "cotton": "Algodón",
+    "sugarBeet": "Remolacha azucarera",
+    "wheat": "Trigo",
+    "asparagus": "Espárrago",
+    "rice": "Arroz",
+    "tomato": "Tomate",
+    "corn": "Maíz",
+    "potato": "Papa",
+    "onion": "Cebolla",
+    "strawberry": "Fresa",
+    "unassigned": "Cultivo sin asignar"
   },
   "units": {
     "dsM": "dS/m",
@@ -207,8 +220,7 @@
     "acknowledge": "Reconocer",
     "recordAction": "Registrar acción",
     "actionCount": "Acciones registradas: {{count}}",
-    "actionType": "Tipo de acción",
-    "resolve": "Marcar esta alerta como resuelta"
+    "actionType": "Tipo de acción"
   },
   "severity": {
     "WATCH": "Vigilancia",
@@ -221,10 +233,11 @@
     "RESOLVED": "Resuelta"
   },
   "actionTypes": {
-    "INSPECTION": "Inspección de campo",
-    "IRRIGATION_REVIEW": "Revisión del riego",
-    "DRAINAGE_REVIEW": "Revisión del drenaje",
-    "LAB_SAMPLE": "Muestra de laboratorio"
+    "LEACHING": "Lavado de sales",
+    "IRRIGATION_ADJUSTMENT": "Ajuste del riego",
+    "DRAINAGE_IMPROVEMENT": "Mejora del drenaje",
+    "SOIL_AMENDMENT": "Enmienda del suelo",
+    "CROP_ROTATION": "Rotación de cultivo"
   },
   "devices": {
     "device": "Dispositivo",
@@ -289,10 +302,10 @@
     "hint": "Registra una observación emparejada de sensor y laboratorio.",
     "sensorDsM": "Conductividad del sensor",
     "laboratoryEceDsM": "ECe de laboratorio",
-    "notes": "Referencia de muestra y notas",
     "limitation": "Este prototipo solo registra un desplazamiento de un punto. No convierte lecturas crudas del sensor a ECe ni modifica mediciones históricas.",
     "records": "Registros de calibración",
-    "offset": "Desplazamiento registrado"
+    "offset": "Desplazamiento registrado",
+    "laboratory": "Laboratorio"
   },
   "reports": {
     "hint": "Selecciona parcelas, revisa su historial y exporta un reporte PDF.",
