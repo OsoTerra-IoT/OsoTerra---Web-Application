@@ -251,7 +251,18 @@
     "signal": "Intensidad de señal",
     "lastSeen": "Última conexión",
     "firmware": "Firmware",
-    "empty": "Esta parcela no tiene un dispositivo asignado."
+    "empty": "Esta parcela no tiene un dispositivo asignado.",
+    "sensor": "Sensor",
+    "none": "Sin sensor vinculado",
+    "activateTitle": "Vincular un sensor",
+    "activateHint": "Ingresa el código de activación impreso en la etiqueta del sensor OsoSense. El sensor quedará asignado a esta parcela.",
+    "activationCode": "Código de activación",
+    "activate": "Vincular sensor",
+    "activating": "Vinculando…",
+    "codeTooLong": "Usa como máximo {{max}} caracteres.",
+    "codeInUse": "Este código ya está registrado. Revisa la etiqueta del sensor.",
+    "activationFailed": "No pudimos vincular el sensor. Revisa tu conexión e inténtalo de nuevo.",
+    "activated": "Sensor {{code}} vinculado a esta parcela."
   },
   "deviceStatus": {
     "ONLINE": "Conectado",

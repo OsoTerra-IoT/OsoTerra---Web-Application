@@ -16,7 +16,7 @@
   </header>
   <mat-tab-group
     animationDuration="0ms"
-    [selectedIndex]="tabIndex"
+    [selectedIndex]="tabIndex()"
     (selectedIndexChange)="selectTab($event)"
   >
     <mat-tab [label]="'plots.currentStatus' | translate"
@@ -103,6 +103,12 @@
           </dl>
         } @else {
           <p>{{ 'devices.empty' | translate }}</p>
+          @if (!auth.isAdvisor()) {
+            <button mat-stroked-button type="button" (click)="selectTab(tabs.indexOf('settings'))">
+              <mat-icon aria-hidden="true">sensors</mat-icon>
+              {{ 'devices.activateTitle' | translate }}
+            </button>
+          }
         }
       </section></mat-tab
     >
@@ -115,14 +121,33 @@
           <dd>{{ locale.number(plot.longitude, 6) }}</dd>
           <dt>{{ 'plots.crop' | translate }}</dt>
           <dd>{{ data.crop(plot).nameKey | translate }}</dd>
+          <dt>{{ 'devices.sensor' | translate }}</dt>
+          <dd>
+            @if (data.device(plot.id); as device) {
+              {{ device.serialNumber }} ·
+              <span class="device-state" [class.online]="device.status === 'ONLINE'">{{
+                'deviceStatus.' + device.status | translate
+              }}</span>
+            } @else {
+              {{ 'devices.none' | translate }}
+            }
+          </dd>
         </dl>
+        @if (activatedCode() && data.device(plot.id)) {
+          <p role="status" class="form-success">
+            <mat-icon aria-hidden="true">check_circle</mat-icon>
+            {{ 'devices.activated' | translate: { code: activatedCode() } }}
+          </p>
+        }
         @if (!auth.isAdvisor()) {
           <a mat-flat-button [routerLink]="['/app/plots', plot.id, 'edit']">{{
             'plots.edit' | translate
           }}</a>
-        }
-      </section></mat-tab
-    >
+          @if (!data.device(plot.id)) {
+            <app-device-activation [plotId]="plot.id" (activated)="activatedCode.set($event)" />
+          }
+        }</section
+    ></mat-tab>
   </mat-tab-group>
 } @else {
   <h1>{{ 'plots.notFound' | translate }}</h1>

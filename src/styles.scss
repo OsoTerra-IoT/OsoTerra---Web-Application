@@ -491,6 +491,33 @@ small {
 .form-error {
   color: #a12426;
 }
+.form-success {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--os-primary-800);
+}
+.device-activation {
+  max-width: 480px;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--os-line);
+  h2,
+  p {
+    margin: 0;
+  }
+  input {
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+}
+.device-state {
+  color: var(--os-neutral-600);
+  font-weight: 600;
+  &.online {
+    color: var(--os-primary-700);
+  }
+}
 .data-status-bar {
   position: sticky;
   top: 0;

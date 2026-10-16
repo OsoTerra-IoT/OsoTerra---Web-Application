@@ -251,7 +251,18 @@
     "signal": "Signal strength",
     "lastSeen": "Last seen",
     "firmware": "Firmware",
-    "empty": "No device assigned to this plot."
+    "empty": "No device assigned to this plot.",
+    "sensor": "Sensor",
+    "none": "No sensor linked",
+    "activateTitle": "Link a sensor",
+    "activateHint": "Enter the activation code printed on the OsoSense sensor label. The sensor will be assigned to this plot.",
+    "activationCode": "Activation code",
+    "activate": "Link sensor",
+    "activating": "Linking…",
+    "codeTooLong": "Use at most {{max}} characters.",
+    "codeInUse": "This code is already registered. Check the sensor label.",
+    "activationFailed": "We could not link the sensor. Check your connection and try again.",
+    "activated": "Sensor {{code}} linked to this plot."
   },
   "deviceStatus": {
     "ONLINE": "Online",

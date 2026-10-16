@@ -38,6 +38,10 @@ import {
 
 /** Plot salinity level, from the same excess ratio the Backend uses to grade alerts. */
 export type SalinityLevel = 'normal' | 'watch' | 'high' | 'critical' | 'unknown';
+/** Outcome of activating a sensor: `codeInUse` when the API already has that activation code. */
+export type DeviceActivation = 'activated' | 'codeInUse' | 'failed';
+/** Length of the Backend's `activation_code` column. */
+export const ACTIVATION_CODE_MAX_LENGTH = 40;
 export interface AdvisorClient {
   id: string;
   user: User | undefined;
@@ -78,6 +82,8 @@ export class MonitoringService {
   private readonly alertApi = inject(SalinityAlertingApi);
   private readonly snapshot = signal<Snapshot>(EMPTY);
   private readonly cropCatalog = signal<Crop[]>([]);
+  /** Devices registered by activation code whose attachment to a plot is still pending. */
+  private readonly registeredDevices = new Map<string, number>();
   private generation = 0;
   readonly loading = signal(false);
   /** True when the last refresh could not reach the API or it failed (5xx). */
@@ -293,6 +299,41 @@ export class MonitoringService {
     return true;
   }
 
+  /**
+   * Registers a factory-provisioned sensor by its activation code and attaches it to an owned
+   * plot without a device, then reloads the data so the plot shows it. A code registered by
+   * an attempt whose attachment failed is reused, since the API rejects it a second time.
+   */
+  async activateDevice(plotId: string, activationCode: string): Promise<DeviceActivation> {
+    const user = this.auth.user();
+    const code = activationCode.trim();
+    const plot = this.plots().find((item) => item.id === plotId);
+    if (
+      user?.role !== 'Farmer' ||
+      !plot ||
+      plot.ownerId !== user.id ||
+      this.device(plotId) ||
+      !code ||
+      code.length > ACTIVATION_CODE_MAX_LENGTH
+    )
+      return 'failed';
+    let codeInUse = false;
+    let deviceId = this.registeredDevices.get(code);
+    if (deviceId === undefined) {
+      const registered = await this.attempt(
+        this.farmApi.registerDevice(code),
+        (status) => (codeInUse = status === 409),
+      );
+      if (!registered) return codeInUse ? 'codeInUse' : 'failed';
+      deviceId = registered.id;
+      this.registeredDevices.set(code, deviceId);
+    }
+    if (!(await this.attempt(this.farmApi.attachDevice(deviceId, fromId(plotId))))) return 'failed';
+    this.registeredDevices.delete(code);
+    await this.refresh();
+    return 'activated';
+  }
+
   /** Stores a laboratory comparison for a device; stored measurements are never rewritten. */
   async calibrate(
     deviceId: string,
@@ -388,6 +429,7 @@ export class MonitoringService {
   private clear(): void {
     this.generation++;
     this.snapshot.set(EMPTY);
+    this.registeredDevices.clear();
     this.loading.set(false);
     this.loadFailed.set(false);
   }
@@ -407,13 +449,17 @@ export class MonitoringService {
    * Runs a command; a rejection by the API (4xx) or an unreachable or failing API (network
    * error, 5xx) is reported as a failed save, so the view shows its error instead of hanging.
    */
-  private async attempt<T>(request: Observable<T>): Promise<T | null> {
+  private async attempt<T>(
+    request: Observable<T>,
+    onFailure?: (status: number) => void,
+  ): Promise<T | null> {
     try {
       return await firstValueFrom(request);
     } catch (error) {
       if (!(error instanceof HttpErrorResponse)) throw error;
       if (error.status === 0 || error.status >= 500)
         console.error('OsoSense API call failed', error);
+      onFailure?.(error.status);
       return null;
     }
   }

@@ -91,6 +91,27 @@ describe('MonitoringService over the OsoSense API', () => {
     await login('advisor');
     expect(await data.savePlot({ ...value, farmId: '1' })).toBeNull();
   });
+  it('activates a sensor by its code on an owned plot without a device', async () => {
+    await login('farmer');
+    const plotId = (await data.savePlot({
+      name: 'Sin sensor',
+      farmId: '1',
+      latitude: -11.4,
+      longitude: -77.2,
+      areaHectares: 1,
+      cropId: data.crops()[0].id,
+    }))!;
+    expect(data.device(plotId)).toBeUndefined();
+    expect(await data.activateDevice(plotId, '  ')).toBe('failed');
+    expect(await data.activateDevice(plotId, 'OT-2401')).toBe('codeInUse');
+    expect(await data.activateDevice('1', 'OT-9001')).toBe('failed');
+    expect(await data.activateDevice(plotId, ' OT-9001 ')).toBe('activated');
+    expect(data.device(plotId)?.serialNumber).toBe('OT-9001');
+    expect(data.device(plotId)?.status).toBe('ONLINE');
+    expect(data.plots().find((plot) => plot.id === plotId)?.deviceId).toBe(data.device(plotId)?.id);
+    await login('advisor');
+    expect(await data.activateDevice('3', 'OT-9002')).toBe('failed');
+  });
   it('acknowledges and resolves an alert with a corrective action', async () => {
     await login('farmer');
     await data.acknowledge('1');

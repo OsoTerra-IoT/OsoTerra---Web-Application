@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -8,9 +8,10 @@ import { LocaleService } from '../../../core/i18n/locale.service';
 import { UI_IMPORTS } from '../../../shared/ui-imports';
 import { SalinityStatus } from '../../../shared/components/salinity-status';
 import { TrendChart } from '../../../shared/components/trend-chart';
+import { DeviceActivationForm } from './device-activation';
 @Component({
   selector: 'app-plot-detail',
-  imports: [...UI_IMPORTS, MatTabsModule, SalinityStatus, TrendChart],
+  imports: [...UI_IMPORTS, MatTabsModule, SalinityStatus, TrendChart, DeviceActivationForm],
   templateUrl: './plot-detail.html',
 })
 export class PlotDetail {
@@ -21,12 +22,14 @@ export class PlotDetail {
   private readonly route = inject(ActivatedRoute);
   private readonly params = toSignal(this.route.paramMap);
   readonly tabs = ['status', 'history', 'alerts', 'telemetry', 'settings'];
-  readonly tabIndex = Math.max(
-    0,
-    this.tabs.indexOf(this.route.snapshot.queryParamMap.get('tab') ?? ''),
+  readonly tabIndex = signal(
+    Math.max(0, this.tabs.indexOf(this.route.snapshot.queryParamMap.get('tab') ?? '')),
   );
+  /** Activation code of the sensor linked during this visit, for the confirmation. */
+  readonly activatedCode = signal('');
   /** Keeps the open tab in the URL (?tab=history) so it survives reloads and can be shared. */
   selectTab(index: number) {
+    this.tabIndex.set(index);
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { tab: index ? this.tabs[index] : null },
