@@ -21,8 +21,14 @@
         formControlName="password"
       /><mat-error>{{ 'validation.required' | translate }}</mat-error></mat-form-field
     >
+    @if (expired && !error() && !unavailable()) {
+      <p role="status" class="form-error">{{ 'auth.sessionExpired' | translate }}</p>
+    }
     @if (error()) {
       <p role="alert" class="form-error">{{ 'auth.invalidCredentials' | translate }}</p>
+    }
+    @if (unavailable()) {
+      <p role="alert" class="form-error">{{ 'auth.serverUnavailable' | translate }}</p>
     }
     <a class="auth-forgot" routerLink="/auth/recovery">{{ 'auth.forgot' | translate }}</a
     ><button mat-flat-button type="submit" class="auth-submit" [disabled]="submitting()">

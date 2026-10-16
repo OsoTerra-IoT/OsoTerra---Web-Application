@@ -62,6 +62,8 @@
     </details>
   </section>
 }
-<p class="home-demo">
-  <span class="demo-chip">{{ 'common.demo' | translate }}</span>
-</p>
+@if (demo) {
+  <p class="home-demo">
+    <span class="demo-chip">{{ 'common.demo' | translate }}</span>
+  </p>
+}

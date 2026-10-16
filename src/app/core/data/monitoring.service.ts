@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { firstValueFrom, forkJoin, Observable, of } from 'rxjs';
 import {
@@ -79,6 +80,8 @@ export class MonitoringService {
   private readonly cropCatalog = signal<Crop[]>([]);
   private generation = 0;
   readonly loading = signal(false);
+  /** True when the last refresh could not reach the API or it failed (5xx). */
+  readonly loadFailed = signal(false);
   readonly crops = this.cropCatalog.asReadonly();
   readonly plots = computed(() => this.snapshot().plots);
   readonly farms = computed(() => this.snapshot().farms);
@@ -125,9 +128,15 @@ export class MonitoringService {
     const user = this.auth.user();
     if (!user) return this.clear();
     this.loading.set(true);
+    this.loadFailed.set(false);
     try {
       const snapshot = await this.fetch(user);
       if (generation === this.generation) this.snapshot.set(snapshot);
+    } catch (error) {
+      // An expired session is handled by the session expiry interceptor.
+      if ((error as { status?: number }).status === 401) return;
+      if (generation === this.generation) this.loadFailed.set(true);
+      console.error('Could not load monitoring data', error);
     } finally {
       if (generation === this.generation) this.loading.set(false);
     }
@@ -380,6 +389,7 @@ export class MonitoringService {
     this.generation++;
     this.snapshot.set(EMPTY);
     this.loading.set(false);
+    this.loadFailed.set(false);
   }
 
   private patch(update: (state: Snapshot) => Snapshot): void {
@@ -393,14 +403,18 @@ export class MonitoringService {
     }));
   }
 
-  /** Runs a command; a rejection by the API (4xx) is reported as a failed save. */
+  /**
+   * Runs a command; a rejection by the API (4xx) or an unreachable or failing API (network
+   * error, 5xx) is reported as a failed save, so the view shows its error instead of hanging.
+   */
   private async attempt<T>(request: Observable<T>): Promise<T | null> {
     try {
       return await firstValueFrom(request);
     } catch (error) {
-      const status = (error as { status?: number }).status ?? 0;
-      if (status >= 400 && status < 500) return null;
-      throw error;
+      if (!(error instanceof HttpErrorResponse)) throw error;
+      if (error.status === 0 || error.status >= 500)
+        console.error('OsoSense API call failed', error);
+      return null;
     }
   }
 

@@ -16,6 +16,10 @@ export class Login {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   readonly error = signal(false);
+  /** The API could not be reached (network down, server error). */
+  readonly unavailable = signal(false);
+  /** Arrived here because the API rejected the previous session's token. */
+  readonly expired = this.route.snapshot.queryParamMap.has('expired');
   readonly submitting = signal(false);
   /** Demo accounts exist only in the fake API. */
   readonly demoAvailable = inject(API_CONFIG).useFakeApi;
@@ -29,9 +33,18 @@ export class Login {
       return;
     }
     this.submitting.set(true);
-    const signedIn = await this.auth
-      .login(this.form.getRawValue())
-      .finally(() => this.submitting.set(false));
+    this.error.set(false);
+    this.unavailable.set(false);
+    let signedIn: boolean;
+    try {
+      signedIn = await this.auth.login(this.form.getRawValue());
+    } catch (error) {
+      console.error('Sign-in failed', error);
+      this.unavailable.set(true);
+      return;
+    } finally {
+      this.submitting.set(false);
+    }
     if (!signedIn) {
       this.error.set(true);
       return;
