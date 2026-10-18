@@ -341,8 +341,10 @@
   },
   "home": {
     "attention": "{{count}} of your {{total}} plots needs attention.",
+    "attentionMany": "{{count}} of your {{total}} plots need attention.",
     "allClear": "All {{total}} of your plots are below their crop threshold.",
     "attentionAdvisor": "{{count}} of {{total}} plots across your {{clients}} clients need a visit.",
+    "attentionAdvisorOneClient": "{{count}} of {{total}} plots of your client need a visit.",
     "allClearAdvisor": "All {{total}} plots you supervise are below their threshold.",
     "profileTitle": "Salinity by plot",
     "profileTitleAdvisor": "Plots by priority",

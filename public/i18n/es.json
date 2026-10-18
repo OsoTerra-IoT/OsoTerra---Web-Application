@@ -341,8 +341,10 @@
   },
   "home": {
     "attention": "{{count}} de tus {{total}} parcelas necesita atención.",
+    "attentionMany": "{{count}} de tus {{total}} parcelas necesitan atención.",
     "allClear": "Tus {{total}} parcelas están por debajo del umbral de su cultivo.",
     "attentionAdvisor": "{{count}} de {{total}} parcelas de tus {{clients}} clientes necesitan una visita.",
+    "attentionAdvisorOneClient": "{{count}} de {{total}} parcelas de tu cliente necesitan una visita.",
     "allClearAdvisor": "Las {{total}} parcelas que supervisas están por debajo del umbral.",
     "profileTitle": "Salinidad por parcela",
     "profileTitleAdvisor": "Parcelas por prioridad",

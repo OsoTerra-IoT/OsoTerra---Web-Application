@@ -6,7 +6,10 @@
     @if (attention() === 0) {
       {{ 'home.allClear' | translate: { total: data.plots().length } }}
     } @else {
-      {{ 'home.attention' | translate: { count: attention(), total: data.plots().length } }}
+      {{
+        (attention() === 1 ? 'home.attention' : 'home.attentionMany')
+          | translate: { count: attention(), total: data.plots().length }
+      }}
     }
   </h1>
   <dl class="home-facts">
