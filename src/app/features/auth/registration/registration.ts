@@ -45,7 +45,14 @@ export class Registration {
       this.form.markAllAsTouched();
       return;
     }
-    const result = await this.auth.register({ ...this.form.getRawValue(), role: this.role });
+    let result;
+    try {
+      result = await this.auth.register({ ...this.form.getRawValue(), role: this.role });
+    } catch (error) {
+      console.error('Registration failed', error);
+      this.error.set('auth.serverUnavailable');
+      return;
+    }
     if (result === 'SUCCESS') void this.router.navigate(['/app/home']);
     else this.error.set(result === 'EXISTS' ? 'auth.accountExists' : 'validation.checkForm');
   }

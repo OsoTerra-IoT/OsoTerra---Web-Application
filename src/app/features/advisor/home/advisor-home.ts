@@ -1,3 +1,4 @@
+import { API_CONFIG } from '../../../core/api/api-config';
 import { Component, computed, inject } from '@angular/core';
 import { AuthService } from '../../../core/auth/auth.service';
 import { MonitoringService } from '../../../core/data/monitoring.service';
@@ -16,6 +17,8 @@ export class AdvisorHome {
   readonly auth = inject(AuthService);
   readonly data = inject(MonitoringService);
   readonly locale = inject(LocaleService);
+  /** Demo data only exists when the fake API answers. */
+  readonly demo = inject(API_CONFIG).useFakeApi;
   readonly ranked = computed(() =>
     [...this.data.plots()].sort((a, b) => this.data.risk(b) - this.data.risk(a)),
   );

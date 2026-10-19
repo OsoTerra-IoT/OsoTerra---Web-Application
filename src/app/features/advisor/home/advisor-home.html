@@ -7,7 +7,7 @@
       {{ 'home.allClearAdvisor' | translate: { total: data.plots().length } }}
     } @else {
       {{
-        'home.attentionAdvisor'
+        (data.clients().length === 1 ? 'home.attentionAdvisorOneClient' : 'home.attentionAdvisor')
           | translate
             : { count: attention(), total: data.plots().length, clients: data.clients().length }
       }}
@@ -69,6 +69,8 @@
     <app-trend-chart [series]="series()" />
   </section>
 }
-<p class="home-demo">
-  <span class="demo-chip">{{ 'common.demo' | translate }}</span>
-</p>
+@if (demo) {
+  <p class="home-demo">
+    <span class="demo-chip">{{ 'common.demo' | translate }}</span>
+  </p>
+}

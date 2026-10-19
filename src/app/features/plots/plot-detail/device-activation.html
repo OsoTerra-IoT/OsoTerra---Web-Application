@@ -1,0 +1,33 @@
+<form class="device-activation stack" [formGroup]="form" (ngSubmit)="activate()" novalidate>
+  <h2>{{ 'devices.activateTitle' | translate }}</h2>
+  <p class="muted">{{ 'devices.activateHint' | translate }}</p>
+  <mat-form-field>
+    <mat-label>{{ 'devices.activationCode' | translate }}</mat-label>
+    <input
+      matInput
+      formControlName="activationCode"
+      name="activationCode"
+      autocomplete="off"
+      autocapitalize="characters"
+      spellcheck="false"
+    />
+    <mat-error>
+      @if (form.controls.activationCode.hasError('required')) {
+        {{ 'validation.required' | translate }}
+      } @else if (form.controls.activationCode.hasError('maxlength')) {
+        {{ 'devices.codeTooLong' | translate: { max: maxLength } }}
+      } @else {
+        {{ 'devices.codeInUse' | translate }}
+      }
+    </mat-error>
+  </mat-form-field>
+  @if (failed()) {
+    <p role="alert" class="form-error">{{ 'devices.activationFailed' | translate }}</p>
+  }
+  <div class="button-row">
+    <button mat-flat-button type="submit" [disabled]="saving()">
+      <mat-icon aria-hidden="true">sensors</mat-icon>
+      {{ (saving() ? 'devices.activating' : 'devices.activate') | translate }}
+    </button>
+  </div>
+</form>

@@ -27,7 +27,10 @@
     "all": "All",
     "noData": "No readings available yet.",
     "updated": "Last reading",
-    "unknown": "Not available"
+    "unknown": "Not available",
+    "loading": "Loading data",
+    "loadFailed": "We could not reach the OsoSense server. Check your connection and try again.",
+    "retry": "Try again"
   },
   "nav": {
     "primary": "Main navigation",
@@ -88,7 +91,9 @@
     "resetInvalid": "This link is invalid or expired, or the password is too short.",
     "recoveryResult": "If this email matches a demo account, a recovery link is available below.",
     "demoFarmer": "Enter as a grower",
-    "demoAdvisor": "Enter as an advisor"
+    "demoAdvisor": "Enter as an advisor",
+    "serverUnavailable": "We could not reach the server. Try again in a few minutes.",
+    "sessionExpired": "Your session expired. Please sign in again."
   },
   "validation": {
     "email": "Enter a valid email address.",
@@ -246,7 +251,18 @@
     "signal": "Signal strength",
     "lastSeen": "Last seen",
     "firmware": "Firmware",
-    "empty": "No device assigned to this plot."
+    "empty": "No device assigned to this plot.",
+    "sensor": "Sensor",
+    "none": "No sensor linked",
+    "activateTitle": "Link a sensor",
+    "activateHint": "Enter the activation code printed on the OsoSense sensor label. The sensor will be assigned to this plot.",
+    "activationCode": "Activation code",
+    "activate": "Link sensor",
+    "activating": "Linking…",
+    "codeTooLong": "Use at most {{max}} characters.",
+    "codeInUse": "This code is already registered. Check the sensor label.",
+    "activationFailed": "We could not link the sensor. Check your connection and try again.",
+    "activated": "Sensor {{code}} linked to this plot."
   },
   "deviceStatus": {
     "ONLINE": "Online",
@@ -325,8 +341,10 @@
   },
   "home": {
     "attention": "{{count}} of your {{total}} plots needs attention.",
+    "attentionMany": "{{count}} of your {{total}} plots need attention.",
     "allClear": "All {{total}} of your plots are below their crop threshold.",
     "attentionAdvisor": "{{count}} of {{total}} plots across your {{clients}} clients need a visit.",
+    "attentionAdvisorOneClient": "{{count}} of {{total}} plots of your client need a visit.",
     "allClearAdvisor": "All {{total}} plots you supervise are below their threshold.",
     "profileTitle": "Salinity by plot",
     "profileTitleAdvisor": "Plots by priority",

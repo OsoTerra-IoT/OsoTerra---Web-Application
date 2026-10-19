@@ -1,0 +1,16 @@
+@if (data.loading()) {
+  <mat-progress-bar
+    class="data-status-bar"
+    mode="indeterminate"
+    [attr.aria-label]="'common.loading' | translate"
+  />
+}
+@if (data.loadFailed()) {
+  <div class="data-status-error" role="alert">
+    <mat-icon aria-hidden="true">cloud_off</mat-icon>
+    <p>{{ 'common.loadFailed' | translate }}</p>
+    <button mat-stroked-button type="button" (click)="data.refresh()">
+      {{ 'common.retry' | translate }}
+    </button>
+  </div>
+}

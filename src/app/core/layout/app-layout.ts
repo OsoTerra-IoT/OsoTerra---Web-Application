@@ -7,6 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { Sidebar, SidebarState } from './sidebar/sidebar';
 import { UI_IMPORTS } from '../../shared/ui-imports';
 import { LanguageSwitcher } from '../../shared/components/language-switcher';
+import { DataStatus } from '../../shared/components/data-status';
 import { AuthService } from '../auth/auth.service';
 import { MonitoringService } from '../data/monitoring.service';
 import { NAVIGATION } from './navigation';
@@ -14,7 +15,7 @@ import { PlotToolsService } from '../webmcp/plot-tools.service';
 
 @Component({
   selector: 'app-layout',
-  imports: [...UI_IMPORTS, LanguageSwitcher, MatSidenavModule, Sidebar],
+  imports: [...UI_IMPORTS, LanguageSwitcher, MatSidenavModule, Sidebar, DataStatus],
   templateUrl: './app-layout.html',
 })
 export class AppLayout {

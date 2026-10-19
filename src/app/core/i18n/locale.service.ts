@@ -41,6 +41,14 @@ export class LocaleService {
     }).format(value);
   }
   date(value: string): string {
+    // A bare ISO date (yyyy-MM-dd) is a calendar day: new Date() would read it as UTC midnight
+    // and show the previous day west of Greenwich, so build it in local time and omit the hour.
+    const day = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+    if (day) {
+      return new Intl.DateTimeFormat(this.locale().replace('_', '-'), {
+        dateStyle: 'medium',
+      }).format(new Date(+day[1], +day[2] - 1, +day[3]));
+    }
     return new Intl.DateTimeFormat(this.locale().replace('_', '-'), {
       dateStyle: 'medium',
       timeStyle: 'short',

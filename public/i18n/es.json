@@ -27,7 +27,10 @@
     "all": "Todos",
     "noData": "Todavía no hay lecturas disponibles.",
     "updated": "Última lectura",
-    "unknown": "No disponible"
+    "unknown": "No disponible",
+    "loading": "Cargando datos",
+    "loadFailed": "No pudimos conectar con el servidor de OsoSense. Revisa tu conexión e inténtalo de nuevo.",
+    "retry": "Reintentar"
   },
   "nav": {
     "primary": "Navegación principal",
@@ -88,7 +91,9 @@
     "resetInvalid": "El enlace no es válido, ha vencido o la contraseña es demasiado corta.",
     "recoveryResult": "Si este correo corresponde a una cuenta de demostración, verás un enlace de recuperación abajo.",
     "demoFarmer": "Entrar como productor",
-    "demoAdvisor": "Entrar como asesor técnico"
+    "demoAdvisor": "Entrar como asesor técnico",
+    "serverUnavailable": "No pudimos conectar con el servidor. Inténtalo de nuevo en unos minutos.",
+    "sessionExpired": "Tu sesión expiró. Inicia sesión de nuevo."
   },
   "validation": {
     "email": "Ingresa un correo electrónico válido.",
@@ -246,7 +251,18 @@
     "signal": "Intensidad de señal",
     "lastSeen": "Última conexión",
     "firmware": "Firmware",
-    "empty": "Esta parcela no tiene un dispositivo asignado."
+    "empty": "Esta parcela no tiene un dispositivo asignado.",
+    "sensor": "Sensor",
+    "none": "Sin sensor vinculado",
+    "activateTitle": "Vincular un sensor",
+    "activateHint": "Ingresa el código de activación impreso en la etiqueta del sensor OsoSense. El sensor quedará asignado a esta parcela.",
+    "activationCode": "Código de activación",
+    "activate": "Vincular sensor",
+    "activating": "Vinculando…",
+    "codeTooLong": "Usa como máximo {{max}} caracteres.",
+    "codeInUse": "Este código ya está registrado. Revisa la etiqueta del sensor.",
+    "activationFailed": "No pudimos vincular el sensor. Revisa tu conexión e inténtalo de nuevo.",
+    "activated": "Sensor {{code}} vinculado a esta parcela."
   },
   "deviceStatus": {
     "ONLINE": "Conectado",
@@ -325,8 +341,10 @@
   },
   "home": {
     "attention": "{{count}} de tus {{total}} parcelas necesita atención.",
+    "attentionMany": "{{count}} de tus {{total}} parcelas necesitan atención.",
     "allClear": "Tus {{total}} parcelas están por debajo del umbral de su cultivo.",
     "attentionAdvisor": "{{count}} de {{total}} parcelas de tus {{clients}} clientes necesitan una visita.",
+    "attentionAdvisorOneClient": "{{count}} de {{total}} parcelas de tu cliente necesitan una visita.",
     "allClearAdvisor": "Las {{total}} parcelas que supervisas están por debajo del umbral.",
     "profileTitle": "Salinidad por parcela",
     "profileTitleAdvisor": "Parcelas por prioridad",

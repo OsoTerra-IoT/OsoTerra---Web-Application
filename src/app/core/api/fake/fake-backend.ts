@@ -1,6 +1,7 @@
 import {
   ApiCorrectiveActionType,
   ApiError,
+  DeviceResource,
   FarmResource,
   PlotResource,
   RegisterCalibrationRecordResource,
@@ -77,6 +78,8 @@ export class FakeBackend {
     ['PUT', /^\/plots\/(\d+)$/, (request, match) => this.updatePlot(request, +match[1])],
     ['POST', /^\/plots\/(\d+)\/crop$/, (request, match) => this.assignCrop(request, +match[1])],
     ['GET', /^\/devices$/, (request) => this.devicesOf(request)],
+    ['POST', /^\/devices$/, (request) => this.registerDevice(request)],
+    ['POST', /^\/devices\/(\d+)\/attachment$/, (r, m) => this.attachDevice(r, +m[1])],
     ['GET', /^\/soil-readings$/, (request) => this.readingsOf(request)],
     ['GET', /^\/calibration-records$/, (request) => this.calibrationsOf(request)],
     ['POST', /^\/calibration-records$/, (request) => this.registerCalibration(request)],
@@ -314,6 +317,43 @@ export class FakeBackend {
   private devicesOf(request: FakeRequest): FakeResponse {
     const plot = this.readablePlot(request, this.numberParam(request, 'plotId'));
     return ok(this.db.devices.filter((device) => device.plotId === plot.id));
+  }
+
+  /** A factory-provisioned device starts unassigned, as in the Backend. */
+  private registerDevice(request: FakeRequest): FakeResponse {
+    this.caller(request);
+    const code = this.body<{ activationCode: string }>(request).activationCode?.trim();
+    if (!code)
+      throw new HttpFailure(400, 'The request has invalid fields', {
+        activationCode: 'must not be blank',
+      });
+    if (this.db.devices.some((device) => device.activationCode === code))
+      throw new HttpFailure(409, 'A device already exists for this activation code');
+    const device: DeviceResource = {
+      id: this.db.nextId('devices'),
+      plotId: null,
+      activationCode: code,
+      status: 'UNASSIGNED',
+      calibrationFactor: 1,
+      batteryLevel: null,
+      firmwareVersion: null,
+      readingIntervalMinutes: 30,
+      lastSeenAt: null,
+      createdAt: this.now(),
+    };
+    this.db.devices.push(device);
+    return created(device);
+  }
+
+  private attachDevice(request: FakeRequest, id: number): FakeResponse {
+    const device = this.db.devices.find((candidate) => candidate.id === id);
+    if (!device) throw new HttpFailure(404, `Device not found for id ${id}`);
+    const plot = this.ownedPlot(request, Number(this.body<{ plotId: number }>(request).plotId));
+    if (device.status !== 'UNASSIGNED')
+      throw new HttpFailure(409, 'Only an unassigned device can be attached to a plot');
+    device.plotId = plot.id;
+    device.status = 'ACTIVE';
+    return ok(device);
   }
 
   // Soil Monitoring

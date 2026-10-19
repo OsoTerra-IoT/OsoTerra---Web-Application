@@ -1,9 +1,9 @@
 /**
- * Default build: the Web App talks to the in-browser fake API, which implements the same
- * `/api/v1` contract as the OsoSense Backend with demo data. GitHub Pages uses this build.
+ * Default build (Vercel, GitHub Pages and `ng serve`): the Web App talks to the OsoSense
+ * Backend deployed on Railway.
  */
 export const environment = {
-  apiUrl: 'http://localhost:8080/api/v1',
-  useFakeApi: true,
-  fakeApiLatencyMs: 250,
+  apiUrl: 'https://osoterra-backend-production.up.railway.app/api/v1',
+  useFakeApi: false,
+  fakeApiLatencyMs: 0,
 };

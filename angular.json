@@ -61,11 +61,22 @@
               "extractLicenses": false,
               "sourceMap": true
             },
-            "real-api": {
+            "local-api": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.real-api.ts"
+                  "with": "src/environments/environment.local-api.ts"
+                }
+              ],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            },
+            "fake-api": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.fake-api.ts"
                 }
               ],
               "optimization": false,
@@ -84,8 +95,11 @@
             "development": {
               "buildTarget": "osoterra-web-app:build:development"
             },
-            "real-api": {
-              "buildTarget": "osoterra-web-app:build:real-api"
+            "local-api": {
+              "buildTarget": "osoterra-web-app:build:local-api"
+            },
+            "fake-api": {
+              "buildTarget": "osoterra-web-app:build:fake-api"
             }
           },
           "defaultConfiguration": "development"
