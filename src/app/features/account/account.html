@@ -16,16 +16,77 @@
       <p>{{ 'account.subscriptionHint' | translate }}</p>
     }
     @default {
-      @if (advisor; as advisor) {
-        <mat-icon aria-hidden="true">support_agent</mat-icon>
-        <h2>{{ advisor.firstName }} {{ advisor.lastName }}</h2>
-        <p>{{ advisor.email }}</p>
-        <p>
-          {{ 'auth.cipNumber' | translate }}:
-          {{ advisor.role === 'Advisor' ? advisor.cipNumber : '' }}
-        </p>
-      } @else {
-        <p>{{ 'account.noAdvisor' | translate }}</p>
+      @if (links; as links) {
+        @if (actionError()) {
+          <p role="alert" class="form-error">{{ 'links.actionFailed' | translate }}</p>
+        }
+        @if (links.pending().length) {
+          <h2>{{ 'links.pendingRequests' | translate }}</h2>
+          <p class="muted">{{ 'links.pendingRequestsHint' | translate }}</p>
+          <ul class="link-list">
+            @for (link of links.pending(); track link.id) {
+              <li>
+                <div>
+                  <strong>{{ link.advisorName }}</strong>
+                  <span class="muted">{{ link.advisorEmail }}</span>
+                  <small class="muted">{{
+                    'links.requestedOn' | translate: { date: locale.date(link.requestedAt) }
+                  }}</small>
+                </div>
+                <div class="button-row">
+                  <button
+                    mat-flat-button
+                    type="button"
+                    [disabled]="answering() === link.id"
+                    (click)="accept(link)"
+                  >
+                    {{ 'links.accept' | translate }}
+                  </button>
+                  <button
+                    mat-stroked-button
+                    type="button"
+                    [disabled]="answering() === link.id"
+                    (click)="decline(link)"
+                  >
+                    {{ 'links.decline' | translate }}
+                  </button>
+                </div>
+              </li>
+            }
+          </ul>
+        }
+        @for (link of links.accepted(); track link.id) {
+          <article class="advisor-card">
+            <mat-icon aria-hidden="true">support_agent</mat-icon>
+            <h2>{{ link.advisorName }}</h2>
+            <p>{{ link.advisorEmail }}</p>
+            @if (advisor(link); as advisor) {
+              <p>{{ 'auth.cipNumber' | translate }}: {{ advisor.cipNumber }}</p>
+            }
+            @if (link.respondedAt) {
+              <p class="muted">
+                {{ 'links.supervisingSince' | translate: { date: locale.date(link.respondedAt) } }}
+              </p>
+            }
+            <button
+              mat-stroked-button
+              type="button"
+              [disabled]="answering() === link.id"
+              (click)="endSupervision(link)"
+            >
+              <mat-icon aria-hidden="true">link_off</mat-icon>
+              {{ 'links.endAdvisor' | translate }}
+            </button>
+          </article>
+        } @empty {
+          @if (!links.pending().length) {
+            <div class="empty-state">
+              <mat-icon aria-hidden="true">support_agent</mat-icon>
+              <p>{{ 'account.noAdvisor' | translate }}</p>
+              <p>{{ 'links.noLinksHint' | translate }}</p>
+            </div>
+          }
+        }
       }
     }
   }

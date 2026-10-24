@@ -1,4 +1,5 @@
 import {
+  AdvisoryLink,
   CorrectiveAction,
   Crop,
   CropReference,
@@ -10,6 +11,7 @@ import {
   User,
 } from '../models';
 import {
+  AdvisoryLinkResource,
   CalibrationRecordResource,
   CorrectiveActionResource,
   CropResource,
@@ -230,5 +232,14 @@ export function toAlert(
     acknowledgedAt: resource.acknowledgedAt ?? undefined,
     resolvedAt: actions.at(-1)?.registeredAt,
     actions: actions.map(toCorrectiveAction),
+  };
+}
+
+export function toAdvisoryLink(resource: AdvisoryLinkResource): AdvisoryLink {
+  return {
+    ...resource,
+    id: toId(resource.id),
+    advisorId: toId(resource.advisorId),
+    farmerId: toId(resource.farmerId),
   };
 }

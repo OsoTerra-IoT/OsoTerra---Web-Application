@@ -1,0 +1,12 @@
+<h2 mat-dialog-title id="confirm-dialog-title">{{ data.title | translate: data.params }}</h2>
+<mat-dialog-content>
+  <p>{{ data.message | translate: data.params }}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button type="button" [mat-dialog-close]="false">
+    {{ 'common.cancel' | translate }}
+  </button>
+  <button mat-flat-button type="button" [mat-dialog-close]="true">
+    {{ data.confirm | translate }}
+  </button>
+</mat-dialog-actions>

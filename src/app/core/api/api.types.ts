@@ -56,13 +56,23 @@ export interface ResetPasswordResource {
   token: string;
   newPassword: string;
 }
+export type ApiAdvisoryLinkStatus = 'PENDING' | 'ACCEPTED' | 'REVOKED';
 export interface AdvisoryLinkResource {
   id: number;
   advisorId: number;
   farmerId: number;
-  status: 'PENDING' | 'ACCEPTED' | 'REVOKED';
+  status: ApiAdvisoryLinkStatus;
   requestedAt: string;
   respondedAt: string | null;
+  /** "First Last" of each party, so neither needs the other's account to show the link. */
+  advisorName: string;
+  advisorEmail: string;
+  farmerName: string;
+  farmerEmail: string;
+}
+/** An advisor invites a farmer by email; the Backend still accepts the legacy `farmerId`. */
+export interface RequestAdvisoryLinkResource {
+  farmerEmail: string;
 }
 
 // Subscription and Billing

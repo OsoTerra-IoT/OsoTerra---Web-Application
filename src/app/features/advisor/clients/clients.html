@@ -27,6 +27,62 @@
     ><a routerLink="/app/alerts">{{ 'dashboard.reviewAlerts' | translate }}</a>
   </article>
 </section>
+<section class="surface link-panel" aria-labelledby="invite-title">
+  <form class="invite-form stack" [formGroup]="form" (ngSubmit)="invite()" novalidate>
+    <h2 id="invite-title">{{ 'links.inviteTitle' | translate }}</h2>
+    <p class="muted">{{ 'links.inviteHint' | translate }}</p>
+    <mat-form-field>
+      <mat-label>{{ 'links.farmerEmail' | translate }}</mat-label>
+      <input matInput type="email" formControlName="email" name="email" autocomplete="off" />
+      <mat-error>
+        @if (form.controls.email.hasError('required')) {
+          {{ 'validation.required' | translate }}
+        } @else {
+          {{ 'links.inviteInvalid' | translate }}
+        }
+      </mat-error>
+    </mat-form-field>
+    @if (sentTo()) {
+      <p role="status" class="form-success">
+        <mat-icon aria-hidden="true">check_circle</mat-icon
+        >{{ 'links.inviteSent' | translate: { email: sentTo() } }}
+      </p>
+    }
+    @if (inviteError()) {
+      <p role="alert" class="form-error">{{ inviteError() | translate }}</p>
+    }
+    <div class="button-row">
+      <button mat-flat-button type="submit" [disabled]="sending()">
+        <mat-icon aria-hidden="true">person_add</mat-icon>
+        {{ (sending() ? 'links.inviting' : 'links.invite') | translate }}
+      </button>
+    </div>
+  </form>
+  <div class="pending-links">
+    <h2>{{ 'links.pendingInvitations' | translate }}</h2>
+    @if (actionError()) {
+      <p role="alert" class="form-error">{{ 'links.actionFailed' | translate }}</p>
+    }
+    <ul class="link-list">
+      @for (link of links.pending(); track link.id) {
+        <li>
+          <div>
+            <strong>{{ link.farmerName }}</strong>
+            <span class="muted">{{ link.farmerEmail }}</span>
+            <small class="muted">{{
+              'links.sentOn' | translate: { date: locale.date(link.requestedAt) }
+            }}</small>
+          </div>
+          <button mat-stroked-button type="button" (click)="cancel(link.id)">
+            {{ 'links.cancelInvitation' | translate }}
+          </button>
+        </li>
+      } @empty {
+        <li class="muted">{{ 'links.noPendingInvitations' | translate }}</li>
+      }
+    </ul>
+  </div>
+</section>
 <div class="plot-grid">
   @for (client of data.clients(); track client.id) {
     <article class="surface client-card">
@@ -64,6 +120,14 @@
           </li>
         }
       </ul>
+      @if (links.acceptedWith(client.id)) {
+        <div class="button-row client-actions">
+          <button mat-stroked-button type="button" (click)="endSupervision(client)">
+            <mat-icon aria-hidden="true">link_off</mat-icon>
+            {{ 'links.end' | translate }}
+          </button>
+        </div>
+      }
     </article>
   } @empty {
     <p class="empty-state">{{ 'advisor.noClients' | translate }}</p>

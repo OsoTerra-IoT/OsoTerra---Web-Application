@@ -14,17 +14,26 @@ import {
   UserAccountResource,
 } from '../api.types';
 
-/** Password shared by the three demo accounts of the fake API. */
+/** Password shared by the demo accounts of the fake API. */
 export const DEMO_PASSWORD = 'OsoTerra2026!';
 export const DEMO_ACCOUNTS = {
   farmer: 'farmer@osoterra.demo',
   farmer2: 'farmer2@osoterra.demo',
   advisor: 'advisor@osoterra.demo',
+  /** Farmer without an advisor yet, so the advisor can invite someone in the demo. */
+  farmer3: 'farmer3@osoterra.demo',
+  /** Advisor whose invitation to `farmer` is still pending. */
+  advisor2: 'advisor2@osoterra.demo',
 } as const;
 
 export interface FakeAccount extends UserAccountResource {
   password: string;
 }
+/** Stored advisory link; the API fills the parties' names and emails when it answers. */
+export type FakeAdvisoryLink = Omit<
+  AdvisoryLinkResource,
+  'advisorName' | 'advisorEmail' | 'farmerName' | 'farmerEmail'
+>;
 export interface FakeResetToken {
   token: string;
   email: string;
@@ -56,7 +65,7 @@ export function localDate(date: Date): string {
 /** In-memory tables of the fake API. A page reload starts again from the seed. */
 export class FakeDatabase {
   accounts: FakeAccount[] = [];
-  advisoryLinks: AdvisoryLinkResource[] = [];
+  advisoryLinks: FakeAdvisoryLink[] = [];
   resetTokens: FakeResetToken[] = [];
   plans: SubscriptionPlanResource[] = [];
   subscriptions: SubscriptionResource[] = [];
@@ -103,7 +112,9 @@ export class FakeDatabase {
     const elena = account(DEMO_ACCOUNTS.farmer, 'Elena', 'Ramos', 'FARMER', 'Huaral');
     const carla = account(DEMO_ACCOUNTS.farmer2, 'Carla', 'Mendoza', 'FARMER', 'Huaura');
     const diego = account(DEMO_ACCOUNTS.advisor, 'Diego', 'Torres', 'ADVISOR', 'Huaral', '123456');
-    db.accounts.push(elena, carla, diego);
+    const rosa = account(DEMO_ACCOUNTS.farmer3, 'Rosa', 'Quispe', 'FARMER', 'Barranca');
+    const lucia = account(DEMO_ACCOUNTS.advisor2, 'Lucía', 'Vargas', 'ADVISOR', 'Huaura', '654321');
+    db.accounts.push(elena, carla, diego, rosa, lucia);
     for (const farmer of [elena, carla])
       db.advisoryLinks.push({
         id: db.nextId('advisoryLinks'),
@@ -113,6 +124,14 @@ export class FakeDatabase {
         requestedAt: created,
         respondedAt: created,
       });
+    db.advisoryLinks.push({
+      id: db.nextId('advisoryLinks'),
+      advisorId: lucia.id,
+      farmerId: elena.id,
+      status: 'PENDING',
+      requestedAt: at(-86_400_000),
+      respondedAt: null,
+    });
 
     // Same catalog and order as the Backend's SubscriptionPlanSeeder and CropCatalogSeeder.
     const plan = (
