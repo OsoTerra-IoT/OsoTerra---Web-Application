@@ -1,4 +1,5 @@
 import {
+  AdvisoryLinkResource,
   ApiCorrectiveActionType,
   ApiError,
   DeviceResource,
@@ -12,7 +13,13 @@ import {
   SignUpResource,
   UserAccountResource,
 } from '../api.types';
-import { FakeAccount, FakeDatabase, localDate, localDateTime } from './fake-database';
+import {
+  FakeAccount,
+  FakeAdvisoryLink,
+  FakeDatabase,
+  localDate,
+  localDateTime,
+} from './fake-database';
 
 export interface FakeRequest {
   method: string;
@@ -64,6 +71,7 @@ export class FakeBackend {
     ['GET', /^\/users\/me$/, (request) => ok(this.publicAccount(this.caller(request)))],
     ['GET', /^\/users\/me\/linked-accounts$/, (request) => this.linkedAccounts(request)],
     ['POST', /^\/advisory-links$/, (request) => this.requestLink(request)],
+    ['GET', /^\/advisory-links\/mine$/, (request) => this.myLinks(request)],
     ['POST', /^\/advisory-links\/(\d+)\/(acceptance|revocation)$/, (r, m) => this.answerLink(r, m)],
     ['GET', /^\/subscription-plans$/, () => ok(this.db.plans)],
     ['GET', /^\/subscriptions\/mine$/, (request) => this.mySubscriptions(request)],
@@ -201,29 +209,53 @@ export class FakeBackend {
     );
   }
 
+  /** An advisor invites a farmer by email (or by the legacy `farmerId`). */
   private requestLink(request: FakeRequest): FakeResponse {
     const caller = this.caller(request);
-    if (caller.role !== 'ADVISOR') throw new HttpFailure(403, 'Only advisors request links');
-    const farmerId = Number(this.body<{ farmerId: number }>(request).farmerId);
-    if (!this.db.accounts.some((account) => account.id === farmerId && account.role === 'FARMER'))
-      throw new HttpFailure(404, `Farmer not found for id ${farmerId}`);
+    if (caller.role !== 'ADVISOR')
+      throw new HttpFailure(409, 'Only an advisor can request an advisory link');
+    const body = this.body<{ farmerEmail?: string; farmerId?: number }>(request);
+    const email = body.farmerEmail === undefined ? '' : this.email(body.farmerEmail);
+    if (body.farmerEmail !== undefined && !email)
+      throw new HttpFailure(400, 'The request has invalid fields', {
+        farmerEmail: 'must be a well-formed email address',
+      });
+    const account = this.db.accounts.find((candidate) =>
+      email ? candidate.email === email : candidate.id === Number(body.farmerId),
+    );
+    if (!account || (account.role !== 'FARMER' && !email))
+      throw new HttpFailure(404, `Farmer not found for ${email || `id ${body.farmerId}`}`);
+    if (account.role !== 'FARMER')
+      throw new HttpFailure(409, 'The account of this email is not a farmer');
     if (
       this.db.advisoryLinks.some(
         (link) =>
-          link.advisorId === caller.id && link.farmerId === farmerId && link.status !== 'REVOKED',
+          link.advisorId === caller.id && link.farmerId === account.id && link.status !== 'REVOKED',
       )
     )
       throw new HttpFailure(409, 'An advisory link with this farmer already exists');
-    const link = {
+    const link: FakeAdvisoryLink = {
       id: this.db.nextId('advisoryLinks'),
       advisorId: caller.id,
-      farmerId,
-      status: 'PENDING' as const,
+      farmerId: account.id,
+      status: 'PENDING',
       requestedAt: this.now(),
       respondedAt: null,
     };
     this.db.advisoryLinks.push(link);
-    return created(link);
+    return created(this.linkResource(link));
+  }
+
+  /** Pending and accepted links where the caller is a party, newest first. */
+  private myLinks(request: FakeRequest): FakeResponse {
+    const caller = this.caller(request);
+    return ok(
+      this.db.advisoryLinks
+        .filter((link) => link.status !== 'REVOKED')
+        .filter((link) => link.advisorId === caller.id || link.farmerId === caller.id)
+        .sort((a, b) => b.requestedAt.localeCompare(a.requestedAt) || b.id - a.id)
+        .map((link) => this.linkResource(link)),
+    );
   }
 
   private answerLink(request: FakeRequest, match: RegExpMatchArray): FakeResponse {
@@ -238,10 +270,25 @@ export class FakeBackend {
     } else {
       if (link.farmerId !== caller.id && link.advisorId !== caller.id)
         throw new HttpFailure(403, 'Only a party of the link can revoke it');
+      if (link.status === 'REVOKED')
+        throw new HttpFailure(409, 'The advisory link is already revoked');
       link.status = 'REVOKED';
     }
     link.respondedAt = this.now();
-    return ok(link);
+    return ok(this.linkResource(link));
+  }
+
+  private linkResource(link: FakeAdvisoryLink): AdvisoryLinkResource {
+    const party = (id: number) => this.db.accounts.find((account) => account.id === id);
+    const advisor = party(link.advisorId);
+    const farmer = party(link.farmerId);
+    return {
+      ...link,
+      advisorName: `${advisor?.firstName ?? ''} ${advisor?.lastName ?? ''}`.trim(),
+      advisorEmail: advisor?.email ?? '',
+      farmerName: `${farmer?.firstName ?? ''} ${farmer?.lastName ?? ''}`.trim(),
+      farmerEmail: farmer?.email ?? '',
+    };
   }
 
   // Subscription and Billing

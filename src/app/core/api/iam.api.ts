@@ -5,6 +5,7 @@ import {
   AdvisoryLinkResource,
   AuthenticatedUserResource,
   PasswordResetAcceptedResource,
+  RequestAdvisoryLinkResource,
   RequestPasswordResetResource,
   ResetPasswordResource,
   SignInResource,
@@ -39,8 +40,12 @@ export class IamApi {
   linkedAccounts() {
     return this.http.get<UserAccountResource[]>(`${this.url}/users/me/linked-accounts`);
   }
-  requestAdvisoryLink(farmerId: number) {
-    return this.http.post<AdvisoryLinkResource>(`${this.url}/advisory-links`, { farmerId });
+  requestAdvisoryLink(body: RequestAdvisoryLinkResource) {
+    return this.http.post<AdvisoryLinkResource>(`${this.url}/advisory-links`, body);
+  }
+  /** Pending and accepted links of the caller, as advisor or as farmer, newest first. */
+  myAdvisoryLinks() {
+    return this.http.get<AdvisoryLinkResource[]>(`${this.url}/advisory-links/mine`);
   }
   acceptAdvisoryLink(id: number) {
     return this.http.post<AdvisoryLinkResource>(`${this.url}/advisory-links/${id}/acceptance`, {});
