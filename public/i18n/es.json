@@ -371,6 +371,15 @@
     "cancelInvitation": "Cancelar invitación",
     "end": "Dejar de supervisar",
     "endTitle": "¿Terminar la supervisión?",
-    "endClientMessage": "Dejarás de ver las fincas, parcelas y alertas de {{name}}. Para volver a supervisarlo tendrás que enviarle una nueva invitación."
+    "endClientMessage": "Dejarás de ver las fincas, parcelas y alertas de {{name}}. Para volver a supervisarlo tendrás que enviarle una nueva invitación.",
+    "pendingRequests": "Solicitudes pendientes",
+    "pendingRequestsHint": "Estos asesores pidieron supervisar tus parcelas. Si aceptas, verán tus fincas, parcelas, lecturas y alertas.",
+    "requestedOn": "Solicitada el {{date}}",
+    "accept": "Aceptar",
+    "decline": "Rechazar",
+    "supervisingSince": "Te supervisa desde el {{date}}",
+    "endAdvisor": "Terminar supervisión",
+    "endAdvisorMessage": "{{name}} dejará de ver tus fincas, parcelas y alertas. Más adelante podrás aceptar una nueva invitación suya.",
+    "noLinksHint": "Cuando un asesor te invite por correo, su solicitud aparecerá aquí."
   }
 }

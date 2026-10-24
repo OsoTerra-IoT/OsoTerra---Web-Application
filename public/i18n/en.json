@@ -371,6 +371,15 @@
     "cancelInvitation": "Cancel invitation",
     "end": "End supervision",
     "endTitle": "End supervision?",
-    "endClientMessage": "You will stop seeing the farms, plots and alerts of {{name}}. To supervise them again you will have to send a new invitation."
+    "endClientMessage": "You will stop seeing the farms, plots and alerts of {{name}}. To supervise them again you will have to send a new invitation.",
+    "pendingRequests": "Pending requests",
+    "pendingRequestsHint": "These advisors asked to supervise your plots. If you accept, they will see your farms, plots, readings and alerts.",
+    "requestedOn": "Requested on {{date}}",
+    "accept": "Accept",
+    "decline": "Decline",
+    "supervisingSince": "Supervising since {{date}}",
+    "endAdvisor": "End supervision",
+    "endAdvisorMessage": "{{name}} will stop seeing your farms, plots and alerts. You can accept a new invitation from them later.",
+    "noLinksHint": "When an advisor invites you by email, their request will appear here."
   }
 }
