@@ -144,6 +144,21 @@ export class AuthService {
     this.sessionListeners.push(listener);
   }
 
+  /**
+   * Reloads the accounts linked by accepted advisory links after one is accepted or ended,
+   * keeping the session. The farmer's advisor is the first linked account, as at sign in.
+   */
+  async refreshLinkedAccounts(): Promise<void> {
+    const user = this.user();
+    if (!user) return;
+    const linkedUsers = (await firstValueFrom(this.api.linkedAccounts())).map((account) =>
+      toUser(account),
+    );
+    if (this.user()?.id !== user.id) return;
+    this.linkedUsers.set(linkedUsers);
+    if (user.role === 'Farmer') this.currentUser.set({ ...user, advisorId: linkedUsers[0]?.id });
+  }
+
   private async startSession(): Promise<void> {
     const [me, linked] = await Promise.all([
       firstValueFrom(this.api.currentUser()),

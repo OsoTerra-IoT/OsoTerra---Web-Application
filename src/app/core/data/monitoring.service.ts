@@ -96,10 +96,19 @@ export class MonitoringService {
   readonly activeAlerts = computed(() =>
     this.alerts().filter((alert) => alert.status !== 'RESOLVED'),
   );
-  /** Client roster derived from the owners of the plots the signed-in advisor supervises. */
+  /**
+   * Client roster of the signed-in advisor: every farmer linked to them, plus any other owner
+   * of the plots they supervise. A farmer who has just accepted shows up before registering
+   * a plot.
+   */
   readonly clients = computed<AdvisorClient[]>(() =>
     this.auth.isAdvisor()
-      ? [...new Set(this.plots().map((plot) => plot.ownerId))]
+      ? [
+          ...new Set([
+            ...this.auth.linked().map((farmer) => farmer.id),
+            ...this.plots().map((plot) => plot.ownerId),
+          ]),
+        ]
           .map((ownerId) => {
             const plots = this.plots().filter((plot) => plot.ownerId === ownerId);
             return {
