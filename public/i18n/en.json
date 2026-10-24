@@ -352,5 +352,25 @@
     "legend": "The vertical mark is the crop salinity threshold.",
     "stripLabel": "EC at {{percent}}% of the {{threshold}} dS/m threshold",
     "thresholdShort": "{{percent}}% of threshold ({{threshold}} dS/m)"
+  },
+  "links": {
+    "inviteTitle": "Invite a farmer",
+    "inviteHint": "Enter the email the farmer used to sign up on OsoSense. They will see your request and can accept it.",
+    "farmerEmail": "Farmer email",
+    "invite": "Send invitation",
+    "inviting": "Sending…",
+    "inviteSent": "Invitation sent to {{email}}. You will see their farms once they accept it.",
+    "inviteInvalid": "Enter a valid email address.",
+    "inviteNotFound": "No farmer is registered with this email.",
+    "inviteLinked": "You already have a pending invitation or an active supervision with this farmer.",
+    "inviteConflict": "This email cannot be invited: it belongs to an advisor or already has a link with you.",
+    "actionFailed": "We could not complete the action. Please try again.",
+    "pendingInvitations": "Pending invitations",
+    "noPendingInvitations": "You have no invitations waiting for an answer.",
+    "sentOn": "Sent on {{date}}",
+    "cancelInvitation": "Cancel invitation",
+    "end": "End supervision",
+    "endTitle": "End supervision?",
+    "endClientMessage": "You will stop seeing the farms, plots and alerts of {{name}}. To supervise them again you will have to send a new invitation."
   }
 }

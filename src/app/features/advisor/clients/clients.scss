@@ -31,3 +31,13 @@
 dd .crop-tag {
   margin-right: 0.35rem;
 }
+// Invitation form and pending invitations, side by side when there is room.
+.link-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.client-actions {
+  margin-top: 1rem;
+}

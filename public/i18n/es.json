@@ -352,5 +352,25 @@
     "legend": "La marca vertical es el umbral de salinidad del cultivo.",
     "stripLabel": "CE al {{percent}} % del umbral de {{threshold}} dS/m",
     "thresholdShort": "{{percent}} % del umbral ({{threshold}} dS/m)"
+  },
+  "links": {
+    "inviteTitle": "Invitar productor",
+    "inviteHint": "Ingresa el correo con el que el productor se registró en OsoSense. Verá tu solicitud y podrá aceptarla.",
+    "farmerEmail": "Correo del productor",
+    "invite": "Enviar invitación",
+    "inviting": "Enviando…",
+    "inviteSent": "Invitación enviada a {{email}}. Verás sus fincas cuando la acepte.",
+    "inviteInvalid": "Ingresa un correo electrónico válido.",
+    "inviteNotFound": "No hay ningún productor registrado con este correo.",
+    "inviteLinked": "Ya tienes una invitación pendiente o una supervisión activa con este productor.",
+    "inviteConflict": "No se puede invitar a este correo: pertenece a un asesor o ya tiene un vínculo contigo.",
+    "actionFailed": "No pudimos completar la acción. Inténtalo de nuevo.",
+    "pendingInvitations": "Invitaciones pendientes",
+    "noPendingInvitations": "No tienes invitaciones esperando respuesta.",
+    "sentOn": "Enviada el {{date}}",
+    "cancelInvitation": "Cancelar invitación",
+    "end": "Dejar de supervisar",
+    "endTitle": "¿Terminar la supervisión?",
+    "endClientMessage": "Dejarás de ver las fincas, parcelas y alertas de {{name}}. Para volver a supervisarlo tendrás que enviarle una nueva invitación."
   }
 }
