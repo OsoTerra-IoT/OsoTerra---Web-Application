@@ -1,4 +1,5 @@
-﻿import { Component, computed, inject, signal } from '@angular/core';
+﻿import { EceHelp } from '../../../shared/components/ece-help';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MonitoringService } from '../../../core/data/monitoring.service';
 import { LocaleService } from '../../../core/i18n/locale.service';
@@ -7,7 +8,7 @@ import { UI_IMPORTS } from '../../../shared/ui-imports';
 /** Single-point calibration record. It never rewrites stored measurements. */
 @Component({
   selector: 'app-calibration',
-  imports: [...UI_IMPORTS],
+  imports: [EceHelp, ...UI_IMPORTS],
   templateUrl: './calibration.html',
   styleUrl: './calibration.scss',
 })

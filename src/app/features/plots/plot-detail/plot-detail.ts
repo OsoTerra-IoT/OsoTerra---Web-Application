@@ -1,3 +1,4 @@
+import { EceHelp } from '../../../shared/components/ece-help';
 import { LevelPill } from '../../../shared/components/level-pill';
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +14,7 @@ import { DeviceActivationForm } from './device-activation';
 @Component({
   selector: 'app-plot-detail',
   imports: [
+    EceHelp,
     LevelPill,
     ...UI_IMPORTS,
     MatTabsModule,

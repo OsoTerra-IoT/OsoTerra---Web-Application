@@ -8,6 +8,7 @@
 <p class="surface limitation">
   <mat-icon aria-hidden="true">info</mat-icon>{{ 'calibration.limitation' | translate }}
 </p>
+<app-ece-help />
 <form class="surface form-surface stack" [formGroup]="form" (ngSubmit)="save()">
   <mat-form-field
     ><mat-label>{{ 'devices.device' | translate }}</mat-label

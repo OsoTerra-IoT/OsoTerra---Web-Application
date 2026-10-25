@@ -1,3 +1,4 @@
+import { EceHelp } from '../../shared/components/ece-help';
 import { API_CONFIG } from '../../core/api/api-config';
 import { Component, computed, inject } from '@angular/core';
 import { AuthService } from '../../core/auth/auth.service';
@@ -10,7 +11,7 @@ import { TrendChart } from '../../shared/components/trend-chart';
 /** Farmer home: one sentence about the field, then every plot as a salinity strip. */
 @Component({
   selector: 'app-dashboard',
-  imports: [...UI_IMPORTS, SalinityStrip, TrendChart],
+  imports: [EceHelp, ...UI_IMPORTS, SalinityStrip, TrendChart],
   templateUrl: './dashboard.html',
 })
 export class Dashboard {

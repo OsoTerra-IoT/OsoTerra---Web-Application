@@ -180,6 +180,44 @@ summary {
 details p {
   margin: 0.25rem 0 0.75rem;
 }
+details[open] > :not(summary) {
+  animation: reveal-up 360ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.term-help {
+  max-width: 68ch;
+  margin: 0.5rem 0 0.75rem;
+}
+.term-help summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 44px;
+  padding: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  list-style: none;
+}
+.term-help summary::-webkit-details-marker {
+  display: none;
+}
+.term-help summary mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+.term-help-body {
+  padding: 0.875rem 1rem;
+  border-radius: var(--os-radius-md);
+  background: var(--os-surface-green);
+  color: var(--os-neutral-900);
+  font-size: 0.9375rem;
+}
+.term-help-body p {
+  margin: 0;
+}
+.term-help-body p + p {
+  margin-top: 0.5rem;
+}
 small,
 .muted {
   color: #6b7280;

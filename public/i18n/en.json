@@ -376,9 +376,9 @@
     "allClearAdvisor": "All {{total}} plots you supervise are below their threshold.",
     "profileTitle": "Salinity by plot",
     "profileTitleAdvisor": "Plots by priority",
-    "profileHint": "Each strip shows current EC against the crop threshold.",
+    "profileHint": "Each strip shows the current ECe against the crop threshold.",
     "legend": "The vertical mark is the crop salinity threshold.",
-    "stripLabel": "EC at {{percent}}% of the {{threshold}} dS/m threshold",
+    "stripLabel": "ECe at {{percent}}% of the {{threshold}} dS/m threshold",
     "thresholdShort": "{{percent}}% of threshold ({{threshold}} dS/m)",
     "noneAttention": "None of your {{total}} plots needs attention.",
     "noneAttentionAdvisor": "None of the {{total}} plots you supervise needs a visit.",
@@ -415,5 +415,10 @@
     "endAdvisor": "End supervision",
     "endAdvisorMessage": "{{name}} will stop seeing your farms, plots and alerts. You can accept a new invitation from them later.",
     "noLinksHint": "When an advisor invites you by email, their request will appear here."
+  },
+  "help": {
+    "eceQuestion": "What are ECe and dS/m?",
+    "eceAnswer": "ECe is the electrical conductivity of the soil saturation extract: it shows how much dissolved salt the soil holds. The more salt, the harder it is for the plant to take up water.",
+    "dsmAnswer": "It is measured in dS/m (decisiemens per metre). Each crop tolerates up to a value, its threshold: table grape, for example, up to 1.5 dS/m. Above the threshold the yield starts to drop."
   }
 }

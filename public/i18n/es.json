@@ -376,9 +376,9 @@
     "allClearAdvisor": "Las {{total}} parcelas que supervisas están por debajo del umbral.",
     "profileTitle": "Salinidad por parcela",
     "profileTitleAdvisor": "Parcelas por prioridad",
-    "profileHint": "Cada franja muestra la CE actual frente al umbral del cultivo.",
+    "profileHint": "Cada franja muestra la ECe actual frente al umbral del cultivo.",
     "legend": "La marca vertical es el umbral de salinidad del cultivo.",
-    "stripLabel": "CE al {{percent}} % del umbral de {{threshold}} dS/m",
+    "stripLabel": "ECe al {{percent}} % del umbral de {{threshold}} dS/m",
     "thresholdShort": "{{percent}} % del umbral ({{threshold}} dS/m)",
     "noneAttention": "Ninguna de tus {{total}} parcelas necesita atención.",
     "noneAttentionAdvisor": "Ninguna de las {{total}} parcelas que supervisas necesita una visita.",
@@ -415,5 +415,10 @@
     "endAdvisor": "Terminar supervisión",
     "endAdvisorMessage": "{{name}} dejará de ver tus fincas, parcelas y alertas. Más adelante podrás aceptar una nueva invitación suya.",
     "noLinksHint": "Cuando un asesor te invite por correo, su solicitud aparecerá aquí."
+  },
+  "help": {
+    "eceQuestion": "¿Qué es ECe y qué significa dS/m?",
+    "eceAnswer": "ECe es la conductividad eléctrica del extracto de saturación del suelo: indica cuánta sal disuelta tiene el suelo. A más sal, más le cuesta a la planta tomar agua.",
+    "dsmAnswer": "Se mide en dS/m (decisiemens por metro). Cada cultivo tolera hasta un valor, su umbral: la uva de mesa, por ejemplo, hasta 1.5 dS/m. Sobre el umbral el rendimiento empieza a bajar."
   }
 }
