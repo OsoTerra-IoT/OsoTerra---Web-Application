@@ -1,4 +1,4 @@
-import { LevelPill } from '../../../shared/components/level-pill';
+import { LevelPill, SEVERITY_LEVELS } from '../../../shared/components/level-pill';
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -28,6 +28,13 @@ export class AdvisorAlerts {
   readonly plotId = signal(this.query.get('plot') ?? '');
   readonly severities: AlertSeverity[] = ['CRITICAL', 'WARNING', 'WATCH'];
   readonly statuses = ['OPEN', 'ACKNOWLEDGED', 'RESOLVED'];
+  /** Level of each severity, for the color bar of the mobile alert cards. */
+  readonly levels = SEVERITY_LEVELS;
+  /** On narrow screens the filters fold behind one «Filter» button. */
+  readonly filtersOpen = signal(false);
+  readonly activeFilters = computed(
+    () => [this.severity(), this.status(), this.clientId(), this.plotId()].filter(Boolean).length,
+  );
   readonly counts = computed(() =>
     this.severities.map((severity) => ({
       severity,

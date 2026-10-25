@@ -253,7 +253,9 @@
     "acknowledge": "Marcar como atendida",
     "recordAction": "Registrar acción",
     "actionCount": "Acciones registradas: {{count}}",
-    "actionType": "Tipo de acción"
+    "actionType": "Tipo de acción",
+    "filter": "Filtrar",
+    "filterCount": "Filtros activos: {{count}}"
   },
   "severity": {
     "WATCH": "En vigilancia",

@@ -8,7 +8,21 @@
 <p class="sr-only" role="status" aria-live="polite">
   {{ announcement() ? (announcement() | translate) : '' }}
 </p>
-<div class="filter-bar">
+<button
+  mat-stroked-button
+  type="button"
+  class="filter-toggle"
+  aria-controls="alert-filters"
+  [attr.aria-expanded]="filtersOpen()"
+  (click)="filtersOpen.set(!filtersOpen())"
+>
+  <mat-icon aria-hidden="true">tune</mat-icon>
+  {{
+    (activeFilters() ? 'alerts.filterCount' : 'alerts.filter')
+      | translate: { count: activeFilters() }
+  }}
+</button>
+<div class="filter-bar" id="alert-filters" [class.is-collapsed]="!filtersOpen()">
   <mat-form-field
     ><mat-label>{{ 'alerts.severity' | translate }}</mat-label
     ><mat-select [value]="severity()" (selectionChange)="setFilter('severity', $event.value)"
@@ -35,8 +49,49 @@
     </mat-select></mat-form-field
   >
 </div>
-<section class="surface">
-  <div class="table-scroll">
+<section class="surface alert-inbox">
+  <ul class="alert-cards" [attr.aria-label]="'alerts.inbox' | translate">
+    @for (alert of filtered(); track alert.id) {
+      <li class="alert-card" [attr.data-level]="levels[alert.severity]">
+        <div class="alert-card-head">
+          <a [routerLink]="['/app/plots', alert.plotId]">{{ plotName(alert.plotId) }}</a>
+          <app-level-pill [severity]="alert.severity" />
+        </div>
+        <p class="alert-card-meta">
+          {{ 'alertStatus.' + alert.status | translate }} · {{ locale.date(alert.createdAt) }}
+        </p>
+        @if (alert.status !== 'RESOLVED') {
+          <div class="alert-card-actions">
+            @if (alert.status === 'OPEN') {
+              <button mat-stroked-button type="button" (click)="acknowledge(alert.id)">
+                <mat-icon aria-hidden="true">done</mat-icon>{{ 'alerts.acknowledge' | translate }}
+              </button>
+            }
+            <button mat-flat-button type="button" (click)="openAction(alert.id)">
+              {{ 'alerts.recordAction' | translate }}
+            </button>
+          </div>
+        }
+        @if (alert.actions.length) {
+          <details>
+            <summary>
+              {{ 'alerts.actionCount' | translate: { count: alert.actions.length } }}
+            </summary>
+            @for (action of alert.actions; track action.id) {
+              <p>
+                <strong>{{ 'actionTypes.' + action.type | translate }}</strong> ·
+                {{ locale.date(action.performedAt) }}
+              </p>
+              <p>{{ action.notes }}</p>
+            }
+          </details>
+        }
+      </li>
+    } @empty {
+      <li class="empty-state">{{ 'alerts.empty' | translate }}</li>
+    }
+  </ul>
+  <div class="table-scroll alert-table">
     <table>
       <caption>
         {{

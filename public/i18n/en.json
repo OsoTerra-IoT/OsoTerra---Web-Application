@@ -253,7 +253,9 @@
     "acknowledge": "Mark as handled",
     "recordAction": "Record action",
     "actionCount": "Recorded actions: {{count}}",
-    "actionType": "Action type"
+    "actionType": "Action type",
+    "filter": "Filter",
+    "filterCount": "Active filters: {{count}}"
   },
   "severity": {
     "WATCH": "Watch",
