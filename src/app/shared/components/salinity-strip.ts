@@ -3,6 +3,7 @@ import { MonitoringService } from '../../core/data/monitoring.service';
 import { LocaleService } from '../../core/i18n/locale.service';
 import { Plot } from '../../core/models';
 import { UI_IMPORTS } from '../ui-imports';
+import { LEVEL_ICONS } from './level-pill';
 
 /** The strip spans 0 → SCALE × crop threshold, so the threshold mark always sits at the same place. */
 const SCALE = 1.6;
@@ -25,6 +26,7 @@ export class SalinityStrip {
   readonly crop = computed(() => this.data.crop(this.plot()));
   readonly reading = computed(() => this.data.latest(this.plot().id));
   readonly level = computed(() => this.data.level(this.plot()));
+  readonly icon = computed(() => LEVEL_ICONS[this.level()]);
   readonly ratio = computed(() => this.data.risk(this.plot()));
   readonly fill = computed(() => Math.min(Math.max(this.ratio(), 0) / SCALE, 1));
   readonly thresholdAt = 1 / SCALE;

@@ -4,20 +4,33 @@ import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 import { AppLocale } from '../models';
 
+const STORAGE_KEY = 'osoterra.locale';
+/** Values of the `lang` query parameter the Landing Page adds to its links. */
+const QUERY_LOCALES: Record<string, AppLocale> = { es: 'es_419', en: 'en_US' };
+
 @Injectable({ providedIn: 'root' })
 export class LocaleService {
   private readonly translate = inject(TranslateService);
   private readonly document = inject(DOCUMENT);
-  readonly locale = signal<AppLocale>('en_US');
+  /** Both segments are Spanish-speaking producers and advisors, so Spanish comes first. */
+  readonly locale = signal<AppLocale>('es_419');
   readonly loading = signal(false);
+  /**
+   * Picks the first language in this order: `?lang=es|en` from the Landing Page, the choice
+   * remembered on this device, then Spanish (es_419).
+   */
   async initialize(): Promise<void> {
+    const requested = new URLSearchParams(this.document.defaultView?.location.search ?? '').get(
+      'lang',
+    );
     let saved: string | null = null;
     try {
-      saved = localStorage.getItem('osoterra.locale');
+      saved = localStorage.getItem(STORAGE_KEY);
     } catch {
       /* Storage may be disabled. */
     }
-    await this.setLocale(saved === 'es_419' ? 'es_419' : 'en_US');
+    const fromQuery = QUERY_LOCALES[requested?.trim().toLowerCase() ?? ''];
+    await this.setLocale(fromQuery ?? (saved === 'en_US' ? 'en_US' : 'es_419'));
   }
   async setLocale(locale: AppLocale): Promise<void> {
     this.loading.set(true);
@@ -27,7 +40,7 @@ export class LocaleService {
       this.document.documentElement.lang = locale.replace('_', '-');
       this.document.title = this.translate.instant('brand.name');
       try {
-        localStorage.setItem('osoterra.locale', locale);
+        localStorage.setItem(STORAGE_KEY, locale);
       } catch {
         /* Optional preference. */
       }

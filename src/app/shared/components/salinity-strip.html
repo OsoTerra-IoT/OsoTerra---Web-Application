@@ -37,9 +37,10 @@
   <span class="strip-threshold" [style.left.%]="thresholdAt * 100"></span>
 </div>
 <div class="strip-foot">
-  <span class="strip-status" [attr.data-level]="level()">{{
-    'salinity.' + level() | translate
-  }}</span>
+  <span class="strip-status" [attr.data-level]="level()"
+    ><mat-icon aria-hidden="true">{{ icon() }}</mat-icon
+    >{{ 'salinity.' + level() | translate }}</span
+  >
   @if (ratio() >= 0) {
     <span class="strip-threshold-label">{{
       'home.thresholdShort'

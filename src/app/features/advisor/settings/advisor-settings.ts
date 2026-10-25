@@ -1,4 +1,5 @@
-﻿import { Component, inject } from '@angular/core';
+﻿import { API_CONFIG } from '../../../core/api/api-config';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
 import { MonitoringService } from '../../../core/data/monitoring.service';
@@ -13,6 +14,8 @@ import { LanguageSwitcher } from '../../../shared/components/language-switcher';
   styleUrl: './advisor-settings.scss',
 })
 export class AdvisorSettings {
+  /** Demo labels only when the in-browser fake API answers, never on real data. */
+  readonly demo = inject(API_CONFIG).useFakeApi;
   readonly auth = inject(AuthService);
   private readonly data = inject(MonitoringService);
   private readonly router = inject(Router);

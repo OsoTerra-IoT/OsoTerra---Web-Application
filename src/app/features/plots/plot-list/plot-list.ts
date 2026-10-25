@@ -1,3 +1,5 @@
+import { Reveal } from '../../../shared/directives/reveal';
+import { Skeleton } from '../../../shared/components/skeleton';
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../../../core/auth/auth.service';
 import { MonitoringService } from '../../../core/data/monitoring.service';
@@ -6,7 +8,7 @@ import { UI_IMPORTS } from '../../../shared/ui-imports';
 import { SalinityStatus } from '../../../shared/components/salinity-status';
 @Component({
   selector: 'app-plot-list',
-  imports: [...UI_IMPORTS, SalinityStatus],
+  imports: [Reveal, Skeleton, ...UI_IMPORTS, SalinityStatus],
   templateUrl: './plot-list.html',
 })
 export class PlotList {

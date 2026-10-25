@@ -3,16 +3,24 @@
     {{ 'dashboard.greeting' | translate: { name: auth.user()?.firstName } }}
   </p>
   <h1 class="home-statement">
-    @if (attention() === 0) {
-      {{ 'home.allClearAdvisor' | translate: { total: data.plots().length } }}
-    } @else {
+    @if (attention() > 0) {
       {{
-        (data.clients().length === 1 ? 'home.attentionAdvisorOneClient' : 'home.attentionAdvisor')
+        headlineKey()
           | translate
             : { count: attention(), total: data.plots().length, clients: data.clients().length }
       }}
+    } @else if (watch() > 0) {
+      {{ 'home.noneAttentionAdvisor' | translate: { total: data.plots().length } }}
+    } @else {
+      {{ 'home.allClearAdvisor' | translate: { total: data.plots().length } }}
     }
   </h1>
+  @if (watch() > 0) {
+    <p class="home-watch">
+      <mat-icon aria-hidden="true">visibility</mat-icon
+      >{{ (watch() === 1 ? 'home.watchOne' : 'home.watchMany') | translate: { count: watch() } }}
+    </p>
+  }
   <dl class="home-facts">
     <div>
       <dt>{{ 'advisor.clients' | translate }}</dt>
@@ -42,21 +50,32 @@
     </div>
   </dl>
 </header>
-<section class="home-profile" aria-labelledby="profile-title">
+<section class="home-profile" aria-labelledby="profile-title" appReveal>
   <div class="home-profile-head">
     <div>
       <h2 id="profile-title">{{ 'home.profileTitleAdvisor' | translate }}</h2>
       <p class="muted">{{ 'dashboard.advisorHint' | translate }}</p>
+      <app-ece-help />
     </div>
     <a mat-stroked-button routerLink="/app/advisor/compare"
       ><mat-icon>compare_arrows</mat-icon>{{ 'nav.compare' | translate }}</a
     >
   </div>
   <div class="strip-list">
-    @for (plot of ranked(); track plot.id; let index = $index) {
-      <app-salinity-strip [plot]="plot" [index]="index" [showOwner]="true" />
-    } @empty {
-      <p class="empty-state">{{ 'advisor.noAssignments' | translate }}</p>
+    @if (data.loading() && !data.plots().length) {
+      <app-skeleton [rows]="3" />
+    } @else {
+      @for (plot of ranked(); track plot.id; let index = $index) {
+        <app-salinity-strip [plot]="plot" [index]="index" [showOwner]="true" />
+      } @empty {
+        <div class="empty-state">
+          <mat-icon aria-hidden="true">groups</mat-icon>
+          <p>{{ 'advisor.noAssignments' | translate }}</p>
+          <a mat-stroked-button routerLink="/app/advisor/clients">{{
+            'links.inviteTitle' | translate
+          }}</a>
+        </div>
+      }
     }
   </div>
   <p class="strip-legend muted">
@@ -64,7 +83,7 @@
   </p>
 </section>
 @if (series().length) {
-  <section class="home-trend" [attr.aria-label]="'chart.title' | translate">
+  <section class="home-trend" [attr.aria-label]="'chart.title' | translate" appReveal>
     <p class="muted">{{ 'advisor.trendCaption' | translate }}</p>
     <app-trend-chart [series]="series()" />
   </section>

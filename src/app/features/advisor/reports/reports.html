@@ -69,18 +69,15 @@
         </dd>
         <dt>{{ 'metrics.salinity' | translate }}</dt>
         <dd>
-          <span [class]="'status-pill ' + data.level(plot)">{{
-            'salinity.' + data.level(plot) | translate
-          }}</span>
+          <app-level-pill [level]="data.level(plot)" />
         </dd>
       </dl>
       <h4>{{ 'reports.alertsActions' | translate }}</h4>
       @for (alert of alerts(plot); track alert.id) {
         <div class="list-row">
-          <span [class]="'status-pill ' + alert.severity.toLowerCase()">{{
-            'severity.' + alert.severity | translate
+          <app-level-pill [severity]="alert.severity" /><span>{{
+            'alertStatus.' + alert.status | translate
           }}</span
-          ><span>{{ 'alertStatus.' + alert.status | translate }}</span
           ><span class="muted">{{ locale.date(alert.createdAt) }}</span
           ><span class="muted"
             >{{ locale.number(alert.conductivityDsM, 2) }} {{ 'units.dsM' | translate }}</span

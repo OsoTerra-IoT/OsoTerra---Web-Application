@@ -4,14 +4,16 @@
     <h1>{{ 'nav.clients' | translate }}</h1>
     <p class="muted">{{ 'advisor.clientDirectory' | translate }}</p>
   </div>
-  <span class="demo-chip">{{ 'common.demo' | translate }}</span>
+  @if (demo) {
+    <span class="demo-chip">{{ 'common.demo' | translate }}</span>
+  }
 </header>
 <section class="summary-grid" [attr.aria-label]="'dashboard.summary' | translate">
-  <article class="summary-card">
+  <article class="summary-card" appReveal>
     <span><mat-icon aria-hidden="true">groups</mat-icon>{{ 'advisor.clients' | translate }}</span
     ><strong>{{ locale.number(data.clients().length, 0) }}</strong>
   </article>
-  <article class="summary-card">
+  <article class="summary-card" appReveal>
     <span
       ><mat-icon aria-hidden="true">landscape</mat-icon
       >{{ 'advisor.supervisedArea' | translate }}</span
@@ -19,7 +21,7 @@
       >{{ locale.number(area()) }}<small> {{ 'units.hectares' | translate }}</small></strong
     ><small>{{ 'clients.plotCount' | translate: { count: data.plots().length } }}</small>
   </article>
-  <article class="summary-card">
+  <article class="summary-card" appReveal>
     <span
       ><mat-icon aria-hidden="true">notifications_active</mat-icon
       >{{ 'dashboard.activeAlerts' | translate }}</span
@@ -85,7 +87,7 @@
 </section>
 <div class="plot-grid">
   @for (client of data.clients(); track client.id) {
-    <article class="surface client-card">
+    <article class="surface client-card" appReveal>
       <div class="client-head">
         <span class="avatar">{{ client.user?.firstName?.charAt(0) }}</span>
         <div>
@@ -97,7 +99,7 @@
         <dt>{{ 'advisor.contact' | translate }}</dt>
         <dd>{{ client.user?.email }}</dd>
         <dt>{{ 'advisor.location' | translate }}</dt>
-        <dd>{{ client.user?.department }} · {{ client.user?.province }}</dd>
+        <dd>{{ location(client) || ('common.unknown' | translate) }}</dd>
         <dt>{{ 'advisor.farms' | translate }}</dt>
         <dd>
           @for (farm of client.farms; track farm.id) {
@@ -114,9 +116,7 @@
         @for (plot of client.plots; track plot.id) {
           <li>
             <a [routerLink]="['/app/plots', plot.id]">{{ plot.name }}</a>
-            <span [class]="'status-pill ' + data.level(plot)">{{
-              'salinity.' + data.level(plot) | translate
-            }}</span>
+            <app-level-pill [level]="data.level(plot)" />
           </li>
         }
       </ul>
@@ -130,6 +130,13 @@
       }
     </article>
   } @empty {
-    <p class="empty-state">{{ 'advisor.noClients' | translate }}</p>
+    @if (data.loading()) {
+      <app-skeleton variant="card" [rows]="2" />
+    } @else {
+      <div class="empty-state">
+        <mat-icon aria-hidden="true">groups</mat-icon>
+        <p>{{ 'advisor.noClients' | translate }}</p>
+      </div>
+    }
   }
 </div>

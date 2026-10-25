@@ -35,8 +35,10 @@ export class Password {
           : 'auth.resetInvalid',
       );
     else {
-      this.resetToken.set(await this.auth.requestPasswordReset(value));
-      this.message.set('auth.recoveryResult');
+      const token = await this.auth.requestPasswordReset(value);
+      this.resetToken.set(token);
+      // Only the fake API hands back a link to show on screen; the Backend emails it.
+      this.message.set(token ? 'auth.recoveryResultDemo' : 'auth.recoveryResult');
     }
   }
 }

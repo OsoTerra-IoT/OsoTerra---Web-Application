@@ -1,3 +1,4 @@
+import { API_CONFIG } from '../../core/api/api-config';
 import { Component, inject, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -14,6 +15,8 @@ import { LanguageSwitcher } from '../../shared/components/language-switcher';
   templateUrl: './account.html',
 })
 export class Account {
+  /** Demo labels only when the in-browser fake API answers, never on real data. */
+  readonly demo = inject(API_CONFIG).useFakeApi;
   readonly auth = inject(AuthService);
   readonly locale = inject(LocaleService);
   private readonly route = inject(ActivatedRoute);
