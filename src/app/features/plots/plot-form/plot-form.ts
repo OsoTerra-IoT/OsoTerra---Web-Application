@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, ElementRef, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,6 +22,7 @@ export class PlotForm {
   readonly data = inject(MonitoringService);
   readonly locale = inject(LocaleService);
   private readonly router = inject(Router);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly id = inject(ActivatedRoute).snapshot.paramMap.get('id') ?? undefined;
   readonly error = signal(false);
   readonly saving = signal(false);
@@ -106,6 +107,10 @@ export class PlotForm {
     this.error.set(false);
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      // Take the person to the first field to fix, as the messages say how.
+      this.host.nativeElement
+        .querySelector<HTMLElement>('input.ng-invalid, mat-select.ng-invalid')
+        ?.focus();
       return;
     }
     const value = this.form.getRawValue();
