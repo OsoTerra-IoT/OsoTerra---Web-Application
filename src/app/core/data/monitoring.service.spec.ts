@@ -88,6 +88,7 @@ describe('MonitoringService over the OsoSense API', () => {
       cropId: data.crops()[0].id,
     };
     expect(await data.savePlot({ ...value, latitude: 91 })).toBeNull();
+    expect(await data.savePlot({ ...value, latitude: 0, longitude: 0 })).toBeNull();
     expect(await data.savePlot({ ...value, farmId: '2' })).toBeNull();
     const id = (await data.savePlot(value))!;
     expect(data.plots().find((plot) => plot.id === id)?.name).toBe('New plot');
