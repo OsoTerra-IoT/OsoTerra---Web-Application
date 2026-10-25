@@ -21,7 +21,7 @@
     "date": "Date",
     "notes": "Notes",
     "save": "Save",
-    "saved": "Saved for this demo session.",
+    "saved": "Changes saved.",
     "cancel": "Cancel",
     "back": "Back",
     "all": "All",
@@ -89,11 +89,12 @@
     "localReset": "Demo only: no email is sent. This local, single-use link expires in 15 minutes and is lost on reload.",
     "resetSuccess": "Password updated. Sign in with your new password.",
     "resetInvalid": "This link is invalid or expired, or the password is too short.",
-    "recoveryResult": "If this email matches a demo account, a recovery link is available below.",
+    "recoveryResult": "If this email has an OsoSense account, we will send you a link to reset your password.",
     "demoFarmer": "Enter as a grower",
     "demoAdvisor": "Enter as an advisor",
     "serverUnavailable": "We could not reach the server. Try again in a few minutes.",
-    "sessionExpired": "Your session expired. Please sign in again."
+    "sessionExpired": "Your session expired. Please sign in again.",
+    "recoveryResultDemo": "If this email matches a demo account, a recovery link is available below."
   },
   "validation": {
     "email": "Enter a valid email address.",
@@ -107,13 +108,19 @@
     "action": "Check the notes and date. Future actions cannot be recorded."
   },
   "terms": {
-    "demo": "Draft terms for this local prototype. Replace with approved terms before production.",
-    "scopeTitle": "Use of the prototype",
-    "scope": "OsoSense demonstrates soil monitoring workflows with simulated accounts, devices and readings.",
-    "dataTitle": "Demo data",
-    "data": "Accounts and changes exist only in this browser session and are cleared on reload. Use fictional information while exploring.",
-    "measurementsTitle": "Interpretation of measurements",
-    "measurements": "Crop thresholds refer to saturation-extract electrical conductivity (ECe). Raw sensor conductivity is not directly interchangeable with ECe. Technical assessment requires the appropriate measurement method."
+    "scopeTitle": "What OsoSense offers",
+    "scope": "OsoSense shows the soil salinity of your plots from the readings of the devices you link, warns you when a reading goes above your crop threshold and lets you record corrective actions.",
+    "dataTitle": "Your data",
+    "data": "We store your account details, farms, plots, devices, readings, alerts and corrective actions to show you their history. They are used only to provide the service.",
+    "measurementsTitle": "How to read the measurements",
+    "measurements": "Crop thresholds use the electrical conductivity of the soil saturation extract (ECe), measured in dS/m. The raw sensor reading is not directly equal to ECe; a technical assessment needs the appropriate measurement method.",
+    "intro": "These terms explain what OsoSense does and how the data in your account is used. By creating an account, you accept them.",
+    "accountTitle": "Your account",
+    "account": "Use your real details and an email you can access. You are responsible for keeping your password private.",
+    "sharingTitle": "Who can see them",
+    "sharing": "Only you and the technical advisors whose request you accept see your farms, plots, readings and alerts. You can end that supervision at any time from “My advisor”.",
+    "decisionsTitle": "Management decisions",
+    "decisions": "Alerts and levels are a guide to decide in time. You make the irrigation, leaching or amendment decision, ideally with your technical advisor."
   },
   "dashboard": {
     "overview": "Field overview",
@@ -125,7 +132,7 @@
     "activeAlerts": "Active alerts",
     "reviewAlerts": "Review alerts",
     "onlineDevices": "Devices online",
-    "lastSync": "Latest demo telemetry",
+    "lastSync": "Latest telemetry",
     "priorities": "Start with the plots that need a closer look.",
     "byRisk": "Salinity risk",
     "byClient": "Client"
@@ -299,12 +306,12 @@
     "supervisedArea": "Supervised area",
     "preparedBy": "Prepared by",
     "generatedOn": "Generated on {{date}}",
-    "reportFooter": "Demo data. Crop thresholds refer to ECe; each crop shows its source next to its threshold.",
+    "reportFooter": "Crop thresholds refer to ECe; each crop shows its source next to its threshold.",
     "reportEmpty": "Select at least one plot to build the report.",
     "period": "Period",
     "noActions": "No corrective actions recorded.",
-    "noCalibrationRecords": "No calibration has been recorded in this demo session.",
-    "calibrationSaved": "Calibration recorded for this demo session.",
+    "noCalibrationRecords": "No calibrations recorded yet. Record the first one with the form above.",
+    "calibrationSaved": "Calibration recorded.",
     "alertSummary": "Active alerts by severity"
   },
   "comparison": {
@@ -315,12 +322,12 @@
     "plotCount": "Supervised plots: {{count}}"
   },
   "calibration": {
-    "hint": "Record a paired sensor and laboratory observation.",
+    "hint": "Record the sensor reading and the ECe the laboratory measured on the same soil sample.",
     "sensorDsM": "Sensor conductivity",
     "laboratoryEceDsM": "Laboratory ECe",
-    "limitation": "This prototype records a single-point offset only. It does not convert raw sensor readings to ECe or update historical measurements.",
+    "limitation": "The calibration stores both values and their difference to compare the sensor with the laboratory. Readings already recorded do not change.",
     "records": "Calibration records",
-    "offset": "Recorded offset",
+    "offset": "Difference from the laboratory",
     "laboratory": "Laboratory"
   },
   "reports": {
@@ -334,9 +341,9 @@
     "exportError": "The PDF could not be generated. Try again."
   },
   "account": {
-    "sessionHint": "Language is remembered on this device. Demo accounts and monitoring changes reset when the page reloads.",
-    "demoPlan": "Prototype workspace",
-    "subscriptionHint": "Subscription view prepared for a future billing integration. No payments are enabled.",
+    "sessionHint": "The language you choose is remembered on this device.",
+    "demoPlan": "Current plan",
+    "subscriptionHint": "Billing is not enabled yet: you can use OsoSense without payments.",
     "noAdvisor": "No advisor is assigned to your account."
   },
   "home": {

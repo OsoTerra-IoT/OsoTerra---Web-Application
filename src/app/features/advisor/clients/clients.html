@@ -4,7 +4,9 @@
     <h1>{{ 'nav.clients' | translate }}</h1>
     <p class="muted">{{ 'advisor.clientDirectory' | translate }}</p>
   </div>
-  <span class="demo-chip">{{ 'common.demo' | translate }}</span>
+  @if (demo) {
+    <span class="demo-chip">{{ 'common.demo' | translate }}</span>
+  }
 </header>
 <section class="summary-grid" [attr.aria-label]="'dashboard.summary' | translate">
   <article class="summary-card">

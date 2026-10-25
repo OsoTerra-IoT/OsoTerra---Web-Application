@@ -21,7 +21,7 @@
     "date": "Fecha",
     "notes": "Notas",
     "save": "Guardar",
-    "saved": "Guardado durante esta sesión de demostración.",
+    "saved": "Cambios guardados.",
     "cancel": "Cancelar",
     "back": "Volver",
     "all": "Todos",
@@ -89,11 +89,12 @@
     "localReset": "Solo demostración: no se envían correos. Este enlace local de un solo uso vence en 15 minutos y se pierde al recargar.",
     "resetSuccess": "Contraseña actualizada. Inicia sesión con tu nueva contraseña.",
     "resetInvalid": "El enlace no es válido, ha vencido o la contraseña es demasiado corta.",
-    "recoveryResult": "Si este correo corresponde a una cuenta de demostración, verás un enlace de recuperación abajo.",
+    "recoveryResult": "Si este correo tiene una cuenta en OsoSense, te enviaremos un enlace para restablecer tu contraseña.",
     "demoFarmer": "Entrar como productor",
     "demoAdvisor": "Entrar como asesor técnico",
     "serverUnavailable": "No pudimos conectar con el servidor. Inténtalo de nuevo en unos minutos.",
-    "sessionExpired": "Tu sesión expiró. Inicia sesión de nuevo."
+    "sessionExpired": "Tu sesión expiró. Inicia sesión de nuevo.",
+    "recoveryResultDemo": "Si este correo corresponde a una cuenta de demostración, verás un enlace de recuperación abajo."
   },
   "validation": {
     "email": "Ingresa un correo electrónico válido.",
@@ -107,13 +108,19 @@
     "action": "Revisa las notas y la fecha. No se pueden registrar acciones futuras."
   },
   "terms": {
-    "demo": "Borrador para este prototipo local. Reemplazar con términos aprobados antes de producción.",
-    "scopeTitle": "Uso del prototipo",
-    "scope": "OsoSense demuestra flujos de monitoreo con cuentas, dispositivos y lecturas simuladas.",
-    "dataTitle": "Datos de demostración",
-    "data": "Las cuentas y los cambios existen solo durante esta sesión del navegador y se eliminan al recargar. Usa información ficticia al explorar.",
-    "measurementsTitle": "Interpretación de las mediciones",
-    "measurements": "Los umbrales de cultivo corresponden a la conductividad eléctrica del extracto de saturación (ECe). La conductividad cruda del sensor no es directamente intercambiable con la ECe. La evaluación técnica requiere el método de medición adecuado."
+    "scopeTitle": "Qué ofrece OsoSense",
+    "scope": "OsoSense muestra la salinidad del suelo de tus parcelas con las lecturas de los dispositivos que vinculas, te avisa cuando una lectura supera el umbral de tu cultivo y te permite registrar acciones correctivas.",
+    "dataTitle": "Tus datos",
+    "data": "Guardamos los datos de tu cuenta, tus fincas, parcelas, dispositivos, lecturas, alertas y acciones correctivas para mostrarte su historial. Se usan solo para prestar el servicio.",
+    "measurementsTitle": "Cómo leer las mediciones",
+    "measurements": "Los umbrales de cultivo usan la conductividad eléctrica del extracto de saturación del suelo (ECe), medida en dS/m. La lectura cruda del sensor no equivale directamente a la ECe; para una evaluación técnica se necesita el método de medición adecuado.",
+    "intro": "Estos términos explican qué hace OsoSense y cómo se usan los datos de tu cuenta. Al crear una cuenta, los aceptas.",
+    "accountTitle": "Tu cuenta",
+    "account": "Usa tus datos reales y un correo al que tengas acceso. Eres responsable de mantener tu contraseña en reserva.",
+    "sharingTitle": "Con quién se comparten",
+    "sharing": "Solo tú y los asesores técnicos cuya solicitud aceptes ven tus fincas, parcelas, lecturas y alertas. Puedes terminar esa supervisión cuando quieras desde «Mi asesor».",
+    "decisionsTitle": "Las decisiones de manejo",
+    "decisions": "Las alertas y los niveles son una guía para decidir a tiempo. La decisión de riego, lavado o enmienda la tomas tú, de preferencia con tu asesor técnico."
   },
   "dashboard": {
     "overview": "Resumen del campo",
@@ -125,7 +132,7 @@
     "activeAlerts": "Alertas activas",
     "reviewAlerts": "Revisar alertas",
     "onlineDevices": "Dispositivos conectados",
-    "lastSync": "Última telemetría de demostración",
+    "lastSync": "Última telemetría",
     "priorities": "Empieza por las parcelas que necesitan una revisión.",
     "byRisk": "Riesgo de salinidad",
     "byClient": "Cliente"
@@ -299,12 +306,12 @@
     "supervisedArea": "Superficie supervisada",
     "preparedBy": "Preparado por",
     "generatedOn": "Generado el {{date}}",
-    "reportFooter": "Datos de demostración. Los umbrales de cultivo corresponden a ECe; la fuente de cada cultivo se indica junto a su umbral.",
+    "reportFooter": "Los umbrales de cultivo corresponden a la ECe; la fuente de cada cultivo se indica junto a su umbral.",
     "reportEmpty": "Selecciona al menos una parcela para construir el reporte.",
     "period": "Periodo",
     "noActions": "Sin acciones correctivas registradas.",
-    "noCalibrationRecords": "No se ha registrado ninguna calibración en esta sesión de demostración.",
-    "calibrationSaved": "Calibración registrada para esta sesión de demostración.",
+    "noCalibrationRecords": "Todavía no hay calibraciones registradas. Registra la primera con el formulario de arriba.",
+    "calibrationSaved": "Calibración registrada.",
     "trendCaption": "Tendencia de las tres parcelas que requieren atención primero"
   },
   "comparison": {
@@ -315,12 +322,12 @@
     "plotCount": "Parcelas supervisadas: {{count}}"
   },
   "calibration": {
-    "hint": "Registra una observación emparejada de sensor y laboratorio.",
+    "hint": "Registra la lectura del sensor y la ECe que midió el laboratorio en una misma muestra de suelo.",
     "sensorDsM": "Conductividad del sensor",
     "laboratoryEceDsM": "ECe de laboratorio",
-    "limitation": "Este prototipo solo registra un desplazamiento de un punto. No convierte lecturas crudas del sensor a ECe ni modifica mediciones históricas.",
+    "limitation": "La calibración guarda los dos valores y su diferencia para comparar el sensor con el laboratorio. Las lecturas que ya están registradas no cambian.",
     "records": "Registros de calibración",
-    "offset": "Desplazamiento registrado",
+    "offset": "Diferencia con el laboratorio",
     "laboratory": "Laboratorio"
   },
   "reports": {
@@ -334,9 +341,9 @@
     "exportError": "No se pudo generar el PDF. Inténtalo de nuevo."
   },
   "account": {
-    "sessionHint": "El idioma se recuerda en este dispositivo. Las cuentas y los cambios de monitoreo se reinician al recargar la página.",
-    "demoPlan": "Espacio de prototipo",
-    "subscriptionHint": "Vista de suscripción preparada para una futura integración de facturación. No hay pagos habilitados.",
+    "sessionHint": "El idioma que elijas se recuerda en este dispositivo.",
+    "demoPlan": "Plan actual",
+    "subscriptionHint": "La facturación todavía no está habilitada: puedes usar OsoSense sin pagos.",
     "noAdvisor": "Tu cuenta no tiene un asesor asignado."
   },
   "home": {

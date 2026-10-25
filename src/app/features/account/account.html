@@ -11,7 +11,9 @@
       <p>{{ 'account.sessionHint' | translate }}</p>
     }
     @case ('subscription') {
-      <span class="demo-chip">{{ 'common.demo' | translate }}</span>
+      @if (demo) {
+        <span class="demo-chip">{{ 'common.demo' | translate }}</span>
+      }
       <h2>{{ 'account.demoPlan' | translate }}</h2>
       <p>{{ 'account.subscriptionHint' | translate }}</p>
     }

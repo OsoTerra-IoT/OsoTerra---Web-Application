@@ -1,3 +1,4 @@
+import { API_CONFIG } from '../../../core/api/api-config';
 import { LevelPill } from '../../../shared/components/level-pill';
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -28,6 +29,8 @@ const INVITATION_MESSAGES: Record<Exclude<InvitationResult, 'sent'>, string> = {
   styleUrl: './clients.scss',
 })
 export class Clients {
+  /** Demo labels only when the in-browser fake API answers, never on real data. */
+  readonly demo = inject(API_CONFIG).useFakeApi;
   readonly data = inject(MonitoringService);
   readonly links = inject(AdvisoryLinkService);
   readonly locale = inject(LocaleService);
