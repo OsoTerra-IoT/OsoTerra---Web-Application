@@ -1,3 +1,4 @@
+import { LevelPill } from '../../../shared/components/level-pill';
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -11,7 +12,14 @@ import { TrendChart } from '../../../shared/components/trend-chart';
 import { DeviceActivationForm } from './device-activation';
 @Component({
   selector: 'app-plot-detail',
-  imports: [...UI_IMPORTS, MatTabsModule, SalinityStatus, TrendChart, DeviceActivationForm],
+  imports: [
+    LevelPill,
+    ...UI_IMPORTS,
+    MatTabsModule,
+    SalinityStatus,
+    TrendChart,
+    DeviceActivationForm,
+  ],
   templateUrl: './plot-detail.html',
 })
 export class PlotDetail {

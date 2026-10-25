@@ -1,4 +1,5 @@
-﻿import { Component, computed, inject, signal } from '@angular/core';
+import { LevelPill } from '../../../shared/components/level-pill';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AdvisoryLinkService, InvitationResult } from '../../../core/data/advisory-link.service';
@@ -22,7 +23,7 @@ const INVITATION_MESSAGES: Record<Exclude<InvitationResult, 'sent'>, string> = {
  */
 @Component({
   selector: 'app-clients',
-  imports: [...UI_IMPORTS],
+  imports: [LevelPill, ...UI_IMPORTS],
   templateUrl: './clients.html',
   styleUrl: './clients.scss',
 })

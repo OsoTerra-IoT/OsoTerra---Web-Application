@@ -1,4 +1,5 @@
-﻿import { Component, computed, inject, signal } from '@angular/core';
+import { LevelPill } from '../../../shared/components/level-pill';
+import { Component, computed, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../../core/auth/auth.service';
 import { MonitoringService } from '../../../core/data/monitoring.service';
@@ -9,7 +10,7 @@ import { UI_IMPORTS } from '../../../shared/ui-imports';
 /** Report preview and PDF export for the selected supervised plots. */
 @Component({
   selector: 'app-reports',
-  imports: [...UI_IMPORTS],
+  imports: [LevelPill, ...UI_IMPORTS],
   templateUrl: './reports.html',
   styleUrl: './reports.scss',
 })

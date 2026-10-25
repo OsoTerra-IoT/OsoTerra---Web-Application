@@ -64,10 +64,9 @@
       ><section class="surface tab-content">
         @for (alert of alerts(); track alert.id) {
           <div class="list-row">
-            <span class="status-pill" [class]="'status-pill ' + alert.severity.toLowerCase()"
-              ><mat-icon aria-hidden="true">warning</mat-icon
-              >{{ 'severity.' + alert.severity | translate }}</span
-            ><span>{{ 'alertStatus.' + alert.status | translate }}</span
+            <app-level-pill [severity]="alert.severity" /><span>{{
+              'alertStatus.' + alert.status | translate
+            }}</span
             ><a mat-button routerLink="/app/alerts" [queryParams]="{ plot: plot.id }">{{
               'alerts.manage' | translate
             }}</a>

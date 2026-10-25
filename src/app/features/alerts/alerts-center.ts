@@ -1,3 +1,4 @@
+import { LevelPill } from '../../shared/components/level-pill';
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,7 +8,7 @@ import { UI_IMPORTS } from '../../shared/ui-imports';
 import { CorrectiveActionDialog } from './corrective-action-dialog';
 @Component({
   selector: 'app-alerts-center',
-  imports: [...UI_IMPORTS],
+  imports: [LevelPill, ...UI_IMPORTS],
   templateUrl: './alerts-center.html',
 })
 export class AlertsCenter {

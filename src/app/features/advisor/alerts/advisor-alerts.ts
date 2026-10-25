@@ -1,3 +1,4 @@
+import { LevelPill } from '../../../shared/components/level-pill';
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,7 +11,7 @@ import { AdvisorActionDialog } from './advisor-action-dialog';
 /** Alert triage across every supervised client. */
 @Component({
   selector: 'app-advisor-alerts',
-  imports: [...UI_IMPORTS],
+  imports: [LevelPill, ...UI_IMPORTS],
   templateUrl: './advisor-alerts.html',
   styleUrl: './advisor-alerts.scss',
 })

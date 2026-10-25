@@ -190,10 +190,10 @@
     "temperature": "Temperatura del suelo"
   },
   "salinity": {
-    "normal": "Nivel normal",
-    "watch": "Nivel en vigilancia",
-    "high": "Nivel alto",
-    "critical": "Nivel muy alto",
+    "normal": "Normal",
+    "watch": "En vigilancia",
+    "high": "Alto",
+    "critical": "Muy alto",
     "unknown": "Sin lectura comparable",
     "threshold": "Umbral del cultivo",
     "ece": "ECe",
@@ -211,7 +211,7 @@
     "value": "Valor"
   },
   "alerts": {
-    "acknowledgedAnnouncement": "Alerta reconocida.",
+    "acknowledgedAnnouncement": "Alerta marcada como atendida.",
     "actionRecordedAnnouncement": "Acción correctiva registrada.",
     "monitoring": "Monitoreo del suelo",
     "hint": "Revisa las alertas, registra observaciones y sigue las acciones correctivas.",
@@ -222,19 +222,19 @@
     "notificationCount": "Notificaciones: {{count}} alertas activas",
     "manage": "Gestionar alerta",
     "empty": "No hay alertas que coincidan con estos filtros.",
-    "acknowledge": "Reconocer",
+    "acknowledge": "Marcar como atendida",
     "recordAction": "Registrar acción",
     "actionCount": "Acciones registradas: {{count}}",
     "actionType": "Tipo de acción"
   },
   "severity": {
-    "WATCH": "Vigilancia",
-    "WARNING": "Advertencia",
-    "CRITICAL": "Crítica"
+    "WATCH": "En vigilancia",
+    "WARNING": "Alto",
+    "CRITICAL": "Muy alto"
   },
   "alertStatus": {
     "OPEN": "Abierta",
-    "ACKNOWLEDGED": "Reconocida",
+    "ACKNOWLEDGED": "Atendida",
     "RESOLVED": "Resuelta"
   },
   "actionTypes": {

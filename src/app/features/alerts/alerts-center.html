@@ -59,12 +59,7 @@
               <a [routerLink]="['/app/plots', alert.plotId]">{{ plotName(alert.plotId) }}</a>
             </td>
             <td>
-              <span [class]="'status-pill ' + alert.severity.toLowerCase()"
-                ><mat-icon aria-hidden="true">{{
-                  alert.severity === 'WATCH' ? 'visibility' : 'warning'
-                }}</mat-icon
-                >{{ 'severity.' + alert.severity | translate }}</span
-              >
+              <app-level-pill [severity]="alert.severity" />
             </td>
             <td>{{ 'alertStatus.' + alert.status | translate }}</td>
             <td>{{ locale.date(alert.createdAt) }}</td>

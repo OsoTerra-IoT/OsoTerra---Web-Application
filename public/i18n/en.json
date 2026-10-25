@@ -190,10 +190,10 @@
     "temperature": "Soil temperature"
   },
   "salinity": {
-    "normal": "Normal level",
-    "watch": "Watch level",
-    "high": "High level",
-    "critical": "Very high level",
+    "normal": "Normal",
+    "watch": "Watch",
+    "high": "High",
+    "critical": "Critical",
     "unknown": "No comparable reading",
     "threshold": "Crop threshold",
     "ece": "ECe",
@@ -211,7 +211,7 @@
     "value": "Value"
   },
   "alerts": {
-    "acknowledgedAnnouncement": "Alert acknowledged.",
+    "acknowledgedAnnouncement": "Alert marked as handled.",
     "actionRecordedAnnouncement": "Corrective action recorded.",
     "monitoring": "Soil monitoring",
     "hint": "Review alerts, record observations and follow corrective actions.",
@@ -222,19 +222,19 @@
     "notificationCount": "Notifications: {{count}} active alerts",
     "manage": "Manage alert",
     "empty": "No alerts match these filters.",
-    "acknowledge": "Acknowledge",
+    "acknowledge": "Mark as handled",
     "recordAction": "Record action",
     "actionCount": "Recorded actions: {{count}}",
     "actionType": "Action type"
   },
   "severity": {
     "WATCH": "Watch",
-    "WARNING": "Warning",
+    "WARNING": "High",
     "CRITICAL": "Critical"
   },
   "alertStatus": {
     "OPEN": "Open",
-    "ACKNOWLEDGED": "Acknowledged",
+    "ACKNOWLEDGED": "Handled",
     "RESOLVED": "Resolved"
   },
   "actionTypes": {

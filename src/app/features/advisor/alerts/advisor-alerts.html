@@ -11,12 +11,9 @@
 <section class="summary-grid alert-summary" [attr.aria-label]="'advisor.alertSummary' | translate">
   @for (item of counts(); track item.severity) {
     <article class="summary-card">
-      <span [class]="'status-pill ' + item.severity.toLowerCase()"
-        ><mat-icon aria-hidden="true">{{
-          item.severity === 'WATCH' ? 'visibility' : 'warning'
-        }}</mat-icon
-        >{{ 'severity.' + item.severity | translate }}</span
-      ><strong>{{ locale.number(item.count, 0) }}</strong>
+      <app-level-pill [severity]="item.severity" /><strong>{{
+        locale.number(item.count, 0)
+      }}</strong>
     </article>
   }
 </section>
@@ -84,12 +81,7 @@
             </th>
             <td>{{ clientName(alert) }}</td>
             <td>
-              <span [class]="'status-pill ' + alert.severity.toLowerCase()"
-                ><mat-icon aria-hidden="true">{{
-                  alert.severity === 'WATCH' ? 'visibility' : 'warning'
-                }}</mat-icon
-                >{{ 'severity.' + alert.severity | translate }}</span
-              >
+              <app-level-pill [severity]="alert.severity" />
             </td>
             <td>{{ 'alertStatus.' + alert.status | translate }}</td>
             <td>

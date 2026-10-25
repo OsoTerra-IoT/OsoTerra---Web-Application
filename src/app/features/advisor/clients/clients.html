@@ -114,9 +114,7 @@
         @for (plot of client.plots; track plot.id) {
           <li>
             <a [routerLink]="['/app/plots', plot.id]">{{ plot.name }}</a>
-            <span [class]="'status-pill ' + data.level(plot)">{{
-              'salinity.' + data.level(plot) | translate
-            }}</span>
+            <app-level-pill [level]="data.level(plot)" />
           </li>
         }
       </ul>

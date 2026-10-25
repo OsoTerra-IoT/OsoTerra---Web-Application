@@ -390,8 +390,9 @@ small {
   border-radius: var(--os-radius-pill);
   font-size: 0.875rem;
   font-weight: 600;
-  background: #e6ebea;
-  color: #3e5150;
+  background: var(--os-level-unknown-bg);
+  color: var(--os-level-unknown);
+  white-space: nowrap;
 }
 .status-pill mat-icon {
   font-size: 18px;
@@ -399,21 +400,21 @@ small {
   height: 18px;
 }
 .normal {
-  color: #1b6234;
-  background: #e1f0e4;
+  color: var(--os-level-normal);
+  background: var(--os-level-normal-bg);
 }
 .watch {
-  color: #70510b;
-  background: #fff1c6;
+  color: var(--os-level-watch);
+  background: var(--os-level-watch-bg);
 }
 .high,
 .warning {
-  color: #85440d;
-  background: #fff0dd;
+  color: var(--os-level-high);
+  background: var(--os-level-high-bg);
 }
 .critical {
-  color: #a12426;
-  background: #ffeaeb;
+  color: var(--os-level-critical);
+  background: var(--os-level-critical-bg);
 }
 .salinity-value {
   font-size: 1.8rem;

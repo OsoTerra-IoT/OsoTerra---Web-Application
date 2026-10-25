@@ -4,9 +4,10 @@ import { MonitoringService } from '../../core/data/monitoring.service';
 import { LocaleService } from '../../core/i18n/locale.service';
 import { Crop, SoilReading } from '../../core/models';
 import { UI_IMPORTS } from '../ui-imports';
+import { LevelPill } from './level-pill';
 @Component({
   selector: 'app-salinity-status',
-  imports: [...UI_IMPORTS],
+  imports: [...UI_IMPORTS, LevelPill],
   templateUrl: './salinity-status.html',
 })
 export class SalinityStatus {
@@ -16,14 +17,4 @@ export class SalinityStatus {
   readonly crop = input.required<Crop>();
   private readonly data = inject(MonitoringService);
   readonly level = computed(() => this.data.salinityLevel(this.crop(), this.reading()));
-  readonly icon = computed(
-    () =>
-      ({
-        unknown: 'help_outline',
-        critical: 'error',
-        high: 'warning',
-        watch: 'visibility',
-        normal: 'check_circle',
-      })[this.level()],
-  );
 }

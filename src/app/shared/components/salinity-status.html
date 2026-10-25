@@ -1,7 +1,4 @@
-<span class="status-pill" [class]="'status-pill ' + level()"
-  ><mat-icon aria-hidden="true">{{ icon() }}</mat-icon
-  >{{ 'salinity.' + level() | translate }}</span
->
+<app-level-pill [level]="level()" />
 @if (reading(); as value) {
   @if (auth.isAdvisor()) {
     <p class="salinity-value">
