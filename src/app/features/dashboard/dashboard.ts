@@ -22,10 +22,10 @@ export class Dashboard {
   readonly orderedPlots = computed(() =>
     [...this.data.plots()].sort((a, b) => this.data.risk(b) - this.data.risk(a)),
   );
-  /** Plots at or above 80 % of their crop threshold. */
-  readonly attention = computed(
-    () => this.data.plots().filter((plot) => this.data.risk(plot) >= 0.8).length,
-  );
+  /** Same rule as the strips: only plots in the High or Very high level need attention. */
+  readonly attention = computed(() => this.data.attentionPlots().length);
+  /** Plots in the Watch level, mentioned apart from the headline. */
+  readonly watch = computed(() => this.data.watchPlots().length);
   readonly area = computed(() =>
     this.data.plots().reduce((sum, plot) => sum + plot.areaHectares, 0),
   );

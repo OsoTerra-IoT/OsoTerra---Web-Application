@@ -351,7 +351,13 @@
     "profileHint": "Cada franja muestra la CE actual frente al umbral del cultivo.",
     "legend": "La marca vertical es el umbral de salinidad del cultivo.",
     "stripLabel": "CE al {{percent}} % del umbral de {{threshold}} dS/m",
-    "thresholdShort": "{{percent}} % del umbral ({{threshold}} dS/m)"
+    "thresholdShort": "{{percent}} % del umbral ({{threshold}} dS/m)",
+    "noneAttention": "Ninguna de tus {{total}} parcelas necesita atención.",
+    "noneAttentionAdvisor": "Ninguna de las {{total}} parcelas que supervisas necesita una visita.",
+    "attentionAdvisorOne": "{{count}} de {{total}} parcelas de tus {{clients}} clientes necesita una visita.",
+    "attentionAdvisorOneClientOne": "{{count}} de {{total}} parcelas de tu cliente necesita una visita.",
+    "watchOne": "{{count}} parcela está en vigilancia: revisa su salinidad en los próximos días.",
+    "watchMany": "{{count}} parcelas están en vigilancia: revisa su salinidad en los próximos días."
   },
   "links": {
     "inviteTitle": "Invitar productor",

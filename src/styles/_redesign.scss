@@ -542,6 +542,25 @@
     transform: translateY(14px);
   }
 }
+.home-watch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 60ch;
+  margin: -1rem 0 2rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--os-radius-pill);
+  background: var(--os-level-watch-bg);
+  color: var(--os-level-watch);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  animation: statement-in 700ms var(--os-ease) 120ms both;
+}
+.home-watch mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
 .home-facts {
   display: flex;
   flex-wrap: wrap;

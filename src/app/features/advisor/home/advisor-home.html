@@ -3,16 +3,24 @@
     {{ 'dashboard.greeting' | translate: { name: auth.user()?.firstName } }}
   </p>
   <h1 class="home-statement">
-    @if (attention() === 0) {
-      {{ 'home.allClearAdvisor' | translate: { total: data.plots().length } }}
-    } @else {
+    @if (attention() > 0) {
       {{
-        (data.clients().length === 1 ? 'home.attentionAdvisorOneClient' : 'home.attentionAdvisor')
+        headlineKey()
           | translate
             : { count: attention(), total: data.plots().length, clients: data.clients().length }
       }}
+    } @else if (watch() > 0) {
+      {{ 'home.noneAttentionAdvisor' | translate: { total: data.plots().length } }}
+    } @else {
+      {{ 'home.allClearAdvisor' | translate: { total: data.plots().length } }}
     }
   </h1>
+  @if (watch() > 0) {
+    <p class="home-watch">
+      <mat-icon aria-hidden="true">visibility</mat-icon
+      >{{ (watch() === 1 ? 'home.watchOne' : 'home.watchMany') | translate: { count: watch() } }}
+    </p>
+  }
   <dl class="home-facts">
     <div>
       <dt>{{ 'advisor.clients' | translate }}</dt>

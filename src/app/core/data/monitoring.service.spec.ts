@@ -44,6 +44,12 @@ describe('MonitoringService over the OsoSense API', () => {
     expect(level('Campo Este')).toBe('watch');
     expect(level('El Mirador')).toBe('high');
   });
+  it('counts only High and Very high plots as needing attention, and Watch apart', async () => {
+    await login('advisor');
+    const names = (plots: { name: string }[]) => plots.map((plot) => plot.name).sort();
+    expect(names(data.attentionPlots())).toEqual(['El Mirador', 'Sector Norte']);
+    expect(names(data.watchPlots())).toEqual(['Campo Este']);
+  });
   it('isolates farmer records: another farmer plot is not readable', async () => {
     await login('farmer');
     expect(data.readings('3')).toEqual([]);

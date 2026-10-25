@@ -351,7 +351,13 @@
     "profileHint": "Each strip shows current EC against the crop threshold.",
     "legend": "The vertical mark is the crop salinity threshold.",
     "stripLabel": "EC at {{percent}}% of the {{threshold}} dS/m threshold",
-    "thresholdShort": "{{percent}}% of threshold ({{threshold}} dS/m)"
+    "thresholdShort": "{{percent}}% of threshold ({{threshold}} dS/m)",
+    "noneAttention": "None of your {{total}} plots needs attention.",
+    "noneAttentionAdvisor": "None of the {{total}} plots you supervise needs a visit.",
+    "attentionAdvisorOne": "{{count}} of {{total}} plots across your {{clients}} clients needs a visit.",
+    "attentionAdvisorOneClientOne": "{{count}} of {{total}} plots of your client needs a visit.",
+    "watchOne": "{{count}} plot is on watch: check its salinity in the next few days.",
+    "watchMany": "{{count}} plots are on watch: check their salinity in the next few days."
   },
   "links": {
     "inviteTitle": "Invite a farmer",
