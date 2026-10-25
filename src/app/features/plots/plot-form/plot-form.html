@@ -1,10 +1,17 @@
 <h1>{{ (id ? 'plots.edit' : 'plots.add') | translate }}</h1>
-<form class="surface form-surface stack" [formGroup]="form" (ngSubmit)="save()">
+<form
+  class="surface form-surface stack plot-form"
+  [formGroup]="form"
+  (ngSubmit)="save()"
+  novalidate
+>
+  <p class="muted form-intro">{{ 'plots.formHint' | translate }}</p>
   <mat-form-field
     ><mat-label>{{ 'plots.name' | translate }}</mat-label
-    ><input matInput formControlName="name" name="plotName" autocomplete="off" /><mat-error>{{
-      'validation.required' | translate
-    }}</mat-error></mat-form-field
+    ><input matInput formControlName="name" name="plotName" autocomplete="off" /><mat-hint>{{
+      'plots.nameHint' | translate
+    }}</mat-hint
+    ><mat-error>{{ 'plots.nameRequired' | translate }}</mat-error></mat-form-field
   >
   <div class="form-grid">
     <mat-form-field
@@ -13,37 +20,105 @@
         @for (farm of data.farms(); track farm.id) {
           <mat-option [value]="farm.id">{{ farm.name }}</mat-option>
         }</mat-select
-      ><mat-error>{{ 'validation.required' | translate }}</mat-error></mat-form-field
+      ><mat-error>{{ 'plots.farmRequired' | translate }}</mat-error></mat-form-field
     ><mat-form-field
       ><mat-label>{{ 'plots.crop' | translate }}</mat-label
       ><mat-select formControlName="cropId">
         @for (crop of data.crops(); track crop.id) {
           <mat-option [value]="crop.id">{{ crop.nameKey | translate }}</mat-option>
         }</mat-select
-      ><mat-error>{{ 'validation.required' | translate }}</mat-error></mat-form-field
+      ><mat-hint>{{ 'plots.cropHint' | translate }}</mat-hint
+      ><mat-error>{{ 'plots.cropRequired' | translate }}</mat-error></mat-form-field
     >
-    @for (field of numberFields; track field) {
+  </div>
+  @if (selectedCrop(); as crop) {
+    <p class="crop-summary" role="status">
+      <mat-icon aria-hidden="true">grass</mat-icon
+      ><span>{{
+        'plots.cropThreshold'
+          | translate
+            : {
+                crop: (crop.nameKey | translate),
+                threshold: locale.number(crop.salinityThresholdDsM, 1),
+              }
+      }}</span>
+    </p>
+  }
+  <fieldset class="location-group">
+    <legend>{{ 'plots.location' | translate }}</legend>
+    <p class="muted">{{ 'plots.locationHint' | translate }}</p>
+    @if (canLocate) {
+      <div class="button-row">
+        <button mat-stroked-button type="button" [disabled]="locating()" (click)="useMyLocation()">
+          <mat-icon aria-hidden="true">my_location</mat-icon>
+          {{ (locating() ? 'plots.locating' : 'plots.useMyLocation') | translate }}
+        </button>
+      </div>
+    }
+    <p
+      class="location-message"
+      [class.form-error]="locationFailed()"
+      [attr.role]="locationFailed() ? 'alert' : 'status'"
+    >
+      {{ locationMessage() ? (locationMessage() | translate) : '' }}
+    </p>
+    <div class="form-grid">
       <mat-form-field
-        ><mat-label>{{ 'plots.' + field | translate }}</mat-label
+        ><mat-label>{{ 'plots.latitude' | translate }}</mat-label
         ><input
           matInput
           type="number"
+          inputmode="decimal"
           step="any"
-          [formControlName]="field"
-          [name]="field"
+          formControlName="latitude"
+          name="latitude"
           autocomplete="off"
-        /><mat-error>{{ 'validation.range' | translate }}</mat-error></mat-form-field
+        /><mat-hint>{{ 'plots.latitudeHint' | translate }}</mat-hint
+        ><mat-error>{{ 'plots.latitudeError' | translate }}</mat-error></mat-form-field
+      ><mat-form-field
+        ><mat-label>{{ 'plots.longitude' | translate }}</mat-label
+        ><input
+          matInput
+          type="number"
+          inputmode="decimal"
+          step="any"
+          formControlName="longitude"
+          name="longitude"
+          autocomplete="off"
+        /><mat-hint>{{ 'plots.longitudeHint' | translate }}</mat-hint
+        ><mat-error>{{ 'plots.longitudeError' | translate }}</mat-error></mat-form-field
       >
+    </div>
+    @if (showNullIsland()) {
+      <p class="form-error field-alert" role="alert">
+        <mat-icon aria-hidden="true">error_outline</mat-icon>{{ 'plots.nullIsland' | translate }}
+      </p>
     }
-  </div>
+  </fieldset>
+  <mat-form-field class="area-field"
+    ><mat-label>{{ 'plots.areaHectares' | translate }}</mat-label
+    ><input
+      matInput
+      type="number"
+      inputmode="decimal"
+      step="any"
+      formControlName="areaHectares"
+      name="areaHectares"
+      autocomplete="off"
+    /><span matTextSuffix>{{ 'units.hectares' | translate }}</span
+    ><mat-error>{{ 'plots.areaError' | translate }}</mat-error></mat-form-field
+  >
   @if (!data.farms().length) {
     <a routerLink="/app/plots/farms/new">{{ 'plots.addFarmFirst' | translate }}</a>
   }
   @if (error()) {
-    <p role="alert">{{ 'validation.checkForm' | translate }}</p>
+    <p role="alert" class="form-error field-alert">
+      <mat-icon aria-hidden="true">error_outline</mat-icon>{{ 'plots.saveFailed' | translate }}
+    </p>
   }
   <div class="button-row">
-    <button mat-flat-button type="submit">{{ 'common.save' | translate }}</button
+    <button mat-flat-button type="submit" [disabled]="saving()">
+      {{ 'common.save' | translate }}</button
     ><a mat-button routerLink="/app/plots">{{ 'common.cancel' | translate }}</a>
   </div>
 </form>

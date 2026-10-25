@@ -6,6 +6,7 @@ import { AuthService, DEMO_PASSWORD } from '../../core/auth/auth.service';
 import { MonitoringService } from '../../core/data/monitoring.service';
 import { SoilReading } from '../../core/models';
 import { SalinityStatus } from './salinity-status';
+import { LevelPill } from './level-pill';
 import en from '../../../../public/i18n/en.json';
 
 const AVOCADO = toCrop({
@@ -53,7 +54,7 @@ describe('Role-based salinity presentation', () => {
     const element = (await create('farmer')).nativeElement as HTMLElement;
     expect(element.querySelector('details')?.open).toBe(false);
     expect(element.querySelector('details')?.textContent).toContain('dS/m');
-    expect(element.querySelector('.status-pill')?.textContent).toContain('Very high level');
+    expect(element.querySelector('.status-pill')?.textContent).toContain('Critical');
     expect(element.querySelector('.status-pill mat-icon')).toBeTruthy();
     expect(element.querySelector('.salinity-value')).toBeNull();
   });
@@ -77,5 +78,21 @@ describe('Role-based salinity presentation', () => {
     fixture.detectChanges();
     expect(fixture.componentInstance.level()).toBe('unknown');
     expect(fixture.nativeElement.textContent).toContain('comparable ECe');
+  });
+  it('names alert severities with the plot level words, icon and color', () => {
+    const fixture = TestBed.createComponent(LevelPill);
+    const words: Record<string, [string, string, string]> = {
+      WATCH: ['Watch', 'visibility', 'watch'],
+      WARNING: ['High', 'warning', 'high'],
+      CRITICAL: ['Critical', 'cancel', 'critical'],
+    };
+    for (const [severity, [word, icon, level]] of Object.entries(words)) {
+      fixture.componentRef.setInput('severity', severity);
+      fixture.detectChanges();
+      const pill = (fixture.nativeElement as HTMLElement).querySelector('.status-pill')!;
+      expect(pill.textContent).toContain(word);
+      expect(pill.querySelector('mat-icon')?.textContent).toBe(icon);
+      expect(pill.classList).toContain(level);
+    }
   });
 });

@@ -1,4 +1,5 @@
-﻿import { Component, computed, inject, signal } from '@angular/core';
+import { LevelPill } from '../../../shared/components/level-pill';
+import { Component, computed, inject, signal } from '@angular/core';
 import { MonitoringService } from '../../../core/data/monitoring.service';
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { Plot } from '../../../core/models';
@@ -10,7 +11,7 @@ const MAX_PLOTS = 4;
 /** Side-by-side comparison of 2 to 4 supervised plots over the same period. */
 @Component({
   selector: 'app-comparison',
-  imports: [...UI_IMPORTS, TrendChart],
+  imports: [LevelPill, ...UI_IMPORTS, TrendChart],
   templateUrl: './comparison.html',
   styleUrl: './comparison.scss',
 })

@@ -1,3 +1,6 @@
+import { Reveal } from '../../shared/directives/reveal';
+import { Skeleton } from '../../shared/components/skeleton';
+import { EceHelp } from '../../shared/components/ece-help';
 import { API_CONFIG } from '../../core/api/api-config';
 import { Component, computed, inject } from '@angular/core';
 import { AuthService } from '../../core/auth/auth.service';
@@ -10,7 +13,7 @@ import { TrendChart } from '../../shared/components/trend-chart';
 /** Farmer home: one sentence about the field, then every plot as a salinity strip. */
 @Component({
   selector: 'app-dashboard',
-  imports: [...UI_IMPORTS, SalinityStrip, TrendChart],
+  imports: [Reveal, Skeleton, EceHelp, ...UI_IMPORTS, SalinityStrip, TrendChart],
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
@@ -22,10 +25,10 @@ export class Dashboard {
   readonly orderedPlots = computed(() =>
     [...this.data.plots()].sort((a, b) => this.data.risk(b) - this.data.risk(a)),
   );
-  /** Plots at or above 80 % of their crop threshold. */
-  readonly attention = computed(
-    () => this.data.plots().filter((plot) => this.data.risk(plot) >= 0.8).length,
-  );
+  /** Same rule as the strips: only plots in the High or Very high level need attention. */
+  readonly attention = computed(() => this.data.attentionPlots().length);
+  /** Plots in the Watch level, mentioned apart from the headline. */
+  readonly watch = computed(() => this.data.watchPlots().length);
   readonly area = computed(() =>
     this.data.plots().reduce((sum, plot) => sum + plot.areaHectares, 0),
   );

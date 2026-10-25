@@ -77,12 +77,9 @@
         <h2>{{ 'advisor.plotAlerts' | translate }}</h2>
         @for (alert of alerts(); track alert.id) {
           <div class="list-row">
-            <span [class]="'status-pill ' + alert.severity.toLowerCase()"
-              ><mat-icon aria-hidden="true">{{
-                alert.severity === 'WATCH' ? 'visibility' : 'warning'
-              }}</mat-icon
-              >{{ 'severity.' + alert.severity | translate }}</span
-            ><span>{{ 'alertStatus.' + alert.status | translate }}</span
+            <app-level-pill [severity]="alert.severity" /><span>{{
+              'alertStatus.' + alert.status | translate
+            }}</span
             ><span class="muted">{{ locale.date(alert.createdAt) }}</span
             ><span class="muted"
               >{{ locale.number(alert.conductivityDsM, 2) }} {{ 'units.dsM' | translate }}</span

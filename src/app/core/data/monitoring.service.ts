@@ -125,6 +125,12 @@ export class MonitoringService {
           .sort((a, b) => b.openAlerts - a.openAlerts || a.id.localeCompare(b.id))
       : [],
   );
+  /** Plots in the High or Very high level: the ones the home headline counts. */
+  readonly attentionPlots = computed(() =>
+    this.plots().filter((plot) => ['high', 'critical'].includes(this.level(plot))),
+  );
+  /** Plots in the Watch level, named apart from the ones that need attention. */
+  readonly watchPlots = computed(() => this.plots().filter((plot) => this.level(plot) === 'watch'));
   readonly search = signal('');
   readonly filteredPlots = computed(() =>
     this.plots().filter((plot) =>
@@ -230,6 +236,8 @@ export class MonitoringService {
       Math.abs(value.latitude) > 90 ||
       !Number.isFinite(value.longitude) ||
       Math.abs(value.longitude) > 180 ||
+      // 0, 0 is in the ocean: the coordinates were left empty, not measured.
+      (value.latitude === 0 && value.longitude === 0) ||
       !Number.isFinite(value.areaHectares) ||
       value.areaHectares <= 0
     )

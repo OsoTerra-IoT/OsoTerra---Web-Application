@@ -1,3 +1,4 @@
+import { LevelPill } from '../../../shared/components/level-pill';
 import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -11,7 +12,7 @@ import { TrendChart } from '../../../shared/components/trend-chart';
 /** Advisor plot detail. Read-only technical view: no plot editing from this area. */
 @Component({
   selector: 'app-advisor-plot-detail',
-  imports: [...UI_IMPORTS, MatTabsModule, SalinityStatus, TrendChart],
+  imports: [LevelPill, ...UI_IMPORTS, MatTabsModule, SalinityStatus, TrendChart],
   templateUrl: './advisor-plot-detail.html',
   styleUrl: './advisor-plot-detail.scss',
 })

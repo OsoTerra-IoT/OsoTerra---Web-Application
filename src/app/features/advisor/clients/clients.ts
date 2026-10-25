@@ -1,4 +1,8 @@
-﻿import { Component, computed, inject, signal } from '@angular/core';
+import { Reveal } from '../../../shared/directives/reveal';
+import { Skeleton } from '../../../shared/components/skeleton';
+import { API_CONFIG } from '../../../core/api/api-config';
+import { LevelPill } from '../../../shared/components/level-pill';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AdvisoryLinkService, InvitationResult } from '../../../core/data/advisory-link.service';
@@ -22,11 +26,13 @@ const INVITATION_MESSAGES: Record<Exclude<InvitationResult, 'sent'>, string> = {
  */
 @Component({
   selector: 'app-clients',
-  imports: [...UI_IMPORTS],
+  imports: [Reveal, Skeleton, LevelPill, ...UI_IMPORTS],
   templateUrl: './clients.html',
   styleUrl: './clients.scss',
 })
 export class Clients {
+  /** Demo labels only when the in-browser fake API answers, never on real data. */
+  readonly demo = inject(API_CONFIG).useFakeApi;
   readonly data = inject(MonitoringService);
   readonly links = inject(AdvisoryLinkService);
   readonly locale = inject(LocaleService);
@@ -65,6 +71,10 @@ export class Clients {
     this.actionError.set(!(await this.links.revoke(id)));
   }
 
+  /** Department and province, without a lone separator when the farmer left them empty. */
+  location(client: AdvisorClient): string {
+    return [client.user?.department, client.user?.province].filter(Boolean).join(' · ');
+  }
   endSupervision(client: AdvisorClient) {
     const link = this.links.acceptedWith(client.id);
     if (!link) return;

@@ -126,6 +126,15 @@ describe('OsoTerra routed application', () => {
     expect(text).toContain('Mendoza');
     expect(text).toContain('dS/m');
   });
+  it('agrees the advisor headline with the levels shown on the strips', async () => {
+    await login('advisor');
+    await harness.navigateByUrl('/app/home');
+    const element = harness.routeNativeElement!;
+    expect(element.querySelector('h1')?.textContent).toContain(
+      '2 of 4 plots across your 2 clients',
+    );
+    expect(element.querySelector('.home-watch')?.textContent).toContain('1 plot is on watch');
+  });
   it('lists the alerts of every supervised client in the triage table', async () => {
     await login('advisor');
     await harness.navigateByUrl('/app/alerts');

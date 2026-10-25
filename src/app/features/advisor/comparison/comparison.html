@@ -54,9 +54,7 @@
             <tr>
               <th scope="row">
                 <a [routerLink]="['/app/plots', plot.id]">{{ plot.name }}</a>
-                <span [class]="'status-pill ' + data.level(plot)">{{
-                  'salinity.' + data.level(plot) | translate
-                }}</span>
+                <app-level-pill [level]="data.level(plot)" />
               </th>
               <td>{{ data.owner(plot)?.firstName }} {{ data.owner(plot)?.lastName }}</td>
               <td>{{ data.crop(plot).nameKey | translate }}</td>

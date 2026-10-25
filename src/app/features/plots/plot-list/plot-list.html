@@ -33,7 +33,7 @@
     </div>
     <div class="plot-grid">
       @for (plot of farmPlots(farm.id); track plot.id) {
-        <article class="plot-card">
+        <article class="plot-card" appReveal>
           <p class="crop-tag">{{ data.crop(plot).nameKey | translate }}</p>
           <h3>
             <a [routerLink]="[plot.id]">{{ plot.name }}</a>
@@ -51,5 +51,12 @@
     </div>
   </section>
 } @empty {
-  <p class="empty-state">{{ 'plots.empty' | translate }}</p>
+  @if (data.loading()) {
+    <app-skeleton variant="card" [rows]="3" />
+  } @else {
+    <div class="empty-state">
+      <mat-icon aria-hidden="true">landscape</mat-icon>
+      <p>{{ 'plots.empty' | translate }}</p>
+    </div>
+  }
 }
