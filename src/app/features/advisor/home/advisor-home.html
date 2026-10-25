@@ -50,7 +50,7 @@
     </div>
   </dl>
 </header>
-<section class="home-profile" aria-labelledby="profile-title">
+<section class="home-profile" aria-labelledby="profile-title" appReveal>
   <div class="home-profile-head">
     <div>
       <h2 id="profile-title">{{ 'home.profileTitleAdvisor' | translate }}</h2>
@@ -62,10 +62,20 @@
     >
   </div>
   <div class="strip-list">
-    @for (plot of ranked(); track plot.id; let index = $index) {
-      <app-salinity-strip [plot]="plot" [index]="index" [showOwner]="true" />
-    } @empty {
-      <p class="empty-state">{{ 'advisor.noAssignments' | translate }}</p>
+    @if (data.loading() && !data.plots().length) {
+      <app-skeleton [rows]="3" />
+    } @else {
+      @for (plot of ranked(); track plot.id; let index = $index) {
+        <app-salinity-strip [plot]="plot" [index]="index" [showOwner]="true" />
+      } @empty {
+        <div class="empty-state">
+          <mat-icon aria-hidden="true">groups</mat-icon>
+          <p>{{ 'advisor.noAssignments' | translate }}</p>
+          <a mat-stroked-button routerLink="/app/advisor/clients">{{
+            'links.inviteTitle' | translate
+          }}</a>
+        </div>
+      }
     }
   </div>
   <p class="strip-legend muted">
@@ -73,7 +83,7 @@
   </p>
 </section>
 @if (series().length) {
-  <section class="home-trend" [attr.aria-label]="'chart.title' | translate">
+  <section class="home-trend" [attr.aria-label]="'chart.title' | translate" appReveal>
     <p class="muted">{{ 'advisor.trendCaption' | translate }}</p>
     <app-trend-chart [series]="series()" />
   </section>

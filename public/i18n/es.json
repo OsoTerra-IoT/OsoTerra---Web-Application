@@ -151,7 +151,7 @@
     "editFarm": "Editar finca",
     "detail": "Detalle de parcela",
     "search": "Buscar parcelas",
-    "empty": "Todavía no hay parcelas. Agrega una finca y tu primera parcela para empezar.",
+    "empty": "Aún no tienes parcelas. Agrega una finca y tu primera parcela para empezar.",
     "emptySearch": "Ninguna parcela coincide con tu búsqueda en esta finca.",
     "view": "Ver parcela",
     "viewNamed": "Ver {{name}}",
@@ -185,7 +185,8 @@
     "longitudeError": "Ingresa una longitud entre −180 y 180.",
     "nullIsland": "La ubicación 0, 0 está en el océano. Usa tu ubicación o escribe las coordenadas de la parcela.",
     "areaError": "Ingresa una superficie mayor que 0 ha.",
-    "saveFailed": "No pudimos guardar la parcela. Revisa tu conexión e inténtalo de nuevo."
+    "saveFailed": "No pudimos guardar la parcela. Revisa tu conexión e inténtalo de nuevo.",
+    "noReadings": "Aún no hay lecturas. Conecta tu dispositivo para ver la salinidad de esta parcela."
   },
   "crops": {
     "avocado": "Palto",

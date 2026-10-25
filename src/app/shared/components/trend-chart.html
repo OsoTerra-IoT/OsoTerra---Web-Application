@@ -84,5 +84,8 @@
     </div>
   </details>
 } @else {
-  <p class="empty-state">{{ 'common.noData' | translate }}</p>
+  <div class="empty-state">
+    <mat-icon aria-hidden="true">sensors</mat-icon>
+    <p>{{ 'plots.noReadings' | translate }}</p>
+  </div>
 }

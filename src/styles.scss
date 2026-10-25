@@ -95,6 +95,9 @@ html {
   --os-line: #e3e8e5;
   --os-track: #eaefec;
   --os-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  // Standard easing for hover, focus and reveals (Style Guidelines 5.1).
+  --os-motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --os-primary-200: #a7f3d0;
   // Salinity levels (Style Guidelines 5.1): text and background of each status.
   --os-level-normal: #1b6234;
   --os-level-normal-bg: #e1f0e4;

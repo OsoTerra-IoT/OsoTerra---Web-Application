@@ -1,3 +1,5 @@
+import { Reveal } from '../../../shared/directives/reveal';
+import { Skeleton } from '../../../shared/components/skeleton';
 import { API_CONFIG } from '../../../core/api/api-config';
 import { LevelPill } from '../../../shared/components/level-pill';
 import { Component, computed, inject, signal } from '@angular/core';
@@ -24,7 +26,7 @@ const INVITATION_MESSAGES: Record<Exclude<InvitationResult, 'sent'>, string> = {
  */
 @Component({
   selector: 'app-clients',
-  imports: [LevelPill, ...UI_IMPORTS],
+  imports: [Reveal, Skeleton, LevelPill, ...UI_IMPORTS],
   templateUrl: './clients.html',
   styleUrl: './clients.scss',
 })

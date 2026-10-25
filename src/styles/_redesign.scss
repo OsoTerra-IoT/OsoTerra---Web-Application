@@ -60,8 +60,8 @@
   color: var(--os-neutral-600);
   cursor: pointer;
   transition:
-    background-color 160ms,
-    color 160ms;
+    background-color 150ms var(--os-motion-ease),
+    color 150ms var(--os-motion-ease);
 }
 .side-collapse:hover,
 .side-logout:hover {
@@ -99,7 +99,9 @@
   font-size: 0.9375rem;
   font-weight: 600;
   text-decoration: none;
-  transition: color 200ms;
+  transition:
+    color 150ms var(--os-motion-ease),
+    background-color 150ms var(--os-motion-ease);
 }
 .side-link:hover {
   color: var(--os-ink);
@@ -206,8 +208,8 @@
   background: #ffffff;
   color: var(--os-neutral-500);
   transition:
-    border-color 160ms,
-    box-shadow 160ms;
+    border-color 150ms var(--os-motion-ease),
+    box-shadow 150ms var(--os-motion-ease);
 }
 .quick-search:focus-within {
   border-color: var(--os-primary-700);
@@ -240,7 +242,7 @@
   height: 44px;
   border-radius: 50%;
   color: var(--os-ink);
-  transition: background-color 160ms;
+  transition: background-color 150ms var(--os-motion-ease);
 }
 .topbar-bell:hover {
   background: #ffffff;
@@ -480,9 +482,9 @@
   text-align: left;
   cursor: pointer;
   transition:
-    border-color 160ms,
-    transform 160ms var(--os-ease),
-    box-shadow 160ms;
+    border-color 150ms var(--os-motion-ease),
+    transform 150ms var(--os-motion-ease),
+    box-shadow 150ms var(--os-motion-ease);
 }
 .demo-option:hover {
   border-color: var(--os-primary-700);
@@ -870,7 +872,144 @@
     border: 0;
   }
 }
+// Motion and states (Style Guidelines 5.1) -----------------------------------
+// Hover and focus colors change in 150 ms; cards rise once in 800 ms when they enter the screen.
+.mat-mdc-button-base,
+.plot-card,
+.client-card,
+.summary-card,
+.strip-name a,
+.alert-card-head a {
+  transition:
+    color 150ms var(--os-motion-ease),
+    background-color 150ms var(--os-motion-ease),
+    border-color 150ms var(--os-motion-ease),
+    box-shadow 150ms var(--os-motion-ease);
+}
+.plot-card:hover,
+.client-card:hover {
+  border-color: var(--os-primary-200);
+  box-shadow: 0 12px 40px rgb(4 120 87 / 0.08);
+}
+.reveal-wait {
+  opacity: 0;
+  transform: translateY(16px);
+}
+.reveal-in {
+  animation: card-reveal 800ms var(--os-motion-ease) both;
+}
+.plot-grid > .reveal-in:nth-child(2),
+.summary-grid > .reveal-in:nth-child(2) {
+  animation-delay: 80ms;
+}
+.plot-grid > .reveal-in:nth-child(3),
+.summary-grid > .reveal-in:nth-child(3) {
+  animation-delay: 160ms;
+}
+.plot-grid > .reveal-in:nth-child(n + 4),
+.summary-grid > .reveal-in:nth-child(n + 4) {
+  animation-delay: 240ms;
+}
+@keyframes card-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+.skeleton-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--os-line);
+}
+.skeleton-strip .skeleton-item:first-of-type {
+  border-top: 0;
+}
+.skeleton-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 245px), 1fr));
+  gap: 1rem;
+}
+.skeleton-card .skeleton-item {
+  min-height: 180px;
+  padding: 1.4rem;
+  border: 1px solid var(--os-neutral-200);
+  border-radius: var(--os-radius-lg);
+  background: #ffffff;
+}
+.skeleton-line {
+  display: block;
+  height: 12px;
+  border-radius: var(--os-radius-pill);
+  background: linear-gradient(90deg, #edf1ef 25%, #f7f9f8 50%, #edf1ef 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s linear infinite;
+}
+.skeleton-line.is-title {
+  width: 42%;
+  height: 16px;
+}
+.skeleton-line.is-text {
+  width: 26%;
+}
+.skeleton-line.is-bar {
+  width: 100%;
+  height: 10px;
+  margin-top: 0.25rem;
+}
+.skeleton-card .skeleton-line.is-bar {
+  width: 60%;
+  height: 28px;
+  margin-top: auto;
+}
+@keyframes skeleton-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+div.empty-state,
+p.empty-state,
+li.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 2.5rem 1.5rem;
+  border: 1px dashed #d1d5db;
+  border-radius: var(--os-radius-lg);
+  background: #ffffff;
+  color: var(--os-neutral-600);
+}
+.home-profile div.empty-state {
+  margin-top: 1rem;
+}
+.empty-state > mat-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--os-primary-50);
+  color: var(--os-primary-600);
+  font-size: 24px;
+}
+.empty-state p {
+  max-width: 46ch;
+  margin: 0;
+}
 @media (prefers-reduced-motion: reduce) {
+  .skeleton-line {
+    animation: none !important;
+  }
+  .reveal-in,
+  .home-watch,
+  .alert-card,
+  .crop-summary,
+  details[open] > :not(summary) {
+    animation: none !important;
+  }
   .probe,
   .probe-pulse,
   .probe-reading,

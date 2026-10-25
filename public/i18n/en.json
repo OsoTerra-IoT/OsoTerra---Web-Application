@@ -151,7 +151,7 @@
     "editFarm": "Edit farm",
     "detail": "Plot details",
     "search": "Search plots",
-    "empty": "No plots yet. Add a farm and your first plot to get started.",
+    "empty": "You have no plots yet. Add a farm and your first plot to get started.",
     "emptySearch": "No plots match your search in this farm.",
     "view": "View plot",
     "viewNamed": "View {{name}}",
@@ -185,7 +185,8 @@
     "longitudeError": "Enter a longitude between −180 and 180.",
     "nullIsland": "Location 0, 0 is in the ocean. Use your location or type the plot coordinates.",
     "areaError": "Enter an area greater than 0 ha.",
-    "saveFailed": "We could not save the plot. Check your connection and try again."
+    "saveFailed": "We could not save the plot. Check your connection and try again.",
+    "noReadings": "No readings yet. Connect your device to see the salinity of this plot."
   },
   "crops": {
     "avocado": "Avocado",

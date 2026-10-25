@@ -43,7 +43,7 @@
     </div>
   </dl>
 </header>
-<section class="home-profile" aria-labelledby="profile-title">
+<section class="home-profile" aria-labelledby="profile-title" appReveal>
   <div class="home-profile-head">
     <div>
       <h2 id="profile-title">{{ 'home.profileTitle' | translate }}</h2>
@@ -55,10 +55,17 @@
     >
   </div>
   <div class="strip-list">
-    @for (plot of orderedPlots(); track plot.id; let index = $index) {
-      <app-salinity-strip [plot]="plot" [index]="index" />
-    } @empty {
-      <p class="empty-state">{{ 'plots.empty' | translate }}</p>
+    @if (data.loading() && !data.plots().length) {
+      <app-skeleton [rows]="2" />
+    } @else {
+      @for (plot of orderedPlots(); track plot.id; let index = $index) {
+        <app-salinity-strip [plot]="plot" [index]="index" />
+      } @empty {
+        <div class="empty-state">
+          <mat-icon aria-hidden="true">landscape</mat-icon>
+          <p>{{ 'plots.empty' | translate }}</p>
+        </div>
+      }
     }
   </div>
   <p class="strip-legend muted">
@@ -66,7 +73,7 @@
   </p>
 </section>
 @if (chartSeries().length) {
-  <section class="home-trend">
+  <section class="home-trend" appReveal>
     <h2>{{ 'chart.title' | translate }}</h2>
     <details>
       <summary>{{ 'salinity.showHistory' | translate }}</summary>
