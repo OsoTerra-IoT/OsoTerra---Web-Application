@@ -99,7 +99,7 @@
         <dt>{{ 'advisor.contact' | translate }}</dt>
         <dd>{{ client.user?.email }}</dd>
         <dt>{{ 'advisor.location' | translate }}</dt>
-        <dd>{{ client.user?.department }} · {{ client.user?.province }}</dd>
+        <dd>{{ location(client) || ('common.unknown' | translate) }}</dd>
         <dt>{{ 'advisor.farms' | translate }}</dt>
         <dd>
           @for (farm of client.farms; track farm.id) {

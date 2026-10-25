@@ -71,6 +71,10 @@ export class Clients {
     this.actionError.set(!(await this.links.revoke(id)));
   }
 
+  /** Department and province, without a lone separator when the farmer left them empty. */
+  location(client: AdvisorClient): string {
+    return [client.user?.department, client.user?.province].filter(Boolean).join(' · ');
+  }
   endSupervision(client: AdvisorClient) {
     const link = this.links.acceptedWith(client.id);
     if (!link) return;
