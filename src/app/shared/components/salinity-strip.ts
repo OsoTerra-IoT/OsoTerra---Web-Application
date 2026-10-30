@@ -4,6 +4,7 @@ import { LocaleService } from '../../core/i18n/locale.service';
 import { Plot } from '../../core/models';
 import { UI_IMPORTS } from '../ui-imports';
 import { LEVEL_ICONS } from './level-pill';
+import { Sparkline } from './sparkline';
 
 /** The strip spans 0 → SCALE × crop threshold, so the threshold mark always sits at the same place. */
 const SCALE = 1.6;
@@ -11,7 +12,7 @@ const SCALE = 1.6;
 /** One plot drawn as a salinity strip: current ECe against the crop threshold. */
 @Component({
   selector: 'app-salinity-strip',
-  imports: [...UI_IMPORTS],
+  imports: [...UI_IMPORTS, Sparkline],
   templateUrl: './salinity-strip.html',
   host: { class: 'salinity-strip', '[style.--i]': 'index()' },
 })
@@ -25,6 +26,7 @@ export class SalinityStrip {
   readonly showOwner = input(false);
   readonly crop = computed(() => this.data.crop(this.plot()));
   readonly reading = computed(() => this.data.latest(this.plot().id));
+  readonly readings = computed(() => this.data.readings(this.plot().id));
   readonly level = computed(() => this.data.level(this.plot()));
   readonly icon = computed(() => LEVEL_ICONS[this.level()]);
   readonly ratio = computed(() => this.data.risk(this.plot()));

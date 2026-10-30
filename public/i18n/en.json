@@ -228,7 +228,8 @@
     "ece": "ECe",
     "showValue": "Show measurement in dS/m",
     "showHistory": "Show numerical history",
-    "needsCalibration": "A comparable ECe measurement is required to assess the crop threshold."
+    "needsCalibration": "A comparable ECe measurement is required to assess the crop threshold.",
+    "trendLabel": "Last {{count}} readings: from {{from}} to {{to}} dS/m"
   },
   "chart": {
     "title": "Soil trends",
@@ -391,7 +392,8 @@
     "watchMany": "{{count}} plots are on watch: check their salinity in the next few days.",
     "noPlots": "You don't have any plots yet.",
     "noPlotsHint": "Register your first one to see its salinity.",
-    "registerFirstPlot": "Register plot"
+    "registerFirstPlot": "Register plot",
+    "legendShort": "Crop threshold"
   },
   "links": {
     "inviteTitle": "Invite a farmer",

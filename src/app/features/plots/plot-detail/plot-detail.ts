@@ -11,6 +11,7 @@ import { UI_IMPORTS } from '../../../shared/ui-imports';
 import { SalinityStatus } from '../../../shared/components/salinity-status';
 import { TrendChart } from '../../../shared/components/trend-chart';
 import { DeviceActivationForm } from './device-activation';
+import { Sparkline } from '../../../shared/components/sparkline';
 @Component({
   selector: 'app-plot-detail',
   imports: [
@@ -21,6 +22,7 @@ import { DeviceActivationForm } from './device-activation';
     SalinityStatus,
     TrendChart,
     DeviceActivationForm,
+    Sparkline,
   ],
   templateUrl: './plot-detail.html',
 })

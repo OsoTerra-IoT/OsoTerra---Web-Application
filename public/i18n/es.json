@@ -228,7 +228,8 @@
     "ece": "ECe",
     "showValue": "Ver medición en dS/m",
     "showHistory": "Ver historial numérico",
-    "needsCalibration": "Se requiere una medición de ECe comparable para evaluar el umbral del cultivo."
+    "needsCalibration": "Se requiere una medición de ECe comparable para evaluar el umbral del cultivo.",
+    "trendLabel": "Últimas {{count}} lecturas: de {{from}} a {{to}} dS/m"
   },
   "chart": {
     "title": "Tendencias del suelo",
@@ -391,7 +392,8 @@
     "watchMany": "{{count}} parcelas están en vigilancia: revisa su salinidad en los próximos días.",
     "noPlots": "Aún no tienes parcelas.",
     "noPlotsHint": "Registra la primera para ver su salinidad.",
-    "registerFirstPlot": "Registrar parcela"
+    "registerFirstPlot": "Registrar parcela",
+    "legendShort": "Umbral del cultivo"
   },
   "links": {
     "inviteTitle": "Invitar productor",
