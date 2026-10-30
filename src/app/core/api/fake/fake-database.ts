@@ -85,6 +85,57 @@ export class FakeDatabase {
     return next;
   }
 
+  /** Plans and crops, with the same catalog and order as the Backend's seeders. */
+  seedCatalog(): this {
+    // Same catalog and order as the Backend's SubscriptionPlanSeeder and CropCatalogSeeder.
+    const plan = (
+      name: string,
+      priceAmount: number,
+      billingCycle: SubscriptionPlanResource['billingCycle'],
+      maxPlots: number,
+    ): SubscriptionPlanResource => ({
+      id: this.nextId('plans'),
+      name,
+      priceAmount,
+      priceCurrency: 'PEN',
+      billingCycle,
+      maxPlots,
+      free: priceAmount === 0,
+      active: true,
+    });
+    this.plans.push(
+      plan('Free', 0, 'NONE', 2),
+      plan('Basic', 29.9, 'MONTHLY', 10),
+      plan('Pro', 299.9, 'ANNUAL', 50),
+    );
+    const catalog: [string, number, string][] = [
+      ['Cebada', 8.0, 'Tolerante'],
+      ['Algodón', 7.7, 'Tolerante'],
+      ['Remolacha azucarera', 7.0, 'Tolerante'],
+      ['Trigo', 6.0, 'Moderadamente tolerante'],
+      ['Espárrago', 5.0, 'Tolerante'],
+      ['Arroz', 3.0, 'Moderadamente sensible'],
+      ['Tomate', 2.5, 'Moderadamente sensible'],
+      ['Maíz', 1.7, 'Sensible'],
+      ['Papa', 1.7, 'Sensible'],
+      ['Uva', 1.5, 'Sensible'],
+      ['Arándano', 1.5, 'Sensible'],
+      ['Cebolla', 1.2, 'Sensible'],
+      ['Palta', 1.1, 'Sensible'],
+      ['Fresa', 1.0, 'Sensible'],
+    ];
+    for (const [commonName, salinityThresholdDsM, saltToleranceClass] of catalog)
+      this.crops.push({
+        id: this.nextId('crops'),
+        commonName,
+        scientificName: null,
+        salinityThresholdDsM,
+        saltToleranceClass,
+        sourceReference: null,
+      });
+    return this;
+  }
+
   static seeded(now = new Date()): FakeDatabase {
     const db = new FakeDatabase();
     const at = (offsetMs: number) => localDateTime(new Date(now.getTime() + offsetMs));
@@ -133,52 +184,7 @@ export class FakeDatabase {
       respondedAt: null,
     });
 
-    // Same catalog and order as the Backend's SubscriptionPlanSeeder and CropCatalogSeeder.
-    const plan = (
-      name: string,
-      priceAmount: number,
-      billingCycle: SubscriptionPlanResource['billingCycle'],
-      maxPlots: number,
-    ): SubscriptionPlanResource => ({
-      id: db.nextId('plans'),
-      name,
-      priceAmount,
-      priceCurrency: 'PEN',
-      billingCycle,
-      maxPlots,
-      free: priceAmount === 0,
-      active: true,
-    });
-    db.plans.push(
-      plan('Free', 0, 'NONE', 2),
-      plan('Basic', 29.9, 'MONTHLY', 10),
-      plan('Pro', 299.9, 'ANNUAL', 50),
-    );
-    const catalog: [string, number, string][] = [
-      ['Cebada', 8.0, 'Tolerante'],
-      ['Algodón', 7.7, 'Tolerante'],
-      ['Remolacha azucarera', 7.0, 'Tolerante'],
-      ['Trigo', 6.0, 'Moderadamente tolerante'],
-      ['Espárrago', 5.0, 'Tolerante'],
-      ['Arroz', 3.0, 'Moderadamente sensible'],
-      ['Tomate', 2.5, 'Moderadamente sensible'],
-      ['Maíz', 1.7, 'Sensible'],
-      ['Papa', 1.7, 'Sensible'],
-      ['Uva', 1.5, 'Sensible'],
-      ['Arándano', 1.5, 'Sensible'],
-      ['Cebolla', 1.2, 'Sensible'],
-      ['Palta', 1.1, 'Sensible'],
-      ['Fresa', 1.0, 'Sensible'],
-    ];
-    for (const [commonName, salinityThresholdDsM, saltToleranceClass] of catalog)
-      db.crops.push({
-        id: db.nextId('crops'),
-        commonName,
-        scientificName: null,
-        salinityThresholdDsM,
-        saltToleranceClass,
-        sourceReference: null,
-      });
+    db.seedCatalog();
     const crop = (name: string) => db.crops.find((candidate) => candidate.commonName === name)!;
 
     db.subscriptions.push(

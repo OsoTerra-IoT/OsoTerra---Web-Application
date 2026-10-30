@@ -388,7 +388,10 @@
     "attentionAdvisorOne": "{{count}} de {{total}} parcelas de tus {{clients}} clientes necesita una visita.",
     "attentionAdvisorOneClientOne": "{{count}} de {{total}} parcelas de tu cliente necesita una visita.",
     "watchOne": "{{count}} parcela está en vigilancia: revisa su salinidad en los próximos días.",
-    "watchMany": "{{count}} parcelas están en vigilancia: revisa su salinidad en los próximos días."
+    "watchMany": "{{count}} parcelas están en vigilancia: revisa su salinidad en los próximos días.",
+    "noPlots": "Aún no tienes parcelas.",
+    "noPlotsHint": "Registra la primera para ver su salinidad.",
+    "registerFirstPlot": "Registrar parcela"
   },
   "links": {
     "inviteTitle": "Invitar productor",
@@ -423,5 +426,29 @@
     "eceQuestion": "¿Qué es ECe y qué significa dS/m?",
     "eceAnswer": "ECe es la conductividad eléctrica del extracto de saturación del suelo: indica cuánta sal disuelta tiene el suelo. A más sal, más le cuesta a la planta tomar agua.",
     "dsmAnswer": "Se mide en dS/m (decisiemens por metro). Cada cultivo tolera hasta un valor, su umbral: la uva de mesa, por ejemplo, hasta 1.5 dS/m. Sobre el umbral el rendimiento empieza a bajar."
+  },
+  "demo": {
+    "label": "Datos de prueba",
+    "region": "Escenarios de prueba para entrevistas",
+    "group": "Escenarios",
+    "expand": "Mostrar escenarios de prueba",
+    "collapse": "Ocultar escenarios de prueba",
+    "load": "Cargar escenario {{number}}: {{name}} ({{role}})",
+    "restart": "Reiniciar escenario {{number}}: {{name}} ({{role}})",
+    "loading": "Cargando escenario {{number}}",
+    "choose": "Elige un escenario para empezar.",
+    "scenarios": {
+      "noPlots": "Sin parcelas",
+      "allNormal": "Todo normal",
+      "criticalAlert": "Alerta muy alta",
+      "advisorRequest": "Solicitud de asesor",
+      "advisorClients": "Asesor con clientes",
+      "advisorAlerts": "Asesor con alertas"
+    },
+    "hints": {
+      "sensorCode": "Código del sensor para vincular",
+      "farmerEmail": "Productor por invitar",
+      "pendingSensor": "Sensor pendiente de calibrar"
+    }
   }
 }

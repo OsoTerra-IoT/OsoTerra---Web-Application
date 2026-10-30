@@ -544,6 +544,20 @@
     transform: translateY(14px);
   }
 }
+.home-first-plot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  max-width: 60ch;
+  margin: -1rem 0 2rem;
+  p {
+    margin: 0;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--os-neutral-600);
+  }
+}
 .home-watch {
   display: inline-flex;
   align-items: center;

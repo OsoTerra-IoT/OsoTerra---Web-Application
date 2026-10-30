@@ -1,1 +1,7 @@
-﻿<router-outlet />
+<router-outlet />
+@if (demoActive) {
+  <!-- Loaded on demand: builds without the demo never download the bar. -->
+  @defer {
+    <app-demo-bar />
+  }
+}

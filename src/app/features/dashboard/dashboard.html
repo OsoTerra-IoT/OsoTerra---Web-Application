@@ -3,7 +3,9 @@
     {{ 'dashboard.greeting' | translate: { name: auth.user()?.firstName } }}
   </p>
   <h1 class="home-statement">
-    @if (attention() > 0) {
+    @if (!data.plots().length) {
+      {{ (data.loading() ? 'dashboard.overview' : 'home.noPlots') | translate }}
+    } @else if (attention() > 0) {
       {{
         (attention() === 1 ? 'home.attention' : 'home.attentionMany')
           | translate: { count: attention(), total: data.plots().length }
@@ -14,6 +16,14 @@
       {{ 'home.allClear' | translate: { total: data.plots().length } }}
     }
   </h1>
+  @if (!data.plots().length && !data.loading()) {
+    <div class="home-first-plot">
+      <p>{{ 'home.noPlotsHint' | translate }}</p>
+      <a mat-flat-button routerLink="/app/plots/new"
+        ><mat-icon aria-hidden="true">add</mat-icon>{{ 'home.registerFirstPlot' | translate }}</a
+      >
+    </div>
+  }
   @if (watch() > 0) {
     <p class="home-watch">
       <mat-icon aria-hidden="true">visibility</mat-icon

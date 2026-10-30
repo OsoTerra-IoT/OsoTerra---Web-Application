@@ -6,4 +6,6 @@ export const environment = {
   apiUrl: 'http://localhost:8080/api/v1',
   useFakeApi: true,
   fakeApiLatencyMs: 250,
+  /** Interview demo mode with numbered scenarios; `?demo=1` turns it on for one tab too. */
+  demoMode: false,
 };

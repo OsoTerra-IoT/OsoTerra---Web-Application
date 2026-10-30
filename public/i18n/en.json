@@ -388,7 +388,10 @@
     "attentionAdvisorOne": "{{count}} of {{total}} plots across your {{clients}} clients needs a visit.",
     "attentionAdvisorOneClientOne": "{{count}} of {{total}} plots of your client needs a visit.",
     "watchOne": "{{count}} plot is on watch: check its salinity in the next few days.",
-    "watchMany": "{{count}} plots are on watch: check their salinity in the next few days."
+    "watchMany": "{{count}} plots are on watch: check their salinity in the next few days.",
+    "noPlots": "You don't have any plots yet.",
+    "noPlotsHint": "Register your first one to see its salinity.",
+    "registerFirstPlot": "Register plot"
   },
   "links": {
     "inviteTitle": "Invite a farmer",
@@ -423,5 +426,29 @@
     "eceQuestion": "What are ECe and dS/m?",
     "eceAnswer": "ECe is the electrical conductivity of the soil saturation extract: it shows how much dissolved salt the soil holds. The more salt, the harder it is for the plant to take up water.",
     "dsmAnswer": "It is measured in dS/m (decisiemens per metre). Each crop tolerates up to a value, its threshold: table grape, for example, up to 1.5 dS/m. Above the threshold the yield starts to drop."
+  },
+  "demo": {
+    "label": "Test data",
+    "region": "Interview test scenarios",
+    "group": "Scenarios",
+    "expand": "Show test scenarios",
+    "collapse": "Hide test scenarios",
+    "load": "Load scenario {{number}}: {{name}} ({{role}})",
+    "restart": "Restart scenario {{number}}: {{name}} ({{role}})",
+    "loading": "Loading scenario {{number}}",
+    "choose": "Choose a scenario to start.",
+    "scenarios": {
+      "noPlots": "No plots",
+      "allNormal": "All normal",
+      "criticalAlert": "Critical alert",
+      "advisorRequest": "Advisor request",
+      "advisorClients": "Advisor with clients",
+      "advisorAlerts": "Advisor with alerts"
+    },
+    "hints": {
+      "sensorCode": "Sensor code to link",
+      "farmerEmail": "Farmer to invite",
+      "pendingSensor": "Sensor pending calibration"
+    }
   }
 }
