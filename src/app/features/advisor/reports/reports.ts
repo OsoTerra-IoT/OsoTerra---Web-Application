@@ -105,14 +105,12 @@ export class Reports {
         write(`${label('advisor.period')}: ${this.period(plot)}`);
         write(
           `${label('metrics.conductivity')}: ${
-            reading
-              ? `${this.locale.number(reading.conductivityDsM, 2)} ${dsM}`
-              : label('common.unknown')
-          } | ${label('salinity.threshold')}: ${this.locale.number(crop.salinityThresholdDsM, 2)} ${dsM}`,
+            reading ? `${this.locale.ece(reading.conductivityDsM)} ${dsM}` : label('common.unknown')
+          } | ${label('salinity.threshold')}: ${this.locale.ece(crop.salinityThresholdDsM)} ${dsM}`,
         );
         write(
           `${label('reports.trend')}: ${
-            change === null ? label('common.noData') : `${this.locale.number(change, 2)} ${dsM}`
+            change === null ? label('common.noData') : `${this.locale.ece(change)} ${dsM}`
           } | ${label('metrics.salinity')}: ${label('salinity.' + this.data.level(plot))}`,
         );
         write(label('reports.alertsActions'), 12, true);
@@ -122,7 +120,7 @@ export class Reports {
           write(
             `- ${label('severity.' + alert.severity)} | ${label('alertStatus.' + alert.status)} | ${this.locale.date(
               alert.createdAt,
-            )} | ${this.locale.number(alert.conductivityDsM, 2)} ${dsM}`,
+            )} | ${this.locale.ece(alert.conductivityDsM)} ${dsM}`,
           );
           if (!alert.actions.length) write(`   ${label('advisor.noActions')}`);
           for (const action of alert.actions)

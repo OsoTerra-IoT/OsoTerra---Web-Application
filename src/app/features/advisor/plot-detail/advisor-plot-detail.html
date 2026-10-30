@@ -82,7 +82,7 @@
             }}</span
             ><span class="muted">{{ locale.date(alert.createdAt) }}</span
             ><span class="muted"
-              >{{ locale.number(alert.conductivityDsM, 2) }} {{ 'units.dsM' | translate }}</span
+              >{{ locale.ece(alert.conductivityDsM) }} {{ 'units.dsM' | translate }}</span
             ><a mat-button routerLink="/app/alerts" [queryParams]="{ plot: plot.id }">{{
               'alerts.manage' | translate
             }}</a>
@@ -120,13 +120,11 @@
           @if (device.calibration; as calibration) {
             <dl class="definition-grid">
               <dt>{{ 'calibration.sensorDsM' | translate }}</dt>
-              <dd>{{ locale.number(calibration.sensorDsM, 2) }} {{ 'units.dsM' | translate }}</dd>
+              <dd>{{ locale.ece(calibration.sensorDsM) }} {{ 'units.dsM' | translate }}</dd>
               <dt>{{ 'calibration.laboratoryEceDsM' | translate }}</dt>
-              <dd>
-                {{ locale.number(calibration.laboratoryEceDsM, 2) }} {{ 'units.dsM' | translate }}
-              </dd>
+              <dd>{{ locale.ece(calibration.laboratoryEceDsM) }} {{ 'units.dsM' | translate }}</dd>
               <dt>{{ 'calibration.offset' | translate }}</dt>
-              <dd>{{ locale.number(calibration.offsetDsM, 2) }} {{ 'units.dsM' | translate }}</dd>
+              <dd>{{ locale.ece(calibration.offsetDsM) }} {{ 'units.dsM' | translate }}</dd>
               <dt>{{ 'common.date' | translate }}</dt>
               <dd>{{ locale.date(calibration.calibratedAt) }}</dd>
               <dt>{{ 'calibration.laboratory' | translate }}</dt>

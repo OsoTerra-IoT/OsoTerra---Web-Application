@@ -12,12 +12,14 @@ import { AuthService } from '../../auth/auth.service';
 import { MonitoringService } from '../../data/monitoring.service';
 import { PlotToolsService } from '../../webmcp/plot-tools.service';
 import { ADVISOR_NAVIGATION } from './advisor-navigation';
+import { OUTLINED_FIELDS } from '../../../shared/outlined-fields';
 
 @Component({
   selector: 'app-advisor-layout',
   imports: [...UI_IMPORTS, LanguageSwitcher, MatSidenavModule, Sidebar, DataStatus],
   templateUrl: './advisor-layout.html',
   styleUrl: './advisor-layout.scss',
+  providers: [OUTLINED_FIELDS],
 })
 export class AdvisorLayout {
   readonly auth = inject(AuthService);

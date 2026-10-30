@@ -12,11 +12,13 @@ import { AuthService } from '../auth/auth.service';
 import { MonitoringService } from '../data/monitoring.service';
 import { NAVIGATION } from './navigation';
 import { PlotToolsService } from '../webmcp/plot-tools.service';
+import { OUTLINED_FIELDS } from '../../shared/outlined-fields';
 
 @Component({
   selector: 'app-layout',
   imports: [...UI_IMPORTS, LanguageSwitcher, MatSidenavModule, Sidebar, DataStatus],
   templateUrl: './app-layout.html',
+  providers: [OUTLINED_FIELDS],
 })
 export class AppLayout {
   readonly auth = inject(AuthService);

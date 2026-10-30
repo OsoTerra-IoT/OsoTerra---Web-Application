@@ -1,20 +1,36 @@
 import { Reveal } from '../../../shared/directives/reveal';
 import { Skeleton } from '../../../shared/components/skeleton';
-import { EceHelp } from '../../../shared/components/ece-help';
 import { API_CONFIG } from '../../../core/api/api-config';
 import { Component, computed, inject } from '@angular/core';
 import { AuthService } from '../../../core/auth/auth.service';
 import { MonitoringService } from '../../../core/data/monitoring.service';
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { UI_IMPORTS } from '../../../shared/ui-imports';
-import { SalinityStrip } from '../../../shared/components/salinity-strip';
 import { TrendChart } from '../../../shared/components/trend-chart';
 import { AlertSummary } from '../../../shared/components/alert-summary';
+import { LevelMeter } from '../../../shared/components/level-meter';
+import { FocusPlot } from '../../../shared/components/focus-plot';
+import { PlotTile } from '../../../shared/components/plot-tile';
 
-/** Advisor landing page. Ranks every supervised plot by its distance to the crop threshold. */
+/** Tiles shown next to the focus card; the rest are one click away in the plot list. */
+const MAX_TILES = 8;
+
+/**
+ * Advisor landing page («banda serena y tarjeta»): the portfolio status in the band, the most
+ * urgent supervised plot in a large card, and the next plots by priority as tiles.
+ */
 @Component({
   selector: 'app-advisor-home',
-  imports: [Reveal, Skeleton, EceHelp, ...UI_IMPORTS, SalinityStrip, TrendChart, AlertSummary],
+  imports: [
+    Reveal,
+    Skeleton,
+    ...UI_IMPORTS,
+    TrendChart,
+    AlertSummary,
+    LevelMeter,
+    FocusPlot,
+    PlotTile,
+  ],
   templateUrl: './advisor-home.html',
 })
 export class AdvisorHome {
@@ -26,7 +42,10 @@ export class AdvisorHome {
   readonly ranked = computed(() =>
     [...this.data.plots()].sort((a, b) => this.data.risk(b) - this.data.risk(a)),
   );
-  /** Same rule as the strips: only plots in the High or Very high level need attention. */
+  readonly focus = computed(() => this.ranked()[0]);
+  readonly others = computed(() => this.ranked().slice(1, 1 + MAX_TILES));
+  readonly hidden = computed(() => Math.max(this.ranked().length - 1 - MAX_TILES, 0));
+  /** Same rule as the meter: only plots in the High or Very high level need attention. */
   readonly attention = computed(() => this.data.attentionPlots().length);
   /** Plots in the Watch level, mentioned apart from the headline. */
   readonly watch = computed(() => this.data.watchPlots().length);

@@ -26,8 +26,8 @@ const PAD = 3;
           | translate
             : {
                 count: days(),
-                from: locale.number(first(), 2),
-                to: locale.number(last(), 2),
+                from: locale.ece(first()),
+                to: locale.ece(last()),
               }
       "
     >

@@ -48,20 +48,20 @@
         <dt>{{ 'metrics.conductivity' | translate }}</dt>
         <dd>
           @if (data.latest(plot.id); as reading) {
-            {{ locale.number(reading.conductivityDsM, 2) }} {{ 'units.dsM' | translate }}
+            {{ locale.ece(reading.conductivityDsM) }} {{ 'units.dsM' | translate }}
           } @else {
             {{ 'common.unknown' | translate }}
           }
         </dd>
         <dt>{{ 'salinity.threshold' | translate }}</dt>
         <dd>
-          {{ locale.number(data.crop(plot).salinityThresholdDsM, 2) }}
+          {{ locale.ece(data.crop(plot).salinityThresholdDsM) }}
           {{ 'units.dsM' | translate }}
         </dd>
         <dt>{{ 'reports.trend' | translate }}</dt>
         <dd>
           @if (delta(plot) !== null) {
-            {{ locale.number(delta(plot)!, 2) }} {{ 'units.dsM' | translate }}
+            {{ locale.ece(delta(plot)!) }} {{ 'units.dsM' | translate }}
           } @else {
             {{ 'common.noData' | translate }}
           }
@@ -79,7 +79,7 @@
           }}</span
           ><span class="muted">{{ locale.date(alert.createdAt) }}</span
           ><span class="muted"
-            >{{ locale.number(alert.conductivityDsM, 2) }} {{ 'units.dsM' | translate }}</span
+            >{{ locale.ece(alert.conductivityDsM) }} {{ 'units.dsM' | translate }}</span
           >
         </div>
         @for (action of alert.actions; track action.id) {

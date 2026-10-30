@@ -126,14 +126,18 @@ describe('OsoTerra routed application', () => {
     expect(text).toContain('Mendoza');
     expect(text).toContain('dS/m');
   });
-  it('agrees the advisor headline with the levels shown on the strips', async () => {
+  it('agrees the advisor headline with the levels shown on the meter', async () => {
     await login('advisor');
     await harness.navigateByUrl('/app/home');
     const element = harness.routeNativeElement!;
     expect(element.querySelector('h1')?.textContent).toContain(
       '2 of 4 plots across your 2 clients',
     );
-    expect(element.querySelector('.home-watch')?.textContent).toContain('1 plot is on watch');
+    expect(element.querySelector('.meter-legend')?.textContent).toContain('1 on watch');
+    expect(element.querySelectorAll('.meter-segment').length).toBe(4);
+    // The most urgent plot gets the large card; the other three are tiles.
+    expect(element.querySelectorAll('.focus-card').length).toBe(1);
+    expect(element.querySelectorAll('.plot-tile').length).toBe(3);
   });
   it('lists the alerts of every supervised client in the triage table', async () => {
     await login('advisor');
@@ -187,7 +191,8 @@ describe('OsoTerra routed application', () => {
     const element = harness.routeNativeElement!;
     expect(element.querySelector('h1')?.textContent).toContain("You don't have any plots yet.");
     expect(element.textContent).not.toContain('All 0');
-    expect(element.querySelector('.home-first-plot a[href="/app/plots/new"]')).toBeTruthy();
+    expect(element.querySelector('.welcome-card a[href="/app/plots/new"]')).toBeTruthy();
+    expect(element.querySelector('.level-meter')).toBeNull();
   });
   it('protects child navigation after logout', async () => {
     await login('farmer');

@@ -59,13 +59,13 @@
               <td>{{ data.crop(plot).nameKey | translate }}</td>
               <td>
                 @if (data.latest(plot.id); as reading) {
-                  {{ locale.number(reading.conductivityDsM, 2) }} {{ 'units.dsM' | translate }}
+                  {{ locale.ece(reading.conductivityDsM) }} {{ 'units.dsM' | translate }}
                 } @else {
                   {{ 'common.unknown' | translate }}
                 }
               </td>
               <td>
-                {{ locale.number(data.crop(plot).salinityThresholdDsM, 2) }}
+                {{ locale.ece(data.crop(plot).salinityThresholdDsM) }}
                 {{ 'units.dsM' | translate }}
               </td>
               <td>
@@ -77,7 +77,7 @@
               </td>
               <td>
                 @if (delta(plot) !== null) {
-                  {{ locale.number(delta(plot)!, 2) }} {{ 'units.dsM' | translate }}
+                  {{ locale.ece(delta(plot)!) }} {{ 'units.dsM' | translate }}
                 } @else {
                   {{ 'common.noData' | translate }}
                 }

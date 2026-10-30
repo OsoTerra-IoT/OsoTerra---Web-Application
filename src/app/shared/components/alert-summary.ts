@@ -28,7 +28,7 @@ const SEVERITY_ORDER: Record<AlertSeverity, number> = { WATCH: 1, WARNING: 2, CR
       </a>
     } @empty {
       <p class="home-alerts-empty">
-        <mat-icon aria-hidden="true">check_circle</mat-icon>{{ 'alerts.empty' | translate }}
+        <mat-icon aria-hidden="true">check_circle</mat-icon>{{ 'home.noActiveAlerts' | translate }}
       </p>
     }
   </section>`,

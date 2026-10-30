@@ -1,4 +1,8 @@
-<h1>{{ (id ? 'plots.editFarm' : 'plots.addFarm') | translate }}</h1>
+<header class="page-header">
+  <div>
+    <h1>{{ (id ? 'plots.editFarm' : 'plots.addFarm') | translate }}</h1>
+  </div>
+</header>
 <form class="surface form-surface stack" [formGroup]="form" (ngSubmit)="save()">
   @for (field of fields; track field) {
     <mat-form-field

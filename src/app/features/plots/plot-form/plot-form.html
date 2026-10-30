@@ -1,4 +1,8 @@
-<h1>{{ (id ? 'plots.edit' : 'plots.add') | translate }}</h1>
+<header class="page-header">
+  <div>
+    <h1>{{ (id ? 'plots.edit' : 'plots.add') | translate }}</h1>
+  </div>
+</header>
 <form
   class="surface form-surface stack plot-form"
   [formGroup]="form"
@@ -39,7 +43,7 @@
           | translate
             : {
                 crop: (crop.nameKey | translate),
-                threshold: locale.number(crop.salinityThresholdDsM, 1),
+                threshold: locale.ece(crop.salinityThresholdDsM),
               }
       }}</span>
     </p>

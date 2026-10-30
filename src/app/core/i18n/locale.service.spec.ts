@@ -12,6 +12,19 @@ describe('LocaleService', () => {
     expect(text).not.toMatch(/\d{1,2}:\d{2}/);
   });
 
+  it('always shows conductivity with two decimals, in the separator of the language', () => {
+    TestBed.configureTestingModule({ providers: [provideTranslateService()] });
+    const locale = TestBed.inject(LocaleService);
+    locale.locale.set('en_US');
+    expect(locale.ece(2.3)).toBe('2.30');
+    expect(locale.ece(1.5)).toBe('1.50');
+    expect(locale.number(29.6)).toBe('29.6');
+    locale.locale.set('es_419');
+    expect(locale.ece(2.3)).toBe(
+      new Intl.NumberFormat('es-419', { minimumFractionDigits: 2 }).format(2.3),
+    );
+  });
+
   it('keeps the time for date-time values', () => {
     TestBed.configureTestingModule({ providers: [provideTranslateService()] });
     const locale = TestBed.inject(LocaleService);

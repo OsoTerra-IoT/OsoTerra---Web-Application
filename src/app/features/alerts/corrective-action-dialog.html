@@ -1,19 +1,19 @@
 <h2 mat-dialog-title id="corrective-action-title">{{ 'alerts.recordAction' | translate }}</h2>
 <form [formGroup]="form" (ngSubmit)="save()">
   <mat-dialog-content class="stack"
-    ><mat-form-field
+    ><mat-form-field appearance="outline"
       ><mat-label>{{ 'alerts.actionType' | translate }}</mat-label
       ><mat-select formControlName="type">
         @for (type of types; track type) {
           <mat-option [value]="type">{{ 'actionTypes.' + type | translate }}</mat-option>
         }
       </mat-select></mat-form-field
-    ><mat-form-field
+    ><mat-form-field appearance="outline"
       ><mat-label>{{ 'common.date' | translate }}</mat-label
       ><input matInput type="date" formControlName="performedAt" [max]="maxDate" /><mat-error>{{
         'validation.date' | translate
       }}</mat-error></mat-form-field
-    ><mat-form-field
+    ><mat-form-field appearance="outline"
       ><mat-label>{{ 'common.notes' | translate }}</mat-label
       ><textarea matInput formControlName="notes" rows="4"></textarea
       ><mat-error>{{ 'validation.required' | translate }}</mat-error></mat-form-field

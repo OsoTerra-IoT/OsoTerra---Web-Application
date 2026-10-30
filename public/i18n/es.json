@@ -393,7 +393,25 @@
     "noPlots": "Aún no tienes parcelas.",
     "noPlotsHint": "Registra la primera para ver su salinidad.",
     "registerFirstPlot": "Registrar parcela",
-    "legendShort": "Umbral del cultivo"
+    "legendShort": "Umbral del cultivo",
+    "levelCount": {
+      "critical": "{{count}} muy alto",
+      "high": "{{count}} alto",
+      "watch": "{{count}} en vigilancia",
+      "normal": "{{count}} normal",
+      "unknown": "{{count}} sin lectura"
+    },
+    "whatToDo": "Ver qué hacer",
+    "percentOfThreshold": "{{percent}} % del umbral",
+    "trendUp": "subiendo en {{count}} días",
+    "trendDown": "bajando en {{count}} días",
+    "trendFlat": "estable en {{count}} días",
+    "otherPlots": "Otras parcelas",
+    "thresholdValue": "Umbral {{value}} dS/m",
+    "chartLabel": "ECe de las últimas lecturas frente al umbral de {{threshold}} dS/m: {{trend}}",
+    "seeAll": "Ver todas",
+    "keyFigures": "Cifras clave",
+    "noActiveAlerts": "Sin alertas por resolver."
   },
   "links": {
     "inviteTitle": "Invitar productor",

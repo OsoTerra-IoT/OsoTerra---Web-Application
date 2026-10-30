@@ -22,12 +22,18 @@
     <mat-tab [label]="'plots.currentStatus' | translate"
       ><section class="surface tab-content">
         <h2>{{ 'metrics.salinity' | translate }}</h2>
-        <div class="status-row">
-          <app-salinity-status [crop]="data.crop(plot)" [reading]="data.latest(plot.id)" />
-          <app-sparkline
-            [readings]="data.readings(plot.id)"
-            [threshold]="data.crop(plot).salinityThresholdDsM"
-          />
+        <div class="status-row detail-status">
+          <div class="detail-level">
+            <app-salinity-status [crop]="data.crop(plot)" [reading]="data.latest(plot.id)" />
+          </div>
+          @if (trend(); as summary) {
+            <app-risk-chart
+              class="detail-chart"
+              [readings]="recent()"
+              [threshold]="data.crop(plot).salinityThresholdDsM"
+              [label]="'salinity.trendLabel' | translate: summary"
+            />
+          }
         </div>
         <app-ece-help />
         @if (data.latest(plot.id); as reading) {

@@ -53,6 +53,13 @@ export class LocaleService {
       maximumFractionDigits: digits,
     }).format(value);
   }
+  /** Electrical conductivity in dS/m (ECe, thresholds, offsets): always two decimals. */
+  ece(value: number): string {
+    return new Intl.NumberFormat(this.locale().replace('_', '-'), {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(value);
+  }
   date(value: string): string {
     // A bare ISO date (yyyy-MM-dd) is a calendar day: new Date() would read it as UTC midnight
     // and show the previous day west of Greenwich, so build it in local time and omit the hour.

@@ -393,7 +393,25 @@
     "noPlots": "You don't have any plots yet.",
     "noPlotsHint": "Register your first one to see its salinity.",
     "registerFirstPlot": "Register plot",
-    "legendShort": "Crop threshold"
+    "legendShort": "Crop threshold",
+    "levelCount": {
+      "critical": "{{count}} critical",
+      "high": "{{count}} high",
+      "watch": "{{count}} on watch",
+      "normal": "{{count}} normal",
+      "unknown": "{{count}} without reading"
+    },
+    "whatToDo": "See what to do",
+    "percentOfThreshold": "{{percent}}% of threshold",
+    "trendUp": "rising over {{count}} days",
+    "trendDown": "falling over {{count}} days",
+    "trendFlat": "steady over {{count}} days",
+    "otherPlots": "Other plots",
+    "thresholdValue": "Threshold {{value}} dS/m",
+    "chartLabel": "ECe of the latest readings against the {{threshold}} dS/m threshold: {{trend}}",
+    "seeAll": "See all",
+    "keyFigures": "Key figures",
+    "noActiveAlerts": "No alerts to resolve."
   },
   "links": {
     "inviteTitle": "Invite a farmer",
