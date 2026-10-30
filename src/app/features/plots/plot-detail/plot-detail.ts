@@ -11,7 +11,7 @@ import { UI_IMPORTS } from '../../../shared/ui-imports';
 import { SalinityStatus } from '../../../shared/components/salinity-status';
 import { TrendChart } from '../../../shared/components/trend-chart';
 import { DeviceActivationForm } from './device-activation';
-import { Sparkline } from '../../../shared/components/sparkline';
+import { RiskChart } from '../../../shared/components/risk-chart';
 @Component({
   selector: 'app-plot-detail',
   imports: [
@@ -22,7 +22,7 @@ import { Sparkline } from '../../../shared/components/sparkline';
     SalinityStatus,
     TrendChart,
     DeviceActivationForm,
-    Sparkline,
+    RiskChart,
   ],
   templateUrl: './plot-detail.html',
 })
@@ -55,6 +55,20 @@ export class PlotDetail {
   readonly series = computed(() =>
     this.plot() ? [{ name: this.plot()!.name, readings: this.data.readings(this.plot()!.id) }] : [],
   );
+  /** The last 30 readings, drawn next to the level and summed up for screen readers. */
+  readonly recent = computed(() =>
+    this.plot() ? this.data.readings(this.plot()!.id).slice(-30) : [],
+  );
+  readonly trend = computed(() => {
+    const values = this.recent();
+    return values.length > 1
+      ? {
+          count: values.length,
+          from: this.locale.number(values[0].conductivityDsM, 2),
+          to: this.locale.number(values.at(-1)!.conductivityDsM, 2),
+        }
+      : null;
+  });
   readonly alerts = computed(() =>
     this.data.alerts().filter((alert) => alert.plotId === this.plot()?.id),
   );

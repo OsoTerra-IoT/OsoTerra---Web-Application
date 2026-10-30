@@ -4,9 +4,6 @@
     <h1>{{ 'nav.alerts' | translate }}</h1>
   </div>
 </header>
-<p class="sr-only" role="status" aria-live="polite">
-  {{ announcement() ? (announcement() | translate) : '' }}
-</p>
 <section class="summary-grid alert-summary" [attr.aria-label]="'advisor.alertSummary' | translate">
   @for (item of counts(); track item.severity) {
     <article class="summary-card">
@@ -16,6 +13,9 @@
     </article>
   }
 </section>
+<p class="sr-only" role="status" aria-live="polite">
+  {{ announcement() ? (announcement() | translate) : '' }}
+</p>
 <button
   mat-stroked-button
   type="button"
