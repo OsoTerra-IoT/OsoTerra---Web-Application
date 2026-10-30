@@ -3,7 +3,6 @@
     <div>
       <p class="eyebrow">{{ data.farm(plot)?.name }}</p>
       <h1>{{ plot.name }}</h1>
-      <app-level-pill class="band-pill" [level]="data.level(plot)" />
       <p class="muted">
         {{ data.crop(plot).nameKey | translate }} · {{ locale.number(plot.areaHectares) }}
         {{ 'units.hectares' | translate }} · {{ data.owner(plot)?.firstName }}

@@ -1013,14 +1013,7 @@ tbody tr:last-child td {
   }
 }
 
-// Plot detail: level in the band, trend next to the level ------------------
-.band-pill {
-  display: block;
-  margin-top: 0.875rem;
-}
-.page-header .band-pill + p.muted {
-  margin-top: 0.75rem;
-}
+// Plot detail: trend next to the level ------------------
 .detail-status {
   display: grid;
   gap: 1.5rem 2.5rem;
