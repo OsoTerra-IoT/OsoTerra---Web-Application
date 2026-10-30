@@ -1,101 +1,118 @@
-<header class="home-hero">
-  <p class="home-greeting">
-    {{ 'dashboard.greeting' | translate: { name: auth.user()?.firstName } }}
-  </p>
-  <h1 class="home-statement">
-    @if (attention() > 0) {
-      {{
-        headlineKey()
-          | translate
-            : { count: attention(), total: data.plots().length, clients: data.clients().length }
-      }}
-    } @else if (watch() > 0) {
-      {{ 'home.noneAttentionAdvisor' | translate: { total: data.plots().length } }}
-    } @else {
-      {{ 'home.allClearAdvisor' | translate: { total: data.plots().length } }}
-    }
-  </h1>
-  @if (watch() > 0) {
-    <p class="home-watch">
-      <mat-icon aria-hidden="true">visibility</mat-icon
-      >{{ (watch() === 1 ? 'home.watchOne' : 'home.watchMany') | translate: { count: watch() } }}
+<header class="serene-band home-band">
+  <div class="band-top">
+    <p class="band-greeting">
+      {{ 'dashboard.greeting' | translate: { name: auth.user()?.firstName } }}
     </p>
-  }
-  <dl class="home-facts">
-    <div>
-      <dt><mat-icon aria-hidden="true">groups</mat-icon>{{ 'advisor.clients' | translate }}</dt>
-      <dd>
-        <a routerLink="/app/advisor/clients">{{ locale.number(data.clients().length, 0) }}</a>
-      </dd>
-    </div>
-    <div>
-      <dt>
-        <mat-icon aria-hidden="true">landscape</mat-icon>{{ 'nav.supervisedPlots' | translate }}
-      </dt>
-      <dd>
-        {{ locale.number(data.plots().length, 0) }}
-        <small>{{ locale.number(area()) }} {{ 'units.hectares' | translate }}</small>
-      </dd>
-    </div>
-    <div>
-      <dt>
-        <mat-icon aria-hidden="true">notifications_active</mat-icon
-        >{{ 'dashboard.activeAlerts' | translate }}
-      </dt>
-      <dd>
-        <a routerLink="/app/alerts">{{ locale.number(data.activeAlerts().length, 0) }}</a>
-      </dd>
-    </div>
-    <div>
-      <dt>
-        <mat-icon aria-hidden="true">sensors</mat-icon>{{ 'dashboard.onlineDevices' | translate }}
-      </dt>
-      <dd>
-        {{ locale.number(online(), 0) }}
-        <small>/ {{ locale.number(data.devices().length, 0) }}</small>
-      </dd>
-    </div>
-  </dl>
-</header>
-<div class="home-grid">
-  <section class="home-profile" aria-labelledby="profile-title" appReveal>
-    <div class="home-profile-head">
-      <div>
-        <h2 id="profile-title">{{ 'home.profileTitleAdvisor' | translate }}</h2>
-        <app-ece-help />
-      </div>
-      <a mat-stroked-button routerLink="/app/advisor/compare"
-        ><mat-icon>compare_arrows</mat-icon>{{ 'nav.compare' | translate }}</a
-      >
-    </div>
-    <div class="strip-list">
-      @if (data.loading() && !data.plots().length) {
-        <app-skeleton [rows]="3" />
-      } @else {
-        @for (plot of ranked(); track plot.id; let index = $index) {
-          <app-salinity-strip [plot]="plot" [index]="index" [showOwner]="true" />
-        } @empty {
-          <div class="empty-state">
-            <mat-icon aria-hidden="true">groups</mat-icon>
-            <p>{{ 'advisor.noAssignments' | translate }}</p>
-            <a mat-stroked-button routerLink="/app/advisor/clients">{{
-              'links.inviteTitle' | translate
-            }}</a>
-          </div>
+    <a class="band-action" routerLink="/app/advisor/compare"
+      ><mat-icon aria-hidden="true">compare_arrows</mat-icon>{{ 'nav.compare' | translate }}</a
+    >
+  </div>
+  <div class="band-body">
+    <div class="band-main">
+      <h1 class="band-title">
+        @if (!data.plots().length) {
+          {{ (data.loading() ? 'dashboard.overview' : 'advisor.noAssignments') | translate }}
+        } @else if (attention() > 0) {
+          {{
+            headlineKey()
+              | translate
+                : { count: attention(), total: data.plots().length, clients: data.clients().length }
+          }}
+        } @else if (watch() > 0) {
+          {{ 'home.noneAttentionAdvisor' | translate: { total: data.plots().length } }}
+        } @else {
+          {{ 'home.allClearAdvisor' | translate: { total: data.plots().length } }}
         }
+      </h1>
+      @if (data.plots().length) {
+        <app-level-meter [plots]="data.plots()" />
       }
     </div>
-    <p class="strip-legend muted">
-      <span class="legend-mark" aria-hidden="true"></span>{{ 'home.legendShort' | translate }}
-    </p>
-  </section>
-  <div class="home-side">
-    <app-alert-summary [showOwner]="true" appReveal />
+    <dl class="band-figures is-four" [attr.aria-label]="'home.keyFigures' | translate">
+      <div>
+        <dt><mat-icon aria-hidden="true">groups</mat-icon>{{ 'advisor.clients' | translate }}</dt>
+        <dd>
+          <a routerLink="/app/advisor/clients">{{ locale.number(data.clients().length, 0) }}</a>
+        </dd>
+      </div>
+      <div>
+        <dt>
+          <mat-icon aria-hidden="true">landscape</mat-icon>{{ 'nav.supervisedPlots' | translate }}
+        </dt>
+        <dd>
+          {{ locale.number(data.plots().length, 0) }}
+          <small>{{ locale.number(area()) }} {{ 'units.hectares' | translate }}</small>
+        </dd>
+      </div>
+      <div>
+        <dt>
+          <mat-icon aria-hidden="true">notifications_none</mat-icon
+          >{{ 'dashboard.activeAlerts' | translate }}
+        </dt>
+        <dd>
+          <a routerLink="/app/alerts">{{ locale.number(data.activeAlerts().length, 0) }}</a>
+        </dd>
+      </div>
+      <div>
+        <dt>
+          <mat-icon aria-hidden="true">sensors</mat-icon>{{ 'dashboard.onlineDevices' | translate }}
+        </dt>
+        <dd>
+          {{ locale.number(online(), 0) }}
+          <small>/ {{ locale.number(data.devices().length, 0) }}</small>
+        </dd>
+      </div>
+    </dl>
   </div>
-</div>
-@if (series().length) {
-  <section class="home-trend" [attr.aria-label]="'chart.title' | translate" appReveal>
-    <app-trend-chart [series]="series()" />
+</header>
+
+@if (data.loading() && !data.plots().length) {
+  <div class="home-layout">
+    <app-skeleton variant="card" [rows]="2" />
+  </div>
+} @else if (focus(); as plot) {
+  <div class="home-layout">
+    <app-focus-plot [plot]="plot" [showOwner]="true" appReveal />
+    <div class="home-aside">
+      @if (others().length) {
+        <section class="tile-section" aria-labelledby="other-plots">
+          <h2 id="other-plots" class="section-title">
+            {{ 'home.profileTitleAdvisor' | translate }}
+          </h2>
+          <div class="tile-grid">
+            @for (other of others(); track other.id) {
+              <app-plot-tile [plot]="other" [showOwner]="true" />
+            }
+          </div>
+          <a class="quiet-link" routerLink="/app/plots"
+            >{{ 'home.seeAll' | translate }}
+            @if (hidden()) {
+              <span class="quiet-count">+{{ locale.number(hidden(), 0) }}</span>
+            }
+            <mat-icon aria-hidden="true">chevron_right</mat-icon></a
+          >
+        </section>
+      }
+      <app-alert-summary [showOwner]="true" />
+    </div>
+  </div>
+  @if (series().length) {
+    <section
+      class="serene-card home-history"
+      [attr.aria-label]="'chart.title' | translate"
+      appReveal
+    >
+      <app-trend-chart [series]="series()" />
+    </section>
+  }
+} @else {
+  <section class="serene-card welcome-card">
+    <span class="welcome-icon" aria-hidden="true"><mat-icon>groups</mat-icon></span>
+    <h2>{{ 'links.inviteHint' | translate }}</h2>
+    <a class="cta-button" routerLink="/app/advisor/clients">
+      <span>{{ 'links.inviteTitle' | translate }}</span>
+      <span class="cta-circle" aria-hidden="true"><mat-icon>arrow_forward</mat-icon></span>
+    </a>
   </section>
 }
 @if (demo) {
