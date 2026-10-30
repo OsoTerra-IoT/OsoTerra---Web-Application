@@ -410,7 +410,8 @@
     "thresholdValue": "Umbral {{value}} dS/m",
     "chartLabel": "ECe de las últimas lecturas frente al umbral de {{threshold}} dS/m: {{trend}}",
     "seeAll": "Ver todas",
-    "keyFigures": "Cifras clave"
+    "keyFigures": "Cifras clave",
+    "noActiveAlerts": "Sin alertas por resolver."
   },
   "links": {
     "inviteTitle": "Invitar productor",
