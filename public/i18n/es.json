@@ -388,7 +388,10 @@
     "attentionAdvisorOne": "{{count}} de {{total}} parcelas de tus {{clients}} clientes necesita una visita.",
     "attentionAdvisorOneClientOne": "{{count}} de {{total}} parcelas de tu cliente necesita una visita.",
     "watchOne": "{{count}} parcela está en vigilancia: revisa su salinidad en los próximos días.",
-    "watchMany": "{{count}} parcelas están en vigilancia: revisa su salinidad en los próximos días."
+    "watchMany": "{{count}} parcelas están en vigilancia: revisa su salinidad en los próximos días.",
+    "noPlots": "Aún no tienes parcelas.",
+    "noPlotsHint": "Registra la primera para ver su salinidad.",
+    "registerFirstPlot": "Registrar parcela"
   },
   "links": {
     "inviteTitle": "Invitar productor",

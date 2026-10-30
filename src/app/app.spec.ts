@@ -181,6 +181,14 @@ describe('OsoTerra routed application', () => {
     expect(document.documentElement.lang).toBe('es-419');
     expect(auth.isAuthenticated()).toBe(true);
   });
+  it('invites a farmer without plots to register the first one', async () => {
+    await login('farmer3');
+    await harness.navigateByUrl('/app/home');
+    const element = harness.routeNativeElement!;
+    expect(element.querySelector('h1')?.textContent).toContain("You don't have any plots yet.");
+    expect(element.textContent).not.toContain('All 0');
+    expect(element.querySelector('.home-first-plot a[href="/app/plots/new"]')).toBeTruthy();
+  });
   it('protects child navigation after logout', async () => {
     await login('farmer');
     await harness.navigateByUrl('/app/home');

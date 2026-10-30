@@ -388,7 +388,10 @@
     "attentionAdvisorOne": "{{count}} of {{total}} plots across your {{clients}} clients needs a visit.",
     "attentionAdvisorOneClientOne": "{{count}} of {{total}} plots of your client needs a visit.",
     "watchOne": "{{count}} plot is on watch: check its salinity in the next few days.",
-    "watchMany": "{{count}} plots are on watch: check their salinity in the next few days."
+    "watchMany": "{{count}} plots are on watch: check their salinity in the next few days.",
+    "noPlots": "You don't have any plots yet.",
+    "noPlotsHint": "Register your first one to see its salinity.",
+    "registerFirstPlot": "Register plot"
   },
   "links": {
     "inviteTitle": "Invite a farmer",
