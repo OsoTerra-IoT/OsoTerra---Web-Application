@@ -1,0 +1,63 @@
+<aside class="demo-bar" [attr.aria-label]="'demo.region' | translate">
+  <button
+    type="button"
+    class="demo-toggle"
+    [attr.aria-expanded]="!demo.collapsed()"
+    aria-controls="demo-scenarios"
+    [attr.aria-label]="(demo.collapsed() ? 'demo.expand' : 'demo.collapse') | translate"
+    (click)="toggle()"
+  >
+    <mat-icon aria-hidden="true">science</mat-icon>
+    <span class="demo-label">{{ 'demo.label' | translate }}</span>
+    @if (demo.collapsed() && current(); as scenario) {
+      <span class="demo-badge">{{ scenario.id }}</span>
+    }
+    <mat-icon aria-hidden="true">{{ demo.collapsed() ? 'expand_less' : 'expand_more' }}</mat-icon>
+  </button>
+  <div id="demo-scenarios" class="demo-body" [hidden]="demo.collapsed()">
+    <div class="demo-pills" role="group" [attr.aria-label]="'demo.group' | translate">
+      @for (scenario of options; track scenario.id) {
+        <button
+          type="button"
+          class="demo-pill"
+          [class.active]="current()?.id === scenario.id"
+          [attr.aria-pressed]="current()?.id === scenario.id"
+          [attr.aria-label]="
+            (current()?.id === scenario.id ? 'demo.restart' : 'demo.load')
+              | translate
+                : {
+                    number: scenario.id,
+                    name: 'demo.scenarios.' + scenario.key | translate,
+                    role: 'roles.' + scenario.role | translate,
+                  }
+          "
+          [matTooltip]="
+            ('demo.scenarios.' + scenario.key | translate) +
+            ' · ' +
+            ('roles.' + scenario.role | translate)
+          "
+          matTooltipPosition="above"
+          [disabled]="scenarios.loading() !== null"
+          (click)="load(scenario)"
+        >
+          {{ scenario.id }}
+        </button>
+      }
+    </div>
+    <p class="demo-status" role="status">
+      @if (scenarios.loading(); as loading) {
+        <span>{{ 'demo.loading' | translate: { number: loading } }}</span>
+      } @else if (current(); as scenario) {
+        <strong>{{ scenario.id }} · {{ 'demo.scenarios.' + scenario.key | translate }}</strong>
+        <span>{{ 'roles.' + scenario.role | translate }}</span>
+        @if (scenario.hint; as hint) {
+          <span
+            >{{ 'demo.hints.' + hint.key | translate }}: <code>{{ hint.value }}</code></span
+          >
+        }
+      } @else {
+        <span>{{ 'demo.choose' | translate }}</span>
+      }
+    </p>
+  </div>
+</aside>
