@@ -64,8 +64,8 @@ export class PlotDetail {
     return values.length > 1
       ? {
           count: values.length,
-          from: this.locale.number(values[0].conductivityDsM, 2),
-          to: this.locale.number(values.at(-1)!.conductivityDsM, 2),
+          from: this.locale.ece(values[0].conductivityDsM),
+          to: this.locale.ece(values.at(-1)!.conductivityDsM),
         }
       : null;
   });

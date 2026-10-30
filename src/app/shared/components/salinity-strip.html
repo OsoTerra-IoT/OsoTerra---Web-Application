@@ -16,7 +16,7 @@
   />
   <p class="strip-reading" [attr.data-level]="level()">
     @if (ratio() >= 0 && reading(); as current) {
-      <strong>{{ locale.number(current.conductivityDsM, 2) }}</strong>
+      <strong>{{ locale.ece(current.conductivityDsM) }}</strong>
       <span>{{ 'units.dsM' | translate }}</span>
     } @else {
       <span>{{ 'salinity.unknown' | translate }}</span>
@@ -34,7 +34,7 @@
         | translate
           : {
               percent: locale.number(ratio() * 100, 0),
-              threshold: locale.number(crop().salinityThresholdDsM, 1),
+              threshold: locale.ece(crop().salinityThresholdDsM),
             })
   "
 >
@@ -52,7 +52,7 @@
         | translate
           : {
               percent: locale.number(ratio() * 100, 0),
-              threshold: locale.number(crop().salinityThresholdDsM, 1),
+              threshold: locale.ece(crop().salinityThresholdDsM),
             }
     }}</span>
   }

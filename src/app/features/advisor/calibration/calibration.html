@@ -87,16 +87,12 @@
             <td>
               <a [routerLink]="['/app/plots', device.plotId]">{{ plotName(device.plotId) }}</a>
             </td>
+            <td>{{ locale.ece(device.calibration!.sensorDsM) }} {{ 'units.dsM' | translate }}</td>
             <td>
-              {{ locale.number(device.calibration!.sensorDsM, 2) }} {{ 'units.dsM' | translate }}
-            </td>
-            <td>
-              {{ locale.number(device.calibration!.laboratoryEceDsM, 2) }}
+              {{ locale.ece(device.calibration!.laboratoryEceDsM) }}
               {{ 'units.dsM' | translate }}
             </td>
-            <td>
-              {{ locale.number(device.calibration!.offsetDsM, 2) }} {{ 'units.dsM' | translate }}
-            </td>
+            <td>{{ locale.ece(device.calibration!.offsetDsM) }} {{ 'units.dsM' | translate }}</td>
             <td>{{ locale.date(device.calibration!.calibratedAt) }}</td>
             <td>{{ device.calibration!.laboratory }}</td>
           </tr>

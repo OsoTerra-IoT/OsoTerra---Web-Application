@@ -18,7 +18,7 @@ import { LevelPill } from './level-pill';
       <app-level-pill [level]="level()" />
       @if (ratio() >= 0 && reading(); as current) {
         <span class="tile-value"
-          >{{ locale.number(current.conductivityDsM, 2) }}
+          >{{ locale.ece(current.conductivityDsM) }}
           <small>{{ 'units.dsM' | translate }}</small></span
         >
       }

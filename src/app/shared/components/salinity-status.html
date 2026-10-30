@@ -2,12 +2,12 @@
 @if (reading(); as value) {
   @if (auth.isAdvisor()) {
     <p class="salinity-value">
-      {{ locale.number(value.conductivityDsM, 2) }} <small>{{ 'units.dsM' | translate }}</small>
+      {{ locale.ece(value.conductivityDsM) }} <small>{{ 'units.dsM' | translate }}</small>
     </p>
   } @else {
     <details>
       <summary>{{ 'salinity.showValue' | translate }}</summary>
-      <p>{{ locale.number(value.conductivityDsM, 2) }} {{ 'units.dsM' | translate }}</p>
+      <p>{{ locale.ece(value.conductivityDsM) }} {{ 'units.dsM' | translate }}</p>
     </details>
   }
   @if (value.measurementBasis !== 'ECe') {
@@ -16,7 +16,7 @@
 }
 @if (auth.isAdvisor()) {
   <p class="reference">
-    {{ 'salinity.threshold' | translate }} {{ locale.number(crop().salinityThresholdDsM) }}
+    {{ 'salinity.threshold' | translate }} {{ locale.ece(crop().salinityThresholdDsM) }}
     {{ 'units.dsM' | translate }} <span>{{ 'salinity.ece' | translate }}</span
     ><br /><a [href]="crop().reference.url" target="_blank" rel="noopener"
       >{{ crop().reference.authors }}, {{ crop().reference.year }}</a

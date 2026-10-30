@@ -22,8 +22,7 @@ const DAY = 86_400_000;
       <app-level-pill [level]="level()" />
       @if (hasThreshold()) {
         <span class="focus-threshold">{{
-          'home.thresholdValue'
-            | translate: { value: locale.number(crop().salinityThresholdDsM, 1) }
+          'home.thresholdValue' | translate: { value: locale.ece(crop().salinityThresholdDsM) }
         }}</span>
       }
     </div>
@@ -37,7 +36,7 @@ const DAY = 86_400_000;
     </p>
     @if (reading(); as current) {
       <p class="focus-value">
-        <strong>{{ locale.number(current.conductivityDsM, 2) }}</strong>
+        <strong>{{ locale.ece(current.conductivityDsM) }}</strong>
         <span>{{ 'units.dsM' | translate }}</span>
       </p>
       <app-risk-chart
@@ -47,7 +46,7 @@ const DAY = 86_400_000;
           'home.chartLabel'
             | translate
               : {
-                  threshold: locale.number(crop().salinityThresholdDsM, 1),
+                  threshold: locale.ece(crop().salinityThresholdDsM),
                   trend: trendKey() | translate: { count: days() },
                 }
         "

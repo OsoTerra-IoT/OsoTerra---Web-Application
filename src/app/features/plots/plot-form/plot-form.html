@@ -43,7 +43,7 @@
           | translate
             : {
                 crop: (crop.nameKey | translate),
-                threshold: locale.number(crop.salinityThresholdDsM, 1),
+                threshold: locale.ece(crop.salinityThresholdDsM),
               }
       }}</span>
     </p>

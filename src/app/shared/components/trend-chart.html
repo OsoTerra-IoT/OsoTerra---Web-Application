@@ -75,7 +75,13 @@
               <tr>
                 <td>{{ item.name }}</td>
                 <td>{{ locale.date(reading.recordedAt) }}</td>
-                <td>{{ locale.number(reading[metric()], 2) }}</td>
+                <td>
+                  {{
+                    metric() === 'conductivityDsM'
+                      ? locale.ece(reading[metric()])
+                      : locale.number(reading[metric()], 2)
+                  }}
+                </td>
               </tr>
             }
           }

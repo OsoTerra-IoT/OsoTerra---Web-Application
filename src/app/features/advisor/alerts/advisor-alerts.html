@@ -76,11 +76,9 @@
           <app-level-pill [severity]="alert.severity" />
         </div>
         <p class="alert-card-value">
-          <strong
-            >{{ locale.number(alert.conductivityDsM, 2) }} {{ 'units.dsM' | translate }}</strong
-          >
+          <strong>{{ locale.ece(alert.conductivityDsM) }} {{ 'units.dsM' | translate }}</strong>
           <span class="muted"
-            >{{ 'salinity.threshold' | translate }} {{ locale.number(alert.thresholdDsM, 2) }}
+            >{{ 'salinity.threshold' | translate }} {{ locale.ece(alert.thresholdDsM) }}
             {{ 'units.dsM' | translate }}</span
           >
         </p>
@@ -149,10 +147,9 @@
             </td>
             <td>{{ 'alertStatus.' + alert.status | translate }}</td>
             <td>
-              {{ locale.number(alert.conductivityDsM, 2) }} {{ 'units.dsM' | translate }}
+              {{ locale.ece(alert.conductivityDsM) }} {{ 'units.dsM' | translate }}
               <small
-                >{{ 'salinity.threshold' | translate }}
-                {{ locale.number(alert.thresholdDsM, 2) }}</small
+                >{{ 'salinity.threshold' | translate }} {{ locale.ece(alert.thresholdDsM) }}</small
               >
             </td>
             <td>{{ locale.date(alert.createdAt) }}</td>
