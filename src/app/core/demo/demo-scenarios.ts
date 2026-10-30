@@ -226,7 +226,7 @@ export function buildDemoScenario(id: DemoScenarioId, now = new Date()): FakeDat
     return db;
   }
 
-  // Advisor scenarios: two clients on the north coast, one plot each worsening apart.
+  // Advisor scenarios: two clients on the north coast; Rosa's Sector Norte keeps worsening.
   subscribe(jorge, 3, 0);
   subscribe(rosa, 2, id === 5 ? 1 : 2);
   subscribe(luis, 2, id === 5 ? 1 : 2);
@@ -240,7 +240,8 @@ export function buildDemoScenario(id: DemoScenarioId, now = new Date()): FakeDat
     areaHectares: 3.2,
     device: 'OS-021',
     from: 1.1,
-    to: 1.72,
+    // High (1.85 / 1.5 = 1.23) and rising: the plot the advisor should visit first.
+    to: 1.85,
     alert: 'ACKNOWLEDGED',
     calibratedLab: 1.35,
   });

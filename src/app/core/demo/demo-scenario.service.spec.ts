@@ -83,9 +83,9 @@ describe('buildDemoScenario', () => {
       'Sector Este': 'watch',
     });
     expect(levels(4)).toEqual(levels(3));
-    expect(levels(5)).toEqual({ 'Sector Norte': 'watch', 'Sector Alto': 'normal' });
+    expect(levels(5)).toEqual({ 'Sector Norte': 'high', 'Sector Alto': 'normal' });
     expect(levels(6)).toEqual({
-      'Sector Norte': 'watch',
+      'Sector Norte': 'high',
       'Sector Alto': 'normal',
       'Sector Sur': 'critical',
       'Sector Bajo': 'high',
@@ -171,6 +171,10 @@ describe('DemoScenarioService', () => {
     expect(data.clients()).toHaveLength(2);
     expect(data.plots()).toHaveLength(2);
     expect(data.readings(plot('Sector Norte').id)).toHaveLength(DEMO_READING_DAYS);
+    const north = data.readings(plot('Sector Norte').id);
+    expect(north.at(-1)!.conductivityDsM).toBe(1.85);
+    expect(north.at(-1)!.conductivityDsM).toBeGreaterThan(north[0].conductivityDsM);
+    expect(data.attentionPlots().map((item) => item.name)).toEqual(['Sector Norte']);
     expect(open()).toHaveLength(0);
     expect(await links.invite(DEMO_UNINVITED_FARMER)).toBe('sent');
   });
