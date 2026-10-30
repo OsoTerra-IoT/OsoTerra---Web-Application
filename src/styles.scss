@@ -55,16 +55,16 @@ html {
       on-secondary-container: #065f46,
       surface: #ffffff,
       on-surface: #111827,
-      on-surface-variant: #4b5563,
-      outline: #6b7280,
-      outline-variant: #e5e7eb,
+      on-surface-variant: #535a47,
+      outline: #7d8471,
+      outline-variant: #e4e6d9,
       error: #a12426,
-      surface-variant: #f3f4f6,
+      surface-variant: #f2f1ea,
       surface-container-lowest: #ffffff,
-      surface-container-low: #f9fafb,
-      surface-container: #f3f4f6,
-      surface-container-high: #f3f4f6,
-      surface-container-highest: #f3f4f6,
+      surface-container-low: #faf9f6,
+      surface-container: #f2f1ea,
+      surface-container-high: #ffffff,
+      surface-container-highest: #f2f1ea,
     )
   );
 }
@@ -963,3 +963,5 @@ td details {
 
 // Redesign of the shell, sign-in and home pages.
 @import 'styles/redesign';
+// «Banda serena y tarjeta»: theme Tierra Serena for every screen.
+@import 'styles/serene';
