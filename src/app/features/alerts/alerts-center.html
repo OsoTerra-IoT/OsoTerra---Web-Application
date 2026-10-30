@@ -2,9 +2,17 @@
   <div>
     <p class="eyebrow">{{ 'alerts.monitoring' | translate }}</p>
     <h1>{{ 'nav.alerts' | translate }}</h1>
-    <p class="muted">{{ 'alerts.hint' | translate }}</p>
   </div>
 </header>
+<section class="summary-grid alert-summary" [attr.aria-label]="'advisor.alertSummary' | translate">
+  @for (item of counts(); track item.severity) {
+    <article class="summary-card">
+      <app-level-pill [severity]="item.severity" /><strong>{{
+        locale.number(item.count, 0)
+      }}</strong>
+    </article>
+  }
+</section>
 <p class="sr-only" role="status" aria-live="polite">
   {{ announcement() ? (announcement() | translate) : '' }}
 </p>

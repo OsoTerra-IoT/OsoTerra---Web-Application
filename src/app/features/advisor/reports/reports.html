@@ -1,8 +1,7 @@
-﻿<header class="page-header">
+<header class="page-header">
   <div>
     <p class="eyebrow">{{ 'advisor.portfolio' | translate }}</p>
     <h1>{{ 'nav.reports' | translate }}</h1>
-    <p class="muted">{{ 'reports.hint' | translate }}</p>
   </div>
   <button mat-flat-button [disabled]="!plots().length || exporting()" (click)="exportPdf()">
     <mat-icon>picture_as_pdf</mat-icon>{{ 'reports.export' | translate }}
