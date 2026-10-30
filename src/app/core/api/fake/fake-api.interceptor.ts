@@ -7,23 +7,39 @@ import {
 } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { delay, Observable, of, throwError, timer, mergeMap } from 'rxjs';
+import { DemoModeService } from '../../demo/demo-mode.service';
+import { buildDemoScenario } from '../../demo/demo-scenarios';
 import { API_CONFIG } from '../api-config';
 import { FakeBackend } from './fake-backend';
 import { FakeDatabase } from './fake-database';
 
-/** One fake Backend per application, seeded when first used. */
+/**
+ * One fake Backend per application, seeded when first used. In the interview demo it holds
+ * the data of the scenario loaded in this tab, and loading a scenario replaces it.
+ */
 @Injectable({ providedIn: 'root' })
 export class FakeBackendHost {
-  readonly backend = new FakeBackend(FakeDatabase.seeded());
+  private current: FakeBackend;
+  constructor() {
+    const scenario = inject(DemoModeService).scenario();
+    this.current = new FakeBackend(scenario ? buildDemoScenario(scenario) : FakeDatabase.seeded());
+  }
+  get backend(): FakeBackend {
+    return this.current;
+  }
+  replace(db: FakeDatabase): void {
+    this.current = new FakeBackend(db);
+  }
 }
 
 /**
- * Answers calls to the OsoSense API in the browser when `useFakeApi` is on. Other URLs,
- * such as translation files, pass through untouched.
+ * Answers calls to the OsoSense API in the browser when `useFakeApi` is on or the tab runs
+ * the interview demo. Other URLs, such as translation files, pass through untouched.
  */
 export const fakeApiInterceptor: HttpInterceptorFn = (request, next) => {
   const config = inject(API_CONFIG);
-  if (!config.useFakeApi || !request.url.startsWith(config.baseUrl)) return next(request);
+  const inMemory = config.useFakeApi || inject(DemoModeService).active;
+  if (!inMemory || !request.url.startsWith(config.baseUrl)) return next(request);
   const backend = inject(FakeBackendHost).backend;
   return respond(backend, request, config.baseUrl, config.fakeLatencyMs);
 };
