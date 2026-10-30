@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MonitoringService } from '../../core/data/monitoring.service';
 import { LocaleService } from '../../core/i18n/locale.service';
 import { UI_IMPORTS } from '../../shared/ui-imports';
+import { AlertSeverity } from '../../core/models';
 import { CorrectiveActionDialog } from './corrective-action-dialog';
 @Component({
   selector: 'app-alerts-center',
@@ -29,6 +30,13 @@ export class AlertsCenter {
   readonly filtersOpen = signal(false);
   readonly activeFilters = computed(
     () => [this.severity(), this.status(), this.plotId()].filter(Boolean).length,
+  );
+  /** Unresolved alerts per level, shown as tiles above the table. */
+  readonly counts = computed(() =>
+    this.severities.map((severity) => ({
+      severity: severity as AlertSeverity,
+      count: this.data.activeAlerts().filter((alert) => alert.severity === severity).length,
+    })),
   );
   readonly filtered = computed(() =>
     this.data

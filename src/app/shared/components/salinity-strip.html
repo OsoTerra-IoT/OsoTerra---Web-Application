@@ -9,6 +9,11 @@
       ></span
     >
   </div>
+  <app-sparkline
+    class="strip-spark"
+    [readings]="readings()"
+    [threshold]="crop().salinityThresholdDsM"
+  />
   <p class="strip-reading" [attr.data-level]="level()">
     @if (ratio() >= 0 && reading(); as current) {
       <strong>{{ locale.number(current.conductivityDsM, 2) }}</strong>

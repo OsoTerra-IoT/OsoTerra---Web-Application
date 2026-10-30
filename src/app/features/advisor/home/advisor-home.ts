@@ -9,11 +9,12 @@ import { LocaleService } from '../../../core/i18n/locale.service';
 import { UI_IMPORTS } from '../../../shared/ui-imports';
 import { SalinityStrip } from '../../../shared/components/salinity-strip';
 import { TrendChart } from '../../../shared/components/trend-chart';
+import { AlertSummary } from '../../../shared/components/alert-summary';
 
 /** Advisor landing page. Ranks every supervised plot by its distance to the crop threshold. */
 @Component({
   selector: 'app-advisor-home',
-  imports: [Reveal, Skeleton, EceHelp, ...UI_IMPORTS, SalinityStrip, TrendChart],
+  imports: [Reveal, Skeleton, EceHelp, ...UI_IMPORTS, SalinityStrip, TrendChart, AlertSummary],
   templateUrl: './advisor-home.html',
 })
 export class AdvisorHome {

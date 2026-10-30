@@ -23,26 +23,33 @@
   }
   <dl class="home-facts">
     <div>
-      <dt>{{ 'advisor.clients' | translate }}</dt>
+      <dt><mat-icon aria-hidden="true">groups</mat-icon>{{ 'advisor.clients' | translate }}</dt>
       <dd>
         <a routerLink="/app/advisor/clients">{{ locale.number(data.clients().length, 0) }}</a>
       </dd>
     </div>
     <div>
-      <dt>{{ 'nav.supervisedPlots' | translate }}</dt>
+      <dt>
+        <mat-icon aria-hidden="true">landscape</mat-icon>{{ 'nav.supervisedPlots' | translate }}
+      </dt>
       <dd>
         {{ locale.number(data.plots().length, 0) }}
         <small>{{ locale.number(area()) }} {{ 'units.hectares' | translate }}</small>
       </dd>
     </div>
     <div>
-      <dt>{{ 'dashboard.activeAlerts' | translate }}</dt>
+      <dt>
+        <mat-icon aria-hidden="true">notifications_active</mat-icon
+        >{{ 'dashboard.activeAlerts' | translate }}
+      </dt>
       <dd>
         <a routerLink="/app/alerts">{{ locale.number(data.activeAlerts().length, 0) }}</a>
       </dd>
     </div>
     <div>
-      <dt>{{ 'dashboard.onlineDevices' | translate }}</dt>
+      <dt>
+        <mat-icon aria-hidden="true">sensors</mat-icon>{{ 'dashboard.onlineDevices' | translate }}
+      </dt>
       <dd>
         {{ locale.number(online(), 0) }}
         <small>/ {{ locale.number(data.devices().length, 0) }}</small>
@@ -50,41 +57,44 @@
     </div>
   </dl>
 </header>
-<section class="home-profile" aria-labelledby="profile-title" appReveal>
-  <div class="home-profile-head">
-    <div>
-      <h2 id="profile-title">{{ 'home.profileTitleAdvisor' | translate }}</h2>
-      <p class="muted">{{ 'dashboard.advisorHint' | translate }}</p>
-      <app-ece-help />
+<div class="home-grid">
+  <section class="home-profile" aria-labelledby="profile-title" appReveal>
+    <div class="home-profile-head">
+      <div>
+        <h2 id="profile-title">{{ 'home.profileTitleAdvisor' | translate }}</h2>
+        <app-ece-help />
+      </div>
+      <a mat-stroked-button routerLink="/app/advisor/compare"
+        ><mat-icon>compare_arrows</mat-icon>{{ 'nav.compare' | translate }}</a
+      >
     </div>
-    <a mat-stroked-button routerLink="/app/advisor/compare"
-      ><mat-icon>compare_arrows</mat-icon>{{ 'nav.compare' | translate }}</a
-    >
-  </div>
-  <div class="strip-list">
-    @if (data.loading() && !data.plots().length) {
-      <app-skeleton [rows]="3" />
-    } @else {
-      @for (plot of ranked(); track plot.id; let index = $index) {
-        <app-salinity-strip [plot]="plot" [index]="index" [showOwner]="true" />
-      } @empty {
-        <div class="empty-state">
-          <mat-icon aria-hidden="true">groups</mat-icon>
-          <p>{{ 'advisor.noAssignments' | translate }}</p>
-          <a mat-stroked-button routerLink="/app/advisor/clients">{{
-            'links.inviteTitle' | translate
-          }}</a>
-        </div>
+    <div class="strip-list">
+      @if (data.loading() && !data.plots().length) {
+        <app-skeleton [rows]="3" />
+      } @else {
+        @for (plot of ranked(); track plot.id; let index = $index) {
+          <app-salinity-strip [plot]="plot" [index]="index" [showOwner]="true" />
+        } @empty {
+          <div class="empty-state">
+            <mat-icon aria-hidden="true">groups</mat-icon>
+            <p>{{ 'advisor.noAssignments' | translate }}</p>
+            <a mat-stroked-button routerLink="/app/advisor/clients">{{
+              'links.inviteTitle' | translate
+            }}</a>
+          </div>
+        }
       }
-    }
+    </div>
+    <p class="strip-legend muted">
+      <span class="legend-mark" aria-hidden="true"></span>{{ 'home.legendShort' | translate }}
+    </p>
+  </section>
+  <div class="home-side">
+    <app-alert-summary [showOwner]="true" appReveal />
   </div>
-  <p class="strip-legend muted">
-    <span class="legend-mark" aria-hidden="true"></span>{{ 'home.legend' | translate }}
-  </p>
-</section>
+</div>
 @if (series().length) {
   <section class="home-trend" [attr.aria-label]="'chart.title' | translate" appReveal>
-    <p class="muted">{{ 'advisor.trendCaption' | translate }}</p>
     <app-trend-chart [series]="series()" />
   </section>
 }

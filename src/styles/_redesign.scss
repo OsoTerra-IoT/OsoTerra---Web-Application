@@ -265,8 +265,9 @@
   line-height: 1;
 }
 .main-content {
-  max-width: 1180px;
-  padding: 1.5rem 2.5rem 4rem;
+  // Container up to 1440 px (Style Guidelines 5.1 grid); the pages lay out cards inside it.
+  max-width: 1440px;
+  padding: 1.5rem clamp(1.5rem, 3vw, 3rem) 4rem;
 }
 
 // Sign-in -------------------------------------------------------------------
@@ -1034,5 +1035,198 @@ li.empty-state {
   }
   .salt circle {
     opacity: 0.85;
+  }
+}
+
+
+// Dashboard refresh: wider grid, key figures as tiles, mini trends --------------------
+.home-hero {
+  margin-bottom: 1.75rem;
+}
+.home-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+}
+.home-facts > div,
+.home-facts > div:first-child {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1.125rem 1.25rem;
+  border: 1px solid var(--os-line);
+  border-left: 1px solid var(--os-line);
+  border-radius: var(--os-radius-lg);
+  background: #ffffff;
+  transition:
+    border-color 150ms var(--os-motion-ease),
+    box-shadow 150ms var(--os-motion-ease);
+}
+.home-facts > div:hover {
+  border-color: var(--os-primary-200);
+  box-shadow: 0 4px 6px rgb(4 120 87 / 8%);
+}
+.home-facts dt {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 0.875rem;
+}
+.home-facts dt mat-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--os-primary-50);
+  color: var(--os-primary-700);
+  font-size: 22px;
+}
+.home-facts dd {
+  margin: 0;
+  font-size: 2.25rem;
+  line-height: 1.1;
+}
+.home-grid {
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (min-width: 1200px) {
+  .home-grid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+}
+.home-side {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+.home-side .home-trend {
+  margin-top: 0;
+}
+.home-alerts {
+  padding: 1.5rem;
+  border: 1px solid var(--os-line);
+  border-radius: 24px;
+  background: #ffffff;
+}
+.home-alerts h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+.home-alerts h2 mat-icon {
+  color: var(--os-primary-600);
+}
+.home-alert {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto 24px;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 56px;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--os-radius-md);
+  color: var(--os-ink);
+  text-decoration: none;
+  transition: background-color 150ms var(--os-motion-ease);
+}
+.home-alert + .home-alert {
+  border-top: 1px solid var(--os-line);
+}
+.home-alert:hover {
+  background: var(--os-surface-green);
+}
+.home-alert-plot {
+  overflow: hidden;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.home-alert-status {
+  color: var(--os-neutral-500);
+  font-size: 0.875rem;
+}
+.home-alerts-empty {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--os-level-normal);
+  font-weight: 600;
+}
+.strip-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: end;
+}
+.sparkline {
+  display: block;
+  line-height: 0;
+}
+.sparkline svg {
+  overflow: visible;
+}
+.spark-line {
+  fill: none;
+  stroke: #047857;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.spark-dot {
+  fill: #047857;
+}
+.spark-threshold {
+  stroke: #a12426;
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+.status-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 2rem;
+}
+.summary-grid .metric {
+  transition: box-shadow 150ms var(--os-motion-ease);
+}
+.summary-grid .metric > mat-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--os-primary-50);
+  color: var(--os-primary-700);
+}
+@media (max-width: 700px) {
+  .strip-spark {
+    display: none;
+  }
+  .strip-head {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .home-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .home-facts dd {
+    font-size: 1.75rem;
+  }
+}
+.home-alert-plot small {
+  display: block;
+  color: var(--os-neutral-500);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+.home-grid + .home-trend {
+  margin-top: 1.5rem;
+}
+@media (min-width: 701px) and (max-width: 1100px) {
+  .home-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

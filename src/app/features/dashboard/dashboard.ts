@@ -9,11 +9,12 @@ import { LocaleService } from '../../core/i18n/locale.service';
 import { UI_IMPORTS } from '../../shared/ui-imports';
 import { SalinityStrip } from '../../shared/components/salinity-strip';
 import { TrendChart } from '../../shared/components/trend-chart';
+import { AlertSummary } from '../../shared/components/alert-summary';
 
 /** Farmer home: one sentence about the field, then every plot as a salinity strip. */
 @Component({
   selector: 'app-dashboard',
-  imports: [Reveal, Skeleton, EceHelp, ...UI_IMPORTS, SalinityStrip, TrendChart],
+  imports: [Reveal, Skeleton, EceHelp, ...UI_IMPORTS, SalinityStrip, TrendChart, AlertSummary],
   templateUrl: './dashboard.html',
 })
 export class Dashboard {

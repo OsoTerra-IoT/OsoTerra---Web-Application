@@ -22,7 +22,13 @@
     <mat-tab [label]="'plots.currentStatus' | translate"
       ><section class="surface tab-content">
         <h2>{{ 'metrics.salinity' | translate }}</h2>
-        <app-salinity-status [crop]="data.crop(plot)" [reading]="data.latest(plot.id)" />
+        <div class="status-row">
+          <app-salinity-status [crop]="data.crop(plot)" [reading]="data.latest(plot.id)" />
+          <app-sparkline
+            [readings]="data.readings(plot.id)"
+            [threshold]="data.crop(plot).salinityThresholdDsM"
+          />
+        </div>
         <app-ece-help />
         @if (data.latest(plot.id); as reading) {
           <div class="summary-grid">
@@ -43,6 +49,7 @@
               >
             </article>
             <article class="metric">
+              <mat-icon aria-hidden="true">schedule</mat-icon>
               <h3>{{ 'common.updated' | translate }}</h3>
               <p>{{ locale.date(reading.recordedAt) }}</p>
             </article>
