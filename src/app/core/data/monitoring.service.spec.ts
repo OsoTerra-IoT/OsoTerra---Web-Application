@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { throwError } from 'rxjs';
+import { SalinityAlertingApi } from '../api/salinity-alerting.api';
 import { SoilMonitoringApi } from '../api/soil-monitoring.api';
 import { provideFakeApiForTests } from '../api/testing';
 import { AuthService, DEMO_ACCOUNTS, DEMO_PASSWORD } from '../auth/auth.service';
@@ -146,6 +147,15 @@ describe('MonitoringService over the OsoSense API', () => {
     expect(data.alerts()[0].actions[0].createdBy).toBe('1');
     expect(data.activeAlerts()).toHaveLength(0);
     expect(await data.recordAction('1', action)).toBe(false);
+  });
+  it('does not mark an alert as handled when the API fails', async () => {
+    await login('farmer');
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    vi.spyOn(TestBed.inject(SalinityAlertingApi), 'acknowledge').mockReturnValue(
+      throwError(() => new HttpErrorResponse({ status: 500 })),
+    );
+    expect(await data.acknowledge('1')).toBe(false);
+    expect(data.alerts()[0].status).toBe('OPEN');
   });
   it('rejects future-dated actions', async () => {
     await login('farmer');

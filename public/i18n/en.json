@@ -242,6 +242,7 @@
   },
   "alerts": {
     "acknowledgedAnnouncement": "Alert marked as handled.",
+    "acknowledgeFailed": "We could not mark the alert as handled. It is still open; check your connection and try again.",
     "actionRecordedAnnouncement": "Corrective action recorded.",
     "monitoring": "Soil monitoring",
     "hint": "Review alerts, record observations and follow corrective actions.",

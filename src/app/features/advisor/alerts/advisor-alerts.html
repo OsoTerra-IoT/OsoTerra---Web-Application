@@ -16,6 +16,9 @@
 <p class="sr-only" role="status" aria-live="polite">
   {{ announcement() ? (announcement() | translate) : '' }}
 </p>
+@if (acknowledgeFailed()) {
+  <p class="muted" role="alert">{{ 'alerts.acknowledgeFailed' | translate }}</p>
+}
 <button
   mat-stroked-button
   type="button"

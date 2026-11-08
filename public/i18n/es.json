@@ -242,6 +242,7 @@
   },
   "alerts": {
     "acknowledgedAnnouncement": "Alerta marcada como atendida.",
+    "acknowledgeFailed": "No pudimos marcar la alerta como atendida. Sigue abierta; revisa tu conexión e inténtalo de nuevo.",
     "actionRecordedAnnouncement": "Acción correctiva registrada.",
     "monitoring": "Monitoreo del suelo",
     "hint": "Revisa las alertas, registra observaciones y sigue las acciones correctivas.",

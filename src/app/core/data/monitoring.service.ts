@@ -282,11 +282,14 @@ export class MonitoringService {
     return plot.id;
   }
 
-  async acknowledge(id: string): Promise<void> {
+  /** Acknowledges an open alert; false when the API did not accept it, so the alert stays open. */
+  async acknowledge(id: string): Promise<boolean> {
     const alert = this.alerts().find((item) => item.id === id);
-    if (alert?.status !== 'OPEN') return;
+    if (alert?.status !== 'OPEN') return false;
     const saved = await this.attempt(this.alertApi.acknowledge(fromId(id)));
-    if (saved) this.replaceAlert(toAlert(saved, []), alert.actions);
+    if (!saved) return false;
+    this.replaceAlert(toAlert(saved, []), alert.actions);
+    return true;
   }
 
   /** Registers the action that resolves an alert, as the Backend's workflow does. */

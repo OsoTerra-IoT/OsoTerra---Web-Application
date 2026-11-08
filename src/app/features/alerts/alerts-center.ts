@@ -62,9 +62,12 @@ export class AlertsCenter {
     return this.data.plots().find((plot) => plot.id === id)?.name;
   }
   readonly announcement = signal('');
+  /** True when the last «mark as handled» was not accepted by the API. */
+  readonly acknowledgeFailed = signal(false);
   async acknowledge(id: string) {
-    await this.data.acknowledge(id);
-    this.announcement.set('alerts.acknowledgedAnnouncement');
+    const acknowledged = await this.data.acknowledge(id);
+    this.acknowledgeFailed.set(!acknowledged);
+    this.announcement.set(acknowledged ? 'alerts.acknowledgedAnnouncement' : '');
   }
   openAction(id: string) {
     this.dialog
