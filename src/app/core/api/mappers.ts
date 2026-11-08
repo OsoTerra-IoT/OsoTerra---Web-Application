@@ -21,6 +21,7 @@ import {
   SalinityAlertResource,
   SoilReadingResource,
   UserAccountResource,
+  DEVICE_ACTOR_ID,
 } from './api.types';
 
 /** Maps the API's numeric ids to the string ids the views and routes use. */
@@ -213,6 +214,7 @@ export function toCorrectiveAction(resource: CorrectiveActionResource): Correcti
     performedAt: resource.executedAt,
     notes: resource.notes ?? '',
     createdBy: toId(resource.registeredBy),
+    automatic: resource.registeredBy === DEVICE_ACTOR_ID,
   };
 }
 

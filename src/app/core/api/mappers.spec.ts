@@ -1,4 +1,4 @@
-import { CorrectiveActionResource, SalinityAlertResource } from './api.types';
+import { CorrectiveActionResource, DEVICE_ACTOR_ID, SalinityAlertResource } from './api.types';
 import { toAlert } from './mappers';
 
 const alertResource = (status: SalinityAlertResource['status']): SalinityAlertResource => ({
@@ -34,5 +34,13 @@ describe('toAlert', () => {
     const open = toAlert(alertResource('OPEN'), [actionResource]);
     expect(open.resolvedAt).toBeUndefined();
     expect(open.actions).toHaveLength(1);
+  });
+});
+
+describe('toAlert actions', () => {
+  it('flags the actions the device registered as automatic', () => {
+    const device = { ...actionResource, id: 2, registeredBy: DEVICE_ACTOR_ID };
+    const actions = toAlert(alertResource('OPEN'), [actionResource, device]).actions;
+    expect(actions.map((action) => action.automatic)).toEqual([false, true]);
   });
 });

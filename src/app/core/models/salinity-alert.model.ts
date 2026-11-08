@@ -21,6 +21,8 @@ export interface CorrectiveAction {
   performedAt: string;
   notes: string;
   createdBy: string;
+  /** True when the sensor carried it out on its own (e.g. the pump wash), not a person. */
+  automatic?: boolean;
 }
 
 export interface SalinityAlert {
