@@ -193,6 +193,37 @@ describe('DemoScenarioService', () => {
     await data.acknowledge(critical.id);
     expect(open().map((alert) => alert.severity)).toEqual(['WARNING']);
   });
+  it('loads scenario 7: two automatic washes took the plot from Critical down to Watch', async () => {
+    await scenarios.load(7);
+    expect(auth.user()?.role).toBe('Farmer');
+    const north = plot('Sector Norte');
+    const readings = data.readings(north.id);
+    const grade = (value: number) => value / 1.5;
+    expect(Math.max(...readings.map((reading) => grade(reading.conductivityDsM)))).toBeGreaterThan(
+      1.5,
+    );
+    expect(data.level(north)).toBe('watch');
+    const alert = data.alerts().find((item) => item.plotId === north.id)!;
+    expect(alert.severity).toBe('CRITICAL');
+    expect(alert.status).toBe('OPEN');
+    expect(alert.actions.map((action) => [action.automatic, action.notes])).toEqual([
+      [true, 'AUTO_FLUSH 1/3 60s'],
+      [true, 'AUTO_FLUSH 2/3 60s'],
+    ]);
+    expect(data.contingency(north)).toEqual({ state: 'ACTIVE', used: 2, max: 3 });
+    expect(data.contingency(plot('Sector Sur'))).toBeNull();
+  });
+  it('loads scenario 8: the washes are used up, the alert stays open for a person', async () => {
+    await scenarios.load(8);
+    const north = plot('Sector Norte');
+    expect(data.level(north)).toBe('critical');
+    const alert = data.alerts().find((item) => item.plotId === north.id)!;
+    expect(alert.status).toBe('OPEN');
+    expect(alert.actions).toHaveLength(3);
+    expect(alert.actions.at(-1)!.notes).toBe('AUTO_FLUSH 3/3 60s EXHAUSTED');
+    expect(data.contingency(north)).toEqual({ state: 'EXHAUSTED', used: 3, max: 3 });
+    expect(open().map((item) => item.plotId)).toEqual([north.id]);
+  });
   it('switches between farmer and advisor scenarios without mixing their data', async () => {
     await scenarios.load(6);
     await scenarios.load(2);

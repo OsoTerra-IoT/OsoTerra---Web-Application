@@ -465,7 +465,9 @@
       "criticalAlert": "Critical alert",
       "advisorRequest": "Advisor request",
       "advisorClients": "Advisor with clients",
-      "advisorAlerts": "Advisor with alerts"
+      "advisorAlerts": "Advisor with alerts",
+      "autoFlush": "Critical salinity, automatic wash",
+      "flushExhausted": "Washes used up, needs a person"
     },
     "hints": {
       "sensorCode": "Sensor code to link",

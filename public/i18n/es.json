@@ -465,7 +465,9 @@
       "criticalAlert": "Alerta muy alta",
       "advisorRequest": "Solicitud de asesor",
       "advisorClients": "Asesor con clientes",
-      "advisorAlerts": "Asesor con alertas"
+      "advisorAlerts": "Asesor con alertas",
+      "autoFlush": "Salinidad crítica con lavado automático",
+      "flushExhausted": "Lavados agotados, requiere intervención"
     },
     "hints": {
       "sensorCode": "Código del sensor para vincular",
