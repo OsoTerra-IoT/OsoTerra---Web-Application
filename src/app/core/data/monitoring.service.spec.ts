@@ -1,4 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { throwError } from 'rxjs';
+import { SalinityAlertingApi } from '../api/salinity-alerting.api';
+import { SoilMonitoringApi } from '../api/soil-monitoring.api';
 import { provideFakeApiForTests } from '../api/testing';
 import { AuthService, DEMO_ACCOUNTS, DEMO_PASSWORD } from '../auth/auth.service';
 import { MonitoringService } from './monitoring.service';
@@ -28,6 +32,20 @@ describe('MonitoringService over the OsoSense API', () => {
     expect(data.plots()).toHaveLength(0);
     expect(data.alerts()).toHaveLength(0);
     expect(data.devices()).toHaveLength(0);
+  });
+  it('keeps the other plots when one plot fails to load', async () => {
+    const soil = TestBed.inject(SoilMonitoringApi);
+    const original = soil.readingsOf.bind(soil);
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    vi.spyOn(soil, 'readingsOf').mockImplementation((plotId) =>
+      plotId === 1 ? throwError(() => new HttpErrorResponse({ status: 500 })) : original(plotId),
+    );
+    await login('farmer');
+    expect(data.loadFailed()).toBe(false);
+    expect(data.plots().map((plot) => plot.name)).toEqual(['Sector Norte', 'La Quebrada']);
+    expect(data.failedPlots().map((plot) => plot.name)).toEqual(['Sector Norte']);
+    expect(data.readings('1')).toHaveLength(0);
+    expect(data.readings('2').length).toBeGreaterThan(0);
   });
   it('maps the crop catalog with its agronomic references', async () => {
     await login('farmer');
@@ -129,6 +147,15 @@ describe('MonitoringService over the OsoSense API', () => {
     expect(data.alerts()[0].actions[0].createdBy).toBe('1');
     expect(data.activeAlerts()).toHaveLength(0);
     expect(await data.recordAction('1', action)).toBe(false);
+  });
+  it('does not mark an alert as handled when the API fails', async () => {
+    await login('farmer');
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    vi.spyOn(TestBed.inject(SalinityAlertingApi), 'acknowledge').mockReturnValue(
+      throwError(() => new HttpErrorResponse({ status: 500 })),
+    );
+    expect(await data.acknowledge('1')).toBe(false);
+    expect(data.alerts()[0].status).toBe('OPEN');
   });
   it('rejects future-dated actions', async () => {
     await login('farmer');

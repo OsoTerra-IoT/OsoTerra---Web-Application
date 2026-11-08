@@ -242,6 +242,7 @@
   },
   "alerts": {
     "acknowledgedAnnouncement": "Alerta marcada como atendida.",
+    "acknowledgeFailed": "No pudimos marcar la alerta como atendida. Sigue abierta; revisa tu conexión e inténtalo de nuevo.",
     "actionRecordedAnnouncement": "Acción correctiva registrada.",
     "monitoring": "Monitoreo del suelo",
     "hint": "Revisa las alertas, registra observaciones y sigue las acciones correctivas.",
@@ -372,6 +373,7 @@
     "noAdvisor": "Tu cuenta no tiene un asesor asignado."
   },
   "home": {
+    "plotsFailed": "No pudimos cargar los datos de: {{names}}. Las demás parcelas se muestran con normalidad.",
     "attention": "{{count}} de tus {{total}} parcelas necesita atención.",
     "attentionMany": "{{count}} de tus {{total}} parcelas necesitan atención.",
     "allClear": "Tus {{total}} parcelas están por debajo del umbral de su cultivo.",

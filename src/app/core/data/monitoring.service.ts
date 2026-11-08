@@ -4,8 +4,10 @@ import { firstValueFrom, forkJoin, Observable, of } from 'rxjs';
 import {
   CalibrationRecordResource,
   CorrectiveActionResource,
+  DeviceResource,
   FarmResource,
   PlotResource,
+  SalinityAlertResource,
   SoilReadingResource,
 } from '../api/api.types';
 import { FarmManagementApi } from '../api/farm-management.api';
@@ -56,8 +58,17 @@ interface Snapshot {
   devices: Device[];
   alerts: SalinityAlert[];
   readings: ReadonlyMap<string, SoilReading[]>;
+  /** Plots whose own data could not be loaded; the others are unaffected. */
+  failedPlotIds: string[];
 }
-const EMPTY: Snapshot = { farms: [], plots: [], devices: [], alerts: [], readings: new Map() };
+const EMPTY: Snapshot = {
+  farms: [],
+  plots: [],
+  devices: [],
+  alerts: [],
+  readings: new Map(),
+  failedPlotIds: [],
+};
 /** Shown for a plot whose crop is not assigned yet; its level is always unknown. */
 const UNASSIGNED_CROP: Crop = {
   id: '',
@@ -92,6 +103,10 @@ export class MonitoringService {
   readonly plots = computed(() => this.snapshot().plots);
   readonly farms = computed(() => this.snapshot().farms);
   readonly devices = computed(() => this.snapshot().devices);
+  /** Plots whose readings, sensors or alerts failed to load while the others did. */
+  readonly failedPlots = computed(() =>
+    this.plots().filter((plot) => this.snapshot().failedPlotIds.includes(plot.id)),
+  );
   readonly alerts = computed(() => this.snapshot().alerts);
   readonly activeAlerts = computed(() =>
     this.alerts().filter((alert) => alert.status !== 'RESOLVED'),
@@ -267,11 +282,14 @@ export class MonitoringService {
     return plot.id;
   }
 
-  async acknowledge(id: string): Promise<void> {
+  /** Acknowledges an open alert; false when the API did not accept it, so the alert stays open. */
+  async acknowledge(id: string): Promise<boolean> {
     const alert = this.alerts().find((item) => item.id === id);
-    if (alert?.status !== 'OPEN') return;
+    if (alert?.status !== 'OPEN') return false;
     const saved = await this.attempt(this.alertApi.acknowledge(fromId(id)));
-    if (saved) this.replaceAlert(toAlert(saved, []), alert.actions);
+    if (!saved) return false;
+    this.replaceAlert(toAlert(saved, []), alert.actions);
+    return true;
   }
 
   /** Registers the action that resolves an alert, as the Backend's workflow does. */
@@ -403,30 +421,11 @@ export class MonitoringService {
     const plotResources = (
       await Promise.all(farmResources.map((farm) => firstValueFrom(this.farmApi.plotsOf(farm.id))))
     ).flat();
-    const perPlot = await Promise.all(
-      plotResources.map((plot) =>
-        firstValueFrom(
-          forkJoin({
-            plot: of(plot),
-            devices: this.farmApi.devicesOf(plot.id),
-            readings: this.soilApi.readingsOf(plot.id),
-            alerts: this.alertApi.alertsOf(plot.id),
-          }),
-        ),
-      ),
-    );
+    const perPlot = await Promise.all(plotResources.map((plot) => this.loadPlot(plot)));
     const devices = perPlot.flatMap((entry) => entry.devices);
-    const calibrations = await Promise.all(
-      devices.map((device) => firstValueFrom(this.soilApi.calibrationsOf(device.id))),
-    );
+    const calibrations = perPlot.flatMap((entry) => entry.calibrations);
     const alertResources = perPlot.flatMap((entry) => entry.alerts);
-    const actions = await Promise.all(
-      alertResources.map((alert) =>
-        alert.status === 'RESOLVED'
-          ? firstValueFrom(this.alertApi.correctiveActionsOf(alert.id))
-          : Promise.resolve([] as CorrectiveActionResource[]),
-      ),
-    );
+    const actions = perPlot.flatMap((entry) => entry.actions);
     const advisorIds = user.role === 'Advisor' ? [user.id] : this.auth.advisorIds();
     return {
       farms: farmResources.map(toFarm),
@@ -440,7 +439,50 @@ export class MonitoringService {
       readings: new Map(
         perPlot.map(({ plot, readings }) => [String(plot.id), this.chronological(readings)]),
       ),
+      failedPlotIds: perPlot.filter((entry) => entry.failed).map((entry) => String(entry.plot.id)),
     };
+  }
+
+  /**
+   * Loads what one plot needs. A failure of this plot (network error or 5xx) leaves it with
+   * empty data and flags it, so the other plots still load; an expired session (401) and
+   * unexpected errors are not swallowed here.
+   */
+  private async loadPlot(plot: PlotResource) {
+    try {
+      const { devices, readings, alerts } = await firstValueFrom(
+        forkJoin({
+          devices: this.farmApi.devicesOf(plot.id),
+          readings: this.soilApi.readingsOf(plot.id),
+          alerts: this.alertApi.alertsOf(plot.id),
+        }),
+      );
+      const [calibrations, actions] = await Promise.all([
+        Promise.all(
+          devices.map((device) => firstValueFrom(this.soilApi.calibrationsOf(device.id))),
+        ),
+        Promise.all(
+          alerts.map((alert) =>
+            alert.status === 'RESOLVED'
+              ? firstValueFrom(this.alertApi.correctiveActionsOf(alert.id))
+              : Promise.resolve([] as CorrectiveActionResource[]),
+          ),
+        ),
+      ]);
+      return { plot, devices, readings, alerts, calibrations, actions, failed: false };
+    } catch (error) {
+      if (!(error instanceof HttpErrorResponse) || error.status === 401) throw error;
+      console.error(`Could not load plot ${plot.id}`, error);
+      return {
+        plot,
+        devices: [] as DeviceResource[],
+        readings: [] as SoilReadingResource[],
+        alerts: [] as SalinityAlertResource[],
+        calibrations: [] as CalibrationRecordResource[][],
+        actions: [] as CorrectiveActionResource[][],
+        failed: true,
+      };
+    }
   }
 
   private clear(): void {

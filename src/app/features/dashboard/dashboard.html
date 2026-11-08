@@ -63,6 +63,12 @@
   </div>
 </header>
 
+@if (failedNames()) {
+  <p class="muted home-failed" role="status">
+    <mat-icon aria-hidden="true">cloud_off</mat-icon>
+    {{ 'home.plotsFailed' | translate: { names: failedNames() } }}
+  </p>
+}
 @if (data.loading() && !data.plots().length) {
   <div class="home-layout">
     <app-skeleton variant="card" [rows]="2" />

@@ -46,6 +46,13 @@ export class Dashboard {
   readonly attention = computed(() => this.data.attentionPlots().length);
   /** Plots in the Watch level, mentioned apart from the headline. */
   readonly watch = computed(() => this.data.watchPlots().length);
+  /** Names of the plots whose own data failed to load, for the discreet notice. */
+  readonly failedNames = computed(() =>
+    this.data
+      .failedPlots()
+      .map((plot) => plot.name)
+      .join(', '),
+  );
   readonly area = computed(() =>
     this.data.plots().reduce((sum, plot) => sum + plot.areaHectares, 0),
   );
