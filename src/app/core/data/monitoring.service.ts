@@ -462,11 +462,8 @@ export class MonitoringService {
           devices.map((device) => firstValueFrom(this.soilApi.calibrationsOf(device.id))),
         ),
         Promise.all(
-          alerts.map((alert) =>
-            alert.status === 'RESOLVED'
-              ? firstValueFrom(this.alertApi.correctiveActionsOf(alert.id))
-              : Promise.resolve([] as CorrectiveActionResource[]),
-          ),
+          // Open alerts can also carry actions, e.g. those the device registered on its own.
+          alerts.map((alert) => firstValueFrom(this.alertApi.correctiveActionsOf(alert.id))),
         ),
       ]);
       return { plot, devices, readings, alerts, calibrations, actions, failed: false };

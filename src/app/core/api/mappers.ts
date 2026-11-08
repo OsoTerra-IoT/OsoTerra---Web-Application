@@ -230,7 +230,7 @@ export function toAlert(
     thresholdDsM: resource.appliedThresholdDsM,
     createdAt: resource.generatedAt,
     acknowledgedAt: resource.acknowledgedAt ?? undefined,
-    resolvedAt: actions.at(-1)?.registeredAt,
+    resolvedAt: resource.status === 'RESOLVED' ? actions.at(-1)?.registeredAt : undefined,
     actions: actions.map(toCorrectiveAction),
   };
 }
