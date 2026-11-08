@@ -474,5 +474,10 @@
       "farmerEmail": "Productor por invitar",
       "pendingSensor": "Sensor pendiente de calibrar"
     }
+  },
+  "contingency": {
+    "autoTag": "Lavado automático",
+    "flushNote": "Lavado automático con bomba {{used}}/{{max}}, {{seconds}} s.",
+    "exhaustedNote": "Lavados agotados: una persona debe actuar."
   }
 }

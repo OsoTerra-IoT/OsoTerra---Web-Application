@@ -107,11 +107,7 @@
               {{ 'alerts.actionCount' | translate: { count: alert.actions.length } }}
             </summary>
             @for (action of alert.actions; track action.id) {
-              <p>
-                <strong>{{ 'actionTypes.' + action.type | translate }}</strong> ·
-                {{ locale.date(action.performedAt) }}
-              </p>
-              <p>{{ action.notes }}</p>
+              <app-action-entry [action]="action" />
             }
           </details>
         }
@@ -172,11 +168,7 @@
                   {{ 'alerts.actionCount' | translate: { count: alert.actions.length } }}
                 </summary>
                 @for (action of alert.actions; track action.id) {
-                  <p>
-                    <strong>{{ 'actionTypes.' + action.type | translate }}</strong> ·
-                    {{ locale.date(action.performedAt) }}
-                  </p>
-                  <p>{{ action.notes }}</p>
+                  <app-action-entry [action]="action" />
                 }
               </details>
             </td>

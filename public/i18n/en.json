@@ -474,5 +474,10 @@
       "farmerEmail": "Farmer to invite",
       "pendingSensor": "Sensor pending calibration"
     }
+  },
+  "contingency": {
+    "autoTag": "Automatic wash",
+    "flushNote": "Automatic wash with pump {{used}}/{{max}}, {{seconds}} s.",
+    "exhaustedNote": "Washes used up: a person must act."
   }
 }
