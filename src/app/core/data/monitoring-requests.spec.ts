@@ -41,6 +41,9 @@ describe('MonitoringService requests', () => {
     expect(monitoring.some((call) => call.includes('calibration-records'))).toBe(false);
     expect(monitoring.filter((call) => call.includes('/crops'))).toHaveLength(1);
   });
+  it('asks for 11 requests for a farmer with two plots and two sensors', async () => {
+    expect(await login('farmer2')).toHaveLength(11);
+  });
   it('still reads the calibrations of the plots an advisor supervises', async () => {
     const monitoring = await login('advisor');
     expect(monitoring).toHaveLength(24);
