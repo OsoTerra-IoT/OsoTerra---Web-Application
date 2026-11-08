@@ -5,3 +5,4 @@ export * from './device.model';
 export * from './soil-reading.model';
 export * from './salinity-alert.model';
 export * from './advisory-link.model';
+export * from './subscription.model';

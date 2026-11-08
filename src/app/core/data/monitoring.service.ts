@@ -120,6 +120,8 @@ export class MonitoringService {
   readonly loading = signal(false);
   /** True when the last refresh could not reach the API or it failed (5xx). */
   readonly loadFailed = signal(false);
+  /** True when the last new plot was refused because the subscription plan is full (409). */
+  readonly planLimitReached = signal(false);
   readonly crops = this.cropCatalog.asReadonly();
   readonly plots = computed(() => this.snapshot().plots);
   readonly farms = computed(() => this.snapshot().farms);
@@ -291,10 +293,13 @@ export class MonitoringService {
       latitude: value.latitude,
       longitude: value.longitude,
     };
+    this.planLimitReached.set(false);
     let saved = await this.attempt(
       id
         ? this.farmApi.updatePlot(fromId(id), details)
         : this.farmApi.registerPlot({ farmId: fromId(value.farmId), ...details }),
+      // Registering a plot above the limit of the subscription plan is a business rule: 409.
+      (status) => this.planLimitReached.set(!id && status === 409),
     );
     if (saved && existing?.cropId !== value.cropId)
       saved = await this.attempt(this.farmApi.assignCrop(saved.id, fromId(value.cropId)));
@@ -574,6 +579,7 @@ export class MonitoringService {
     this.generation++;
     this.snapshot.set(EMPTY);
     this.registeredDevices.clear();
+    this.planLimitReached.set(false);
     this.loading.set(false);
     this.loadFailed.set(false);
   }

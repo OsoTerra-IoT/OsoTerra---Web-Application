@@ -8,6 +8,8 @@ import {
   Plot,
   SalinityAlert,
   SoilReading,
+  Subscription,
+  SubscriptionPlan,
   User,
 } from '../models';
 import {
@@ -20,6 +22,8 @@ import {
   PlotResource,
   SalinityAlertResource,
   SoilReadingResource,
+  SubscriptionPlanResource,
+  SubscriptionResource,
   UserAccountResource,
   DEVICE_ACTOR_ID,
 } from './api.types';
@@ -243,5 +247,29 @@ export function toAdvisoryLink(resource: AdvisoryLinkResource): AdvisoryLink {
     id: toId(resource.id),
     advisorId: toId(resource.advisorId),
     farmerId: toId(resource.farmerId),
+  };
+}
+
+export function toSubscriptionPlan(resource: SubscriptionPlanResource): SubscriptionPlan {
+  return {
+    id: toId(resource.id),
+    name: resource.name,
+    priceAmount: resource.priceAmount,
+    priceCurrency: resource.priceCurrency,
+    billingCycle: resource.billingCycle,
+    maxPlots: resource.maxPlots,
+    free: resource.free,
+  };
+}
+
+export function toSubscription(resource: SubscriptionResource): Subscription {
+  return {
+    id: toId(resource.id),
+    planId: toId(resource.subscriptionPlanId),
+    status: resource.status,
+    quotaTotal: resource.quotaTotal,
+    quotaConsumed: resource.quotaConsumed,
+    periodStartDate: resource.periodStartDate,
+    periodEndDate: resource.periodEndDate,
   };
 }
