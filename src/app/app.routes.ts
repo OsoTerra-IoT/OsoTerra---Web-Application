@@ -45,13 +45,8 @@ export const routes: Routes = [
         data: { roles: ['Farmer'], breadcrumb: 'nav.devices' },
         loadComponent: () => import('./features/devices/devices').then((m) => m.Devices),
       },
-      {
-        path: 'advisor',
-        canActivateChild: [roleGuard],
-        data: { roles: ['Advisor'] },
-        loadChildren: () =>
-          import('./features/advisor/advisor.routes').then((m) => m.ADVISOR_ROUTES),
-      },
+      // Advisor pages live in the advisor workspace above; a farmer opening one lands on home.
+      { path: 'advisor', children: [{ path: '**', redirectTo: '/app/home' }] },
       {
         path: 'my-advisor',
         data: { roles: ['Farmer'], page: 'advisor', breadcrumb: 'nav.myAdvisor' },
