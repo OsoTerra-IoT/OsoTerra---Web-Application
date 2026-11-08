@@ -3,12 +3,13 @@ import { Component, computed, inject } from '@angular/core';
 import { AuthService } from '../../../core/auth/auth.service';
 import { MonitoringService } from '../../../core/data/monitoring.service';
 import { LocaleService } from '../../../core/i18n/locale.service';
+import { SubscriptionPanel } from '../../../shared/components/subscription-panel';
 import { UI_IMPORTS } from '../../../shared/ui-imports';
 
-/** Advisor subscription view. Prepared for a future billing integration: no payments exist. */
+/** Advisor subscription view. Plans come from the API; card payment is not implemented. */
 @Component({
   selector: 'app-advisor-subscription',
-  imports: [...UI_IMPORTS],
+  imports: [...UI_IMPORTS, SubscriptionPanel],
   templateUrl: './advisor-subscription.html',
   styleUrl: './advisor-subscription.scss',
 })

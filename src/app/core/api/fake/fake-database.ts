@@ -206,8 +206,9 @@ export class FakeDatabase {
         status: 'ACTIVE',
         quotaTotal: 10,
         quotaConsumed: 2,
-        periodStartDate: '2026-09-01',
-        periodEndDate: '2026-10-01',
+        // A monthly period around today, so the demo plan never shows as expired.
+        periodStartDate: localDate(new Date(now.getTime() - 15 * 86_400_000)),
+        periodEndDate: localDate(new Date(now.getTime() + 15 * 86_400_000)),
         createdAt: created,
       },
     );

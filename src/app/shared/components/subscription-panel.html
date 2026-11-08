@@ -1,0 +1,137 @@
+@if (subscriptions.loading() && !subscriptions.plans().length) {
+  <mat-progress-bar mode="indeterminate" [attr.aria-label]="'common.loading' | translate" />
+} @else if (subscriptions.loadFailed()) {
+  <div class="data-status-error" role="alert">
+    <mat-icon aria-hidden="true">cloud_off</mat-icon>
+    <p>{{ 'common.loadFailed' | translate }}</p>
+    <button mat-stroked-button type="button" (click)="subscriptions.refresh()">
+      {{ 'common.retry' | translate }}
+    </button>
+  </div>
+} @else {
+  @if (notice(); as notice) {
+    <p
+      class="field-alert"
+      [class.form-error]="notice.error"
+      [attr.role]="notice.error ? 'alert' : 'status'"
+    >
+      <mat-icon aria-hidden="true">{{ notice.error ? 'error_outline' : 'check_circle' }}</mat-icon>
+      {{ notice.key | translate: notice.params }}
+    </p>
+  }
+  <section class="plan-summary" [attr.aria-label]="'subscription.currentPlan' | translate">
+    <h2>{{ 'subscription.currentPlan' | translate }}</h2>
+    @if (subscriptions.current(); as current) {
+      <div class="plan-title">
+        <h3>{{ planName(current) }}</h3>
+        <span class="demo-chip">{{ 'subscription.status.' + current.status | translate }}</span>
+      </div>
+      @if (showQuota()) {
+        <div class="quota-line">
+          <span>{{ 'subscription.plotsUsed' | translate }}</span>
+          <span>
+            {{
+              'subscription.plotsOf'
+                | translate
+                  : {
+                      used: locale.number(current.quotaConsumed, 0),
+                      total: locale.number(current.quotaTotal, 0),
+                    }
+            }}
+          </span>
+        </div>
+        <mat-progress-bar
+          mode="determinate"
+          [value]="usedPercent()"
+          [attr.aria-label]="'subscription.plotsUsed' | translate"
+        />
+        @if (full()) {
+          <p class="form-error" role="status">{{ 'subscription.planFull' | translate }}</p>
+        }
+      }
+      @if (current.periodEndDate) {
+        <p class="muted">
+          {{ 'subscription.renews' | translate: { date: locale.date(current.periodEndDate) } }}
+        </p>
+      }
+      <div class="button-row">
+        <button
+          mat-stroked-button
+          type="button"
+          [disabled]="subscriptions.busy()"
+          (click)="cancel(current)"
+        >
+          {{ 'subscription.cancel' | translate }}
+        </button>
+      </div>
+    } @else {
+      <p class="muted">{{ 'subscription.noPlan' | translate }}</p>
+    }
+  </section>
+  @if (subscriptions.pending().length) {
+    <section class="plan-summary" [attr.aria-label]="'subscription.pendingTitle' | translate">
+      <h2>{{ 'subscription.pendingTitle' | translate }}</h2>
+      <p class="muted">{{ 'subscription.pendingHint' | translate }}</p>
+      <ul class="pending-list">
+        @for (pending of subscriptions.pending(); track pending.id) {
+          <li>
+            <strong>{{ planName(pending) }}</strong>
+            <button
+              mat-stroked-button
+              type="button"
+              [disabled]="subscriptions.busy()"
+              (click)="cancel(pending)"
+            >
+              {{ 'subscription.cancelRequest' | translate }}
+            </button>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+  <section class="plan-summary" [attr.aria-label]="'subscription.plansTitle' | translate">
+    <h2>{{ 'subscription.plansTitle' | translate }}</h2>
+    <p class="muted">{{ 'subscription.paymentNote' | translate }}</p>
+    <ul class="plan-grid">
+      @for (plan of subscriptions.plans(); track plan.id) {
+        <li class="plan-option" [class.current]="isCurrent(plan)">
+          <h3>{{ plan.name }}</h3>
+          <p class="plan-price">
+            {{ plan.free ? ('subscription.free' | translate) : price(plan) }}
+          </p>
+          @if (!plan.free) {
+            <p class="muted">{{ cycleKey(plan.billingCycle) | translate }}</p>
+          }
+          <p>
+            {{ 'subscription.maxPlots' | translate: { count: locale.number(plan.maxPlots, 0) } }}
+          </p>
+          @if (isCurrent(plan)) {
+            <button mat-stroked-button type="button" disabled>
+              {{ 'subscription.inUse' | translate }}
+            </button>
+          } @else if (isPending(plan)) {
+            <button mat-stroked-button type="button" disabled>
+              {{ 'subscription.requested' | translate }}
+            </button>
+          } @else if (tooSmall(plan)) {
+            <button mat-stroked-button type="button" disabled>
+              {{ 'subscription.tooSmallShort' | translate }}
+            </button>
+          } @else {
+            <button
+              mat-flat-button
+              type="button"
+              [disabled]="subscriptions.busy()"
+              (click)="choose(plan)"
+            >
+              {{
+                (subscriptions.current() ? 'subscription.change' : 'subscription.subscribe')
+                  | translate
+              }}
+            </button>
+          }
+        </li>
+      }
+    </ul>
+  </section>
+}

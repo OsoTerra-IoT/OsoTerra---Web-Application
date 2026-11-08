@@ -115,7 +115,17 @@
   @if (!data.farms().length) {
     <a routerLink="/app/plots/farms/new">{{ 'plots.addFarmFirst' | translate }}</a>
   }
-  @if (error()) {
+  @if (data.planLimitReached()) {
+    <p role="alert" class="form-error field-alert">
+      <mat-icon aria-hidden="true">error_outline</mat-icon>
+      <span>
+        {{
+          (limit() ? 'plots.planLimit' : 'plots.planLimitUnknown') | translate: { limit: limit() }
+        }}
+        <a routerLink="/app/subscription">{{ 'plots.viewPlans' | translate }}</a>
+      </span>
+    </p>
+  } @else if (error()) {
     <p role="alert" class="form-error field-alert">
       <mat-icon aria-hidden="true">error_outline</mat-icon>{{ 'plots.saveFailed' | translate }}
     </p>

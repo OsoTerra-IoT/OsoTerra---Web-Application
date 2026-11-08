@@ -3,6 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MonitoringService } from '../../../core/data/monitoring.service';
+import { SubscriptionService } from '../../../core/data/subscription.service';
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { UI_IMPORTS } from '../../../shared/ui-imports';
 
@@ -21,6 +22,7 @@ const round = (value: number) => Math.round(value * 1e6) / 1e6;
 export class PlotForm {
   readonly data = inject(MonitoringService);
   readonly locale = inject(LocaleService);
+  private readonly subscriptions = inject(SubscriptionService);
   private readonly router = inject(Router);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly id = inject(ActivatedRoute).snapshot.paramMap.get('id') ?? undefined;
@@ -68,6 +70,9 @@ export class PlotForm {
       this.form.patchValue({ farmId: this.data.farms()[0].id });
     }
   }
+
+  /** Plots the current plan allows, for the message shown when the API refuses a new plot (409). */
+  readonly limit = computed(() => this.subscriptions.current()?.quotaTotal);
 
   showNullIsland(): boolean {
     const { latitude, longitude } = this.form.controls;

@@ -1,0 +1,65 @@
+.plan-summary {
+  display: grid;
+  gap: 0.75rem;
+}
+.plan-summary h3,
+.plan-summary p {
+  margin: 0;
+}
+.plan-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+.quota-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-weight: 600;
+}
+.plan-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 1rem;
+}
+.plan-option {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: var(--os-radius-md);
+}
+.plan-option.current {
+  border-color: #1b6234;
+  border-width: 2px;
+}
+.plan-option h3,
+.plan-option p {
+  margin: 0;
+}
+.plan-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.plan-option button {
+  margin-top: auto;
+}
+.pending-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+.pending-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}

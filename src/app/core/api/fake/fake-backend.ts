@@ -11,6 +11,7 @@ import {
   RegisterPlotResource,
   SalinityAlertResource,
   SignUpResource,
+  SubscriptionResource,
   UserAccountResource,
 } from '../api.types';
 import {
@@ -75,6 +76,8 @@ export class FakeBackend {
     ['POST', /^\/advisory-links\/(\d+)\/(acceptance|revocation)$/, (r, m) => this.answerLink(r, m)],
     ['GET', /^\/subscription-plans$/, () => ok(this.db.plans)],
     ['GET', /^\/subscriptions\/mine$/, (request) => this.mySubscriptions(request)],
+    ['POST', /^\/subscriptions$/, (request) => this.subscribe(request)],
+    ['POST', /^\/subscriptions\/(\d+)\/cancellation$/, (r, m) => this.cancelSubscription(r, +m[1])],
     ['GET', /^\/crops$/, () => ok(this.db.crops)],
     ['GET', /^\/farms\/mine$/, (request) => this.farmsOf(request, this.caller(request).id)],
     ['GET', /^\/farms$/, (request) => this.farmsOf(request, this.numberParam(request, 'ownerId'))],
@@ -292,9 +295,81 @@ export class FakeBackend {
   }
 
   // Subscription and Billing
+  /** `quotaConsumed` is the owner's active plots, as the Backend counts them. */
   private mySubscriptions(request: FakeRequest): FakeResponse {
     const caller = this.caller(request);
-    return ok(this.db.subscriptions.filter((item) => item.userAccountId === caller.id));
+    return ok(
+      this.db.subscriptions
+        .filter((item) => item.userAccountId === caller.id)
+        .map((item) => this.withQuota(item)),
+    );
+  }
+
+  /**
+   * A free plan activates at once; a paid plan waits for the payment, which the fake API does
+   * not take (the Backend activates it when the payment provider's webhook arrives).
+   */
+  private subscribe(request: FakeRequest): FakeResponse {
+    const caller = this.caller(request);
+    const planId = Number(this.body<{ subscriptionPlanId: number }>(request).subscriptionPlanId);
+    if (!Number.isInteger(planId))
+      throw new HttpFailure(400, 'The request has invalid fields', {
+        subscriptionPlanId: 'must not be null',
+      });
+    const plan = this.db.plans.find((candidate) => candidate.id === planId);
+    if (!plan) throw new HttpFailure(404, `Subscription plan not found for id ${planId}`);
+    const today = new Date(this.clock()).toISOString().slice(0, 10);
+    const subscription: SubscriptionResource = {
+      id: this.db.nextId('subscriptions'),
+      userAccountId: caller.id,
+      subscriptionPlanId: plan.id,
+      status: plan.free ? 'ACTIVE' : 'PENDING_PAYMENT',
+      quotaTotal: plan.maxPlots,
+      quotaConsumed: 0,
+      periodStartDate: today,
+      periodEndDate: null,
+      createdAt: this.now(),
+    };
+    this.db.subscriptions.push(subscription);
+    return created(this.withQuota(subscription));
+  }
+
+  private cancelSubscription(request: FakeRequest, id: number): FakeResponse {
+    const caller = this.caller(request);
+    const subscription = this.db.subscriptions.find((candidate) => candidate.id === id);
+    if (!subscription) throw new HttpFailure(404, `Subscription not found for id ${id}`);
+    if (subscription.userAccountId !== caller.id)
+      throw new HttpFailure(403, `Subscription ${id} belongs to another account`);
+    if (subscription.status === 'CANCELLED')
+      throw new HttpFailure(409, 'The subscription is already cancelled');
+    subscription.status = 'CANCELLED';
+    return ok(this.withQuota(subscription));
+  }
+
+  private withQuota(subscription: SubscriptionResource): SubscriptionResource {
+    return {
+      ...subscription,
+      quotaConsumed: this.activePlotsOf(subscription.userAccountId),
+    };
+  }
+
+  private activePlotsOf(ownerId: number): number {
+    const farmIds = this.db.farms.filter((farm) => farm.ownerId === ownerId).map((farm) => farm.id);
+    return this.db.plots.filter((plot) => plot.active && farmIds.includes(plot.farmId)).length;
+  }
+
+  /** The largest quota among the owner's active subscriptions; none means no limit. */
+  private plotLimitOf(ownerId: number): number | undefined {
+    const today = new Date(this.clock()).toISOString().slice(0, 10);
+    const limits = this.db.subscriptions
+      .filter(
+        (item) =>
+          item.userAccountId === ownerId &&
+          item.status === 'ACTIVE' &&
+          (item.periodEndDate === null || item.periodEndDate >= today),
+      )
+      .map((item) => item.quotaTotal);
+    return limits.length ? Math.max(...limits) : undefined;
   }
 
   // Farm Management
@@ -333,7 +408,14 @@ export class FakeBackend {
 
   private registerPlot(request: FakeRequest): FakeResponse {
     const body = this.body<RegisterPlotResource>(request);
-    this.ownedFarm(request, Number(body.farmId));
+    const farm = this.ownedFarm(request, Number(body.farmId));
+    const limit = this.plotLimitOf(farm.ownerId);
+    const active = this.activePlotsOf(farm.ownerId);
+    if (limit !== undefined && active >= limit)
+      throw new HttpFailure(
+        409,
+        `The subscription plan allows ${limit} active plots and you already have ${active}`,
+      );
     const plot: PlotResource = {
       id: this.db.nextId('plots'),
       farmId: Number(body.farmId),

@@ -9,9 +9,10 @@ import { AdvisoryLink } from '../../core/models';
 import { confirmAction } from '../../shared/components/confirm-dialog';
 import { UI_IMPORTS } from '../../shared/ui-imports';
 import { LanguageSwitcher } from '../../shared/components/language-switcher';
+import { SubscriptionPanel } from '../../shared/components/subscription-panel';
 @Component({
   selector: 'app-account',
-  imports: [...UI_IMPORTS, LanguageSwitcher],
+  imports: [...UI_IMPORTS, LanguageSwitcher, SubscriptionPanel],
   templateUrl: './account.html',
 })
 export class Account {

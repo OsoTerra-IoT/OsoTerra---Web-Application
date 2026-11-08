@@ -8,9 +8,11 @@
     <span class="demo-chip">{{ 'common.demo' | translate }}</span>
   }
 </header>
+<section class="surface">
+  <app-subscription-panel />
+</section>
 <section class="surface plan-card">
   <mat-icon aria-hidden="true">workspace_premium</mat-icon>
-  <h2>{{ 'account.demoPlan' | translate }}</h2>
   <p class="muted">{{ 'roles.Advisor' | translate }} · {{ auth.user()?.email }}</p>
   <h3>{{ 'advisor.planFeatures' | translate }}</h3>
   <ul class="feature-list">
