@@ -22,6 +22,12 @@ La app queda en http://localhost:4200. Las URL de cada configuración están en
 `src/environments/`. Con `?demo=1` en la URL se activa, solo en esa pestaña, el modo de demo con
 escenarios numerados.
 
+Los escenarios 7 y 8 muestran la contingencia de salinidad del dispositivo (lavado automático con
+bomba): el 7 con la parcela bajando de Muy alto a En vigilancia tras dos lavados y el 8 con los tres
+lavados agotados, donde una persona debe actuar. Usan el modelo de datos y la API falsa existentes:
+el dispositivo registra cada lavado como acción correctiva sin cuenta de persona y con la nota
+`AUTO_FLUSH <usados>/<máximo> <segundos>s`.
+
 ## Cómo probar
 
 ```bash
