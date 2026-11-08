@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { firstValueFrom, forkJoin, Observable, of } from 'rxjs';
+import { firstValueFrom, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import {
   CalibrationRecordResource,
   CorrectiveActionResource,
@@ -45,6 +45,26 @@ export type SalinityLevel = 'normal' | 'watch' | 'high' | 'critical' | 'unknown'
 export type DeviceActivation = 'activated' | 'codeInUse' | 'failed';
 /** Length of the Backend's `activation_code` column. */
 export const ACTIVATION_CODE_MAX_LENGTH = 40;
+/** Plots loaded at the same time; each one makes up to three requests at once. */
+const PLOT_LOAD_CONCURRENCY = 4;
+
+/** Maps `items` with at most `limit` calls in flight, keeping the order of the results. */
+async function mapLimit<T, R>(
+  items: readonly T[],
+  limit: number,
+  run: (item: T) => Promise<R>,
+): Promise<R[]> {
+  const results = new Array<R>(items.length);
+  let next = 0;
+  const worker = async () => {
+    while (next < items.length) {
+      const index = next++;
+      results[index] = await run(items[index]);
+    }
+  };
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+  return results;
+}
 export interface AdvisorClient {
   id: string;
   user: User | undefined;
@@ -373,7 +393,8 @@ export class MonitoringService {
     }
     if (!(await this.attempt(this.farmApi.attachDevice(deviceId, fromId(plotId))))) return 'failed';
     this.registeredDevices.delete(code);
-    await this.refresh();
+    // Only this plot changed: reload it instead of every plot of the user.
+    if (!(await this.reloadPlot(plot, user))) await this.refresh();
     return 'activated';
   }
 
@@ -414,22 +435,17 @@ export class MonitoringService {
   }
 
   private async fetch(user: User): Promise<Snapshot> {
-    if (!this.crops().length)
-      this.cropCatalog.set((await firstValueFrom(this.farmApi.crops())).map(toCrop));
-    const farmResources: FarmResource[] =
-      user.role === 'Advisor'
-        ? (
-            await Promise.all(
-              this.auth
-                .linked()
-                .map((farmer) => firstValueFrom(this.farmApi.farmsOf(fromId(farmer.id)))),
-            )
-          ).flat()
-        : await firstValueFrom(this.farmApi.myFarms());
+    // The crop catalog does not depend on the farms, so both are requested at the same time.
+    const [farmResources] = await Promise.all([
+      this.loadFarms(user),
+      this.crops().length ? Promise.resolve() : this.loadCrops(),
+    ]);
     const plotResources = (
       await Promise.all(farmResources.map((farm) => firstValueFrom(this.farmApi.plotsOf(farm.id))))
     ).flat();
-    const perPlot = await Promise.all(plotResources.map((plot) => this.loadPlot(plot)));
+    const perPlot = await mapLimit(plotResources, PLOT_LOAD_CONCURRENCY, (plot) =>
+      this.loadPlot(plot, user),
+    );
     const devices = perPlot.flatMap((entry) => entry.devices);
     const calibrations = perPlot.flatMap((entry) => entry.calibrations);
     const alertResources = perPlot.flatMap((entry) => entry.alerts);
@@ -451,27 +467,55 @@ export class MonitoringService {
     };
   }
 
+  private async loadCrops(): Promise<void> {
+    this.cropCatalog.set((await firstValueFrom(this.farmApi.crops())).map(toCrop));
+  }
+
+  private async loadFarms(user: User): Promise<FarmResource[]> {
+    return user.role === 'Advisor'
+      ? (
+          await Promise.all(
+            this.auth
+              .linked()
+              .map((farmer) => firstValueFrom(this.farmApi.farmsOf(fromId(farmer.id)))),
+          )
+        ).flat()
+      : firstValueFrom(this.farmApi.myFarms());
+  }
+
   /**
-   * Loads what one plot needs. A failure of this plot (network error or 5xx) leaves it with
-   * empty data and flags it, so the other plots still load; an expired session (401) and
-   * unexpected errors are not swallowed here.
+   * Loads what one plot needs. The three branches (sensors with their calibrations, readings,
+   * alerts with their actions) do not wait for each other. Calibrations are only read by the
+   * advisor's screens, so a farmer's sign-in does not request them. A failure of this plot
+   * (network error or 5xx) leaves it with empty data and flags it, so the other plots still
+   * load; an expired session (401) and unexpected errors are not swallowed here.
    */
-  private async loadPlot(plot: PlotResource) {
+  private async loadPlot(plot: PlotResource, user: User) {
     try {
-      const { devices, readings, alerts } = await firstValueFrom(
-        forkJoin({
-          devices: this.farmApi.devicesOf(plot.id),
-          readings: this.soilApi.readingsOf(plot.id),
-          alerts: this.alertApi.alertsOf(plot.id),
-        }),
-      );
-      const [calibrations, actions] = await Promise.all([
-        Promise.all(
-          devices.map((device) => firstValueFrom(this.soilApi.calibrationsOf(device.id))),
+      const [{ devices, calibrations }, readings, { alerts, actions }] = await Promise.all([
+        firstValueFrom(
+          this.farmApi
+            .devicesOf(plot.id)
+            .pipe(
+              switchMap((devices) =>
+                (user.role === 'Advisor' && devices.length
+                  ? forkJoin(devices.map((device) => this.soilApi.calibrationsOf(device.id)))
+                  : of(devices.map(() => [] as CalibrationRecordResource[]))
+                ).pipe(map((calibrations) => ({ devices, calibrations }))),
+              ),
+            ),
         ),
-        Promise.all(
-          // Open alerts can also carry actions, e.g. those the device registered on its own.
-          alerts.map((alert) => firstValueFrom(this.alertApi.correctiveActionsOf(alert.id))),
+        firstValueFrom(this.soilApi.readingsOf(plot.id)),
+        firstValueFrom(
+          this.alertApi.alertsOf(plot.id).pipe(
+            switchMap((alerts) =>
+              // Open alerts can also carry actions, e.g. those the device registered on its own.
+              (alerts.length
+                ? forkJoin(alerts.map((alert) => this.alertApi.correctiveActionsOf(alert.id)))
+                : of([] as CorrectiveActionResource[][])
+              ).pipe(map((actions) => ({ alerts, actions }))),
+            ),
+          ),
         ),
       ]);
       return { plot, devices, readings, alerts, calibrations, actions, failed: false };
@@ -488,6 +532,42 @@ export class MonitoringService {
         failed: true,
       };
     }
+  }
+
+  /** Reloads one plot and patches it into the snapshot; false when it could not be loaded. */
+  private async reloadPlot(plot: Plot, user: User): Promise<boolean> {
+    const generation = this.generation;
+    const resource = await this.attempt(this.farmApi.plot(fromId(plot.id)));
+    if (!resource) return false;
+    const entry = await this.loadPlot(resource, user);
+    if (entry.failed) return false;
+    // A sign-out or a full refresh while this plot loaded makes the result stale.
+    if (generation !== this.generation) return true;
+    this.patch((state) => {
+      const keep = <T extends { plotId: string }>(items: T[]) =>
+        items.filter((item) => item.plotId !== plot.id);
+      return {
+        ...state,
+        plots: state.plots.map((item) =>
+          item.id === plot.id
+            ? toPlot(resource, item.ownerId, item.advisorIds, entry.devices[0])
+            : item,
+        ),
+        devices: [
+          ...keep(state.devices),
+          ...entry.devices.map((device, index) =>
+            toDevice(device, this.latestCalibration(entry.calibrations[index])),
+          ),
+        ],
+        alerts: [
+          ...keep(state.alerts),
+          ...entry.alerts.map((alert, index) => toAlert(alert, entry.actions[index])),
+        ],
+        readings: new Map(state.readings).set(plot.id, this.chronological(entry.readings)),
+        failedPlotIds: state.failedPlotIds.filter((id) => id !== plot.id),
+      };
+    });
+    return true;
   }
 
   private clear(): void {

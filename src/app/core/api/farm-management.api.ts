@@ -35,6 +35,9 @@ export class FarmManagementApi {
   plotsOf(farmId: number) {
     return this.http.get<PlotResource[]>(`${this.url}/plots`, { params: { farmId } });
   }
+  plot(id: number) {
+    return this.http.get<PlotResource>(`${this.url}/plots/${id}`);
+  }
   registerPlot(body: RegisterPlotResource) {
     return this.http.post<PlotResource>(`${this.url}/plots`, body);
   }
