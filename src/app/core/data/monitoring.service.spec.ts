@@ -87,7 +87,8 @@ describe('MonitoringService over the OsoSense API', () => {
     expect(data.owner(clients[0].plots[0])?.firstName).toBe('Carla');
   });
   it('creates and updates owned farms and plots but rejects foreign farms', async () => {
-    await login('farmer');
+    // Elena's Free plan is full (2 of 2), so this one uses Carla's Basic plan.
+    await login('farmer2');
     expect(
       await data.saveFarm({
         name: 'Las Lomas',
@@ -107,7 +108,7 @@ describe('MonitoringService over the OsoSense API', () => {
     };
     expect(await data.savePlot({ ...value, latitude: 91 })).toBeNull();
     expect(await data.savePlot({ ...value, latitude: 0, longitude: 0 })).toBeNull();
-    expect(await data.savePlot({ ...value, farmId: '2' })).toBeNull();
+    expect(await data.savePlot({ ...value, farmId: '1' })).toBeNull();
     const id = (await data.savePlot(value))!;
     expect(data.plots().find((plot) => plot.id === id)?.name).toBe('New plot');
     expect(await data.savePlot({ ...value, name: 'Renamed' }, id)).toBe(id);
@@ -117,10 +118,10 @@ describe('MonitoringService over the OsoSense API', () => {
     expect(await data.savePlot({ ...value, farmId: '1' })).toBeNull();
   });
   it('activates a sensor by its code on an owned plot without a device', async () => {
-    await login('farmer');
+    await login('farmer2');
     const plotId = (await data.savePlot({
       name: 'Sin sensor',
-      farmId: '1',
+      farmId: '2',
       latitude: -11.4,
       longitude: -77.2,
       areaHectares: 1,
