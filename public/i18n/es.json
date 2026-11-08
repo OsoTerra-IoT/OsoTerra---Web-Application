@@ -372,6 +372,7 @@
     "noAdvisor": "Tu cuenta no tiene un asesor asignado."
   },
   "home": {
+    "plotsFailed": "No pudimos cargar los datos de: {{names}}. Las demás parcelas se muestran con normalidad.",
     "attention": "{{count}} de tus {{total}} parcelas necesita atención.",
     "attentionMany": "{{count}} de tus {{total}} parcelas necesitan atención.",
     "allClear": "Tus {{total}} parcelas están por debajo del umbral de su cultivo.",

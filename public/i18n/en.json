@@ -372,6 +372,7 @@
     "noAdvisor": "No advisor is assigned to your account."
   },
   "home": {
+    "plotsFailed": "We could not load the data of: {{names}}. Your other plots are shown as usual.",
     "attention": "{{count}} of your {{total}} plots needs attention.",
     "attentionMany": "{{count}} of your {{total}} plots need attention.",
     "allClear": "All {{total}} of your plots are below their crop threshold.",
