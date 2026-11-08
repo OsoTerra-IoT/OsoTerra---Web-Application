@@ -186,6 +186,9 @@
     "nullIsland": "La ubicación 0, 0 está en el océano. Usa tu ubicación o escribe las coordenadas de la parcela.",
     "areaError": "Ingresa una superficie mayor que 0 ha.",
     "saveFailed": "No pudimos guardar la parcela. Revisa tu conexión e inténtalo de nuevo.",
+    "planLimit": "Llegaste al límite de parcelas de tu plan ({{limit}}). Cambia a un plan con más parcelas para registrar otra.",
+    "planLimitUnknown": "Llegaste al límite de parcelas de tu plan. Cambia a un plan con más parcelas para registrar otra.",
+    "viewPlans": "Ver planes",
     "noReadings": "Aún no hay lecturas. Conecta tu dispositivo para ver la salinidad de esta parcela."
   },
   "crops": {
@@ -366,10 +369,55 @@
     "alertsActions": "Alertas y acciones correctivas",
     "exportError": "No se pudo generar el PDF. Inténtalo de nuevo."
   },
+  "subscription": {
+    "currentPlan": "Plan actual",
+    "plotsUsed": "Parcelas usadas",
+    "plotsOf": "{{used}} de {{total}}",
+    "planFull": "Usaste todas las parcelas de tu plan. Para registrar otra, cambia a un plan con más parcelas.",
+    "renews": "Vigente hasta el {{date}}.",
+    "noPlan": "No tienes un plan activo, así que no hay límite de parcelas. Puedes contratar uno abajo.",
+    "pendingTitle": "Planes pendientes de pago",
+    "pendingHint": "Estos planes ya fueron solicitados, pero el cobro con tarjeta aún no está disponible en la aplicación. Se activan cuando el servidor recibe el pago.",
+    "plansTitle": "Planes disponibles",
+    "paymentNote": "El cobro con tarjeta (Stripe) todavía no está disponible aquí: un plan de pago queda solicitado y pendiente de pago, y tu plan actual no cambia hasta entonces.",
+    "free": "Gratis",
+    "maxPlots": "Hasta {{count}} parcelas",
+    "cycle": {
+      "MONTHLY": "por mes",
+      "ANNUAL": "por año",
+      "NONE": "sin vencimiento"
+    },
+    "status": {
+      "ACTIVE": "Activo",
+      "PENDING_PAYMENT": "Pendiente de pago",
+      "SUSPENDED": "Suspendido",
+      "CANCELLED": "Cancelado"
+    },
+    "inUse": "Plan actual",
+    "requested": "Solicitado",
+    "tooSmallShort": "Tienes más parcelas",
+    "subscribe": "Contratar plan",
+    "change": "Cambiar a este plan",
+    "cancel": "Cancelar plan",
+    "cancelRequest": "Cancelar solicitud",
+    "confirmChangeTitle": "Cambiar al plan {{plan}}",
+    "confirmChangeFree": "El plan {{plan}} empieza ahora y reemplaza al que usas. Su límite de parcelas será el que se aplique desde este momento.",
+    "confirmChangePaid": "El plan {{plan}} se solicitará, pero quedará pendiente de pago porque el cobro aún no está disponible. Tu plan actual se mantiene.",
+    "confirmChange": "Confirmar",
+    "cancelTitle": "Cancelar el plan {{plan}}",
+    "cancelMessage": "Si cancelas, dejas de tener este plan. Tus parcelas no se borran.",
+    "changed": "Listo: ahora usas el plan {{plan}}.",
+    "pendingRequested": "Solicitamos el plan {{plan}}. Queda pendiente de pago y tu plan actual no cambia.",
+    "tooSmall": "El plan {{plan}} permite menos parcelas de las que ya tienes. Elige uno con más parcelas.",
+    "samePlan": "Ya usas o ya solicitaste el plan {{plan}}.",
+    "changeFailed": "No pudimos cambiar el plan {{plan}}. Revisa tu conexión e inténtalo de nuevo.",
+    "cancelled": "Cancelamos el plan {{plan}}.",
+    "cancelFailed": "No pudimos cancelar el plan {{plan}}. Revisa tu conexión e inténtalo de nuevo."
+  },
   "account": {
     "sessionHint": "El idioma que elijas se recuerda en este dispositivo.",
     "demoPlan": "Plan actual",
-    "subscriptionHint": "La facturación todavía no está habilitada: puedes usar OsoSense sin pagos.",
+    "subscriptionHint": "Elige o cambia tu plan. El cobro con tarjeta aún no está disponible en la aplicación.",
     "noAdvisor": "Tu cuenta no tiene un asesor asignado."
   },
   "home": {

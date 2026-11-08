@@ -186,6 +186,9 @@
     "nullIsland": "Location 0, 0 is in the ocean. Use your location or type the plot coordinates.",
     "areaError": "Enter an area greater than 0 ha.",
     "saveFailed": "We could not save the plot. Check your connection and try again.",
+    "planLimit": "You have reached your plan's plot limit ({{limit}}). Switch to a plan with more plots to register another one.",
+    "planLimitUnknown": "You have reached your plan's plot limit. Switch to a plan with more plots to register another one.",
+    "viewPlans": "See plans",
     "noReadings": "No readings yet. Connect your device to see the salinity of this plot."
   },
   "crops": {
@@ -366,10 +369,55 @@
     "alertsActions": "Alerts and corrective actions",
     "exportError": "The PDF could not be generated. Try again."
   },
+  "subscription": {
+    "currentPlan": "Current plan",
+    "plotsUsed": "Plots used",
+    "plotsOf": "{{used}} of {{total}}",
+    "planFull": "You have used every plot in your plan. To register another one, switch to a plan with more plots.",
+    "renews": "Valid until {{date}}.",
+    "noPlan": "You have no active plan, so there is no plot limit. You can subscribe to one below.",
+    "pendingTitle": "Plans waiting for payment",
+    "pendingHint": "These plans were requested, but card payment is not available in the app yet. They start when the server receives the payment.",
+    "plansTitle": "Available plans",
+    "paymentNote": "Card payment (Stripe) is not available here yet: a paid plan is requested and left pending payment, and your current plan does not change until then.",
+    "free": "Free",
+    "maxPlots": "Up to {{count}} plots",
+    "cycle": {
+      "MONTHLY": "per month",
+      "ANNUAL": "per year",
+      "NONE": "no expiry"
+    },
+    "status": {
+      "ACTIVE": "Active",
+      "PENDING_PAYMENT": "Pending payment",
+      "SUSPENDED": "Suspended",
+      "CANCELLED": "Cancelled"
+    },
+    "inUse": "Current plan",
+    "requested": "Requested",
+    "tooSmallShort": "You have more plots",
+    "subscribe": "Subscribe",
+    "change": "Switch to this plan",
+    "cancel": "Cancel plan",
+    "cancelRequest": "Cancel request",
+    "confirmChangeTitle": "Switch to the {{plan}} plan",
+    "confirmChangeFree": "The {{plan}} plan starts now and replaces the one you use. Its plot limit applies from this moment.",
+    "confirmChangePaid": "The {{plan}} plan will be requested, but it stays pending payment because payment is not available yet. Your current plan stays.",
+    "confirmChange": "Confirm",
+    "cancelTitle": "Cancel the {{plan}} plan",
+    "cancelMessage": "If you cancel, you no longer have this plan. Your plots are not deleted.",
+    "changed": "Done: you now use the {{plan}} plan.",
+    "pendingRequested": "We requested the {{plan}} plan. It stays pending payment and your current plan does not change.",
+    "tooSmall": "The {{plan}} plan allows fewer plots than you already have. Choose one with more plots.",
+    "samePlan": "You already use or have already requested the {{plan}} plan.",
+    "changeFailed": "We could not change to the {{plan}} plan. Check your connection and try again.",
+    "cancelled": "We cancelled the {{plan}} plan.",
+    "cancelFailed": "We could not cancel the {{plan}} plan. Check your connection and try again."
+  },
   "account": {
     "sessionHint": "The language you choose is remembered on this device.",
     "demoPlan": "Current plan",
-    "subscriptionHint": "Billing is not enabled yet: you can use OsoSense without payments.",
+    "subscriptionHint": "Choose or change your plan. Card payment is not available in the app yet.",
     "noAdvisor": "No advisor is assigned to your account."
   },
   "home": {
