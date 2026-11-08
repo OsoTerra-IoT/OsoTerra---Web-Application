@@ -476,6 +476,13 @@
     }
   },
   "contingency": {
+    "title": "Contingencia de salinidad",
+    "used": "Lavados usados: {{used}}/{{max}}",
+    "state": { "ACTIVE": "Activa", "EXHAUSTED": "Lavados agotados" },
+    "hint": {
+      "ACTIVE": "El sensor lava el suelo con la bomba mientras la salinidad siga muy alta.",
+      "EXHAUSTED": "Una persona debe revisar la parcela y actuar."
+    },
     "autoTag": "Lavado automático",
     "flushNote": "Lavado automático con bomba {{used}}/{{max}}, {{seconds}} s.",
     "exhaustedNote": "Lavados agotados: una persona debe actuar."

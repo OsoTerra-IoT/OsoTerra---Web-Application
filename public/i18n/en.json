@@ -476,6 +476,13 @@
     }
   },
   "contingency": {
+    "title": "Salinity contingency",
+    "used": "Washes used: {{used}}/{{max}}",
+    "state": { "ACTIVE": "Active", "EXHAUSTED": "Washes used up" },
+    "hint": {
+      "ACTIVE": "The sensor washes the soil with the pump while salinity stays very high.",
+      "EXHAUSTED": "A person must check the plot and act."
+    },
     "autoTag": "Automatic wash",
     "flushNote": "Automatic wash with pump {{used}}/{{max}}, {{seconds}} s.",
     "exhaustedNote": "Washes used up: a person must act."
