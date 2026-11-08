@@ -209,6 +209,11 @@ export interface SalinityAlertResource {
   acknowledgedAt: string | null;
   generatedAt: string;
 }
+/**
+ * `registeredBy` of an action the sensor registered on its own, without a person: the device
+ * is not a user account, so it has no account id.
+ */
+export const DEVICE_ACTOR_ID = 0;
 export interface CorrectiveActionResource {
   id: number;
   salinityAlertId: number;

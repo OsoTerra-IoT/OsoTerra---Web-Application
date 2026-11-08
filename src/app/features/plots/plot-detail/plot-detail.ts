@@ -1,3 +1,4 @@
+import { ContingencyStatus } from '../../../shared/components/contingency-status';
 import { EceHelp } from '../../../shared/components/ece-help';
 import { LevelPill } from '../../../shared/components/level-pill';
 import { Component, computed, inject, signal } from '@angular/core';
@@ -15,6 +16,7 @@ import { RiskChart } from '../../../shared/components/risk-chart';
 @Component({
   selector: 'app-plot-detail',
   imports: [
+    ContingencyStatus,
     EceHelp,
     LevelPill,
     ...UI_IMPORTS,
@@ -72,4 +74,9 @@ export class PlotDetail {
   readonly alerts = computed(() =>
     this.data.alerts().filter((alert) => alert.plotId === this.plot()?.id),
   );
+  /** Pump-wash contingency of the plot, when its sensor has washed the soil. */
+  readonly contingency = computed(() => {
+    const plot = this.plot();
+    return plot ? this.data.contingency(plot) : null;
+  });
 }

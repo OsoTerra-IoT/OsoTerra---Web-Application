@@ -23,6 +23,7 @@ import {
   toPlot,
   toReading,
 } from '../api/mappers';
+import { Contingency, contingencyOf } from './contingency';
 import { SalinityAlertingApi } from '../api/salinity-alerting.api';
 import { SoilMonitoringApi } from '../api/soil-monitoring.api';
 import { AuthService } from '../auth/auth.service';
@@ -201,6 +202,13 @@ export class MonitoringService {
     const ratio = this.ratio(crop, reading);
     if (ratio < 0) return 'unknown';
     return ratio >= 1.5 ? 'critical' : ratio >= 1.2 ? 'high' : ratio > 1 ? 'watch' : 'normal';
+  }
+  /** Pump-wash contingency of a plot, when its sensor has washed the soil. */
+  contingency(plot: Plot): Contingency | null {
+    return contingencyOf(
+      this.alerts().filter((alert) => alert.plotId === plot.id),
+      this.level(plot),
+    );
   }
   level(plot: Plot): SalinityLevel {
     return this.salinityLevel(this.crop(plot), this.latest(plot.id));
@@ -462,11 +470,8 @@ export class MonitoringService {
           devices.map((device) => firstValueFrom(this.soilApi.calibrationsOf(device.id))),
         ),
         Promise.all(
-          alerts.map((alert) =>
-            alert.status === 'RESOLVED'
-              ? firstValueFrom(this.alertApi.correctiveActionsOf(alert.id))
-              : Promise.resolve([] as CorrectiveActionResource[]),
-          ),
+          // Open alerts can also carry actions, e.g. those the device registered on its own.
+          alerts.map((alert) => firstValueFrom(this.alertApi.correctiveActionsOf(alert.id))),
         ),
       ]);
       return { plot, devices, readings, alerts, calibrations, actions, failed: false };

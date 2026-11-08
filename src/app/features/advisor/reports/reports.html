@@ -83,10 +83,7 @@
           >
         </div>
         @for (action of alert.actions; track action.id) {
-          <p class="action-entry">
-            <strong>{{ 'actionTypes.' + action.type | translate }}</strong> ·
-            {{ locale.date(action.performedAt) }} · {{ action.notes }}
-          </p>
+          <app-action-entry [action]="action" [inline]="true" />
         } @empty {
           <p class="action-entry muted">{{ 'advisor.noActions' | translate }}</p>
         }

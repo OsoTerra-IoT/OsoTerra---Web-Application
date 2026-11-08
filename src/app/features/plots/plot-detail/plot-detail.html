@@ -35,6 +35,9 @@
             />
           }
         </div>
+        @if (contingency(); as contingency) {
+          <app-contingency-status [contingency]="contingency" />
+        }
         <app-ece-help />
         @if (data.latest(plot.id); as reading) {
           <div class="summary-grid">
@@ -113,6 +116,13 @@
             <dd>{{ device.lastSeenAt ? locale.date(device.lastSeenAt) : '—' }}</dd>
             <dt>{{ 'devices.firmware' | translate }}</dt>
             <dd>{{ device.firmwareVersion ?? '—' }}</dd>
+            @if (contingency(); as contingency) {
+              <dt>{{ 'contingency.title' | translate }}</dt>
+              <dd>
+                {{ 'contingency.state.' + contingency.state | translate }} ·
+                {{ 'contingency.used' | translate: contingency }}
+              </dd>
+            }
           </dl>
         } @else {
           <p>{{ 'devices.empty' | translate }}</p>
