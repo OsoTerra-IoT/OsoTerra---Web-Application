@@ -261,7 +261,17 @@
     "actionCount": "Acciones registradas: {{count}}",
     "actionType": "Tipo de acción",
     "filter": "Filtrar",
-    "filterCount": "Filtros activos: {{count}}"
+    "filterCount": "Filtros activos: {{count}}",
+    "reading": "Lectura: {{value}} dS/m (umbral del cultivo: {{threshold}} dS/m)",
+    "whatToDo": "Qué hacer:",
+    "recommendation": {
+      "WATCH": "riega con agua de buena calidad, evita fertilizar de más y vuelve a revisar la parcela en 2 o 3 días.",
+      "WARNING": "aplica un riego de lavado para bajar las sales a la raíz, revisa que el agua drene y avisa a tu asesor.",
+      "CRITICAL": "haz hoy un riego de lavado abundante, revisa el drenaje y llama a tu asesor; no fertilices hasta que baje la salinidad."
+    },
+    "share": "Compartir por WhatsApp",
+    "shareLabel": "Compartir por WhatsApp la alerta de {{plot}}",
+    "shareText": "OsoSense · Alerta de salinidad {{level}} en {{plot}} ({{date}}): {{value}} dS/m, umbral {{threshold}} dS/m. Qué hacer: {{action}}"
   },
   "severity": {
     "WATCH": "En vigilancia",
@@ -526,7 +536,10 @@
   "contingency": {
     "title": "Contingencia de salinidad",
     "used": "Lavados usados: {{used}}/{{max}}",
-    "state": { "ACTIVE": "Activa", "EXHAUSTED": "Lavados agotados" },
+    "state": {
+      "ACTIVE": "Activa",
+      "EXHAUSTED": "Lavados agotados"
+    },
     "hint": {
       "ACTIVE": "El sensor lava el suelo con la bomba mientras la salinidad siga muy alta.",
       "EXHAUSTED": "Una persona debe revisar la parcela y actuar."
