@@ -261,7 +261,17 @@
     "actionCount": "Recorded actions: {{count}}",
     "actionType": "Action type",
     "filter": "Filter",
-    "filterCount": "Active filters: {{count}}"
+    "filterCount": "Active filters: {{count}}",
+    "reading": "Reading: {{value}} dS/m (crop threshold: {{threshold}} dS/m)",
+    "whatToDo": "What to do:",
+    "recommendation": {
+      "WATCH": "irrigate with good-quality water, avoid over-fertilizing and check the plot again in 2 or 3 days.",
+      "WARNING": "apply a leaching irrigation to push salts below the roots, check that the water drains and tell your advisor.",
+      "CRITICAL": "apply a generous leaching irrigation today, check the drainage and call your advisor; do not fertilize until salinity drops."
+    },
+    "share": "Share on WhatsApp",
+    "shareLabel": "Share the {{plot}} alert on WhatsApp",
+    "shareText": "OsoSense · {{level}} salinity alert in {{plot}} ({{date}}): {{value}} dS/m, threshold {{threshold}} dS/m. What to do: {{action}}"
   },
   "severity": {
     "WATCH": "Watch",
@@ -526,7 +536,10 @@
   "contingency": {
     "title": "Salinity contingency",
     "used": "Washes used: {{used}}/{{max}}",
-    "state": { "ACTIVE": "Active", "EXHAUSTED": "Washes used up" },
+    "state": {
+      "ACTIVE": "Active",
+      "EXHAUSTED": "Washes used up"
+    },
     "hint": {
       "ACTIVE": "The sensor washes the soil with the pump while salinity stays very high.",
       "EXHAUSTED": "A person must check the plot and act."

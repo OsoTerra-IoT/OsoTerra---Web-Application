@@ -72,6 +72,9 @@
           {{ 'alertStatus.' + alert.status | translate }} · {{ locale.date(alert.createdAt) }}
         </p>
         @if (alert.status !== 'RESOLVED') {
+          <app-alert-guidance [alert]="alert" [plotName]="plotName(alert.plotId) ?? ''" />
+        }
+        @if (alert.status !== 'RESOLVED') {
           <div class="alert-card-actions">
             @if (alert.status === 'OPEN') {
               <button mat-stroked-button type="button" (click)="acknowledge(alert.id)">
@@ -126,6 +129,9 @@
             <td>{{ 'alertStatus.' + alert.status | translate }}</td>
             <td>{{ locale.date(alert.createdAt) }}</td>
             <td>
+              @if (alert.status !== 'RESOLVED') {
+                <app-alert-guidance [alert]="alert" [plotName]="plotName(alert.plotId) ?? ''" />
+              }
               @if (alert.status === 'OPEN') {
                 <button mat-button (click)="acknowledge(alert.id)">
                   {{ 'alerts.acknowledge' | translate }}
