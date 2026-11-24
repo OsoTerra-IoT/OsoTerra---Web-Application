@@ -11,6 +11,7 @@ import {
   RegisterPlotResource,
   SalinityAlertResource,
   SignUpResource,
+  GeneratePlotReportResource,
   SubscriptionResource,
   UserAccountResource,
 } from '../api.types';
@@ -103,6 +104,9 @@ export class FakeBackend {
       /^\/salinity-alerts\/(\d+)\/corrective-actions$/,
       (r, m) => this.registerAction(r, +m[1]),
     ],
+    ['POST', /^\/plot-reports$/, (request) => this.generateReport(request)],
+    ['GET', /^\/plot-reports$/, (request) => this.reportsOf(request)],
+    ['GET', /^\/plot-reports\/(\d+)\/export$/, (r, m) => this.exportReport(r, +m[1])],
   ];
 
   constructor(
@@ -489,6 +493,44 @@ export class FakeBackend {
   private readingsOf(request: FakeRequest): FakeResponse {
     const plot = this.readablePlot(request, this.numberParam(request, 'plotId'));
     return ok(this.db.readings.filter((reading) => reading.plotId === plot.id));
+  }
+
+  private generateReport(request: FakeRequest): FakeResponse {
+    const body = request.body as GeneratePlotReportResource;
+    const plot = this.readablePlot(request, body.plotId);
+    if (!body.periodStart || !body.periodEnd || body.periodStart > body.periodEnd)
+      throw new HttpFailure(400, 'The report period is invalid');
+    const report = {
+      id: this.db.nextId('reports'),
+      plotId: plot.id,
+      generatedBy: this.caller(request).id,
+      periodStartDate: body.periodStart,
+      periodEndDate: body.periodEnd,
+      generatedAt: this.now(),
+    };
+    this.db.reports.push(report);
+    return created(report);
+  }
+
+  private reportsOf(request: FakeRequest): FakeResponse {
+    const plot = this.readablePlot(request, this.numberParam(request, 'plotId'));
+    return ok(this.db.reports.filter((report) => report.plotId === plot.id));
+  }
+
+  /** A one-page placeholder PDF: the real one is drawn by the Backend's PdfReportExporter. */
+  private exportReport(request: FakeRequest, id: number): FakeResponse {
+    const report = this.db.reports.find((item) => item.id === id);
+    if (!report) throw new HttpFailure(404, `Plot report not found for id ${id}`);
+    this.readablePlot(request, report.plotId);
+    return ok(
+      new Blob(
+        [`%PDF-1.4
+% OsoSense plot report ${id} (${report.periodStartDate} - ${report.periodEndDate})
+%%EOF
+`],
+        { type: 'application/pdf' },
+      ),
+    );
   }
 
   private calibrationsOf(request: FakeRequest): FakeResponse {

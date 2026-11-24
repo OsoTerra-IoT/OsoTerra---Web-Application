@@ -2,6 +2,9 @@ import { ActionEntry } from '../../../shared/components/action-entry';
 import { LevelPill } from '../../../shared/components/level-pill';
 import { Component, computed, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { firstValueFrom } from 'rxjs';
+import { AnalyticsReportingApi } from '../../../core/api/analytics-reporting.api';
+import { PlotReportResource } from '../../../core/api/api.types';
 import { AuthService } from '../../../core/auth/auth.service';
 import { MonitoringService } from '../../../core/data/monitoring.service';
 import { LocaleService } from '../../../core/i18n/locale.service';
@@ -23,6 +26,12 @@ export class Reports {
   readonly selected = signal<string[]>([]);
   readonly error = signal(false);
   readonly exporting = signal(false);
+  private readonly api = inject(AnalyticsReportingApi);
+  /** Reports the platform keeps for each plot (Analytics and Reporting), newest first. */
+  readonly saved = signal<Record<string, PlotReportResource[]>>({});
+  /** True when the PDF was saved but the platform did not keep the report. */
+  readonly saveFailed = signal(false);
+  readonly downloadFailed = signal(false);
   readonly plots = computed(() =>
     this.data.plots().filter((plot) => this.selected().includes(plot.id)),
   );
@@ -33,6 +42,54 @@ export class Reports {
     this.selected.update((current) =>
       current.includes(id) ? current.filter((item) => item !== id) : [...current, id],
     );
+    if (this.isSelected(id)) void this.loadSaved(id);
+  }
+  savedOf(plot: Plot): PlotReportResource[] {
+    return this.saved()[plot.id] ?? [];
+  }
+  private async loadSaved(plotId: string): Promise<void> {
+    try {
+      const reports = await firstValueFrom(this.api.reportsOf(+plotId));
+      const newest = [...reports].sort((a, b) => b.generatedAt.localeCompare(a.generatedAt));
+      this.saved.update((current) => ({ ...current, [plotId]: newest }));
+    } catch {
+      // The list is a convenience: the report preview and the PDF still work without it.
+    }
+  }
+  /** Keeps one report per selected plot in the platform, for the period of its readings. */
+  async keepReports(): Promise<void> {
+    const today = localDay(new Date());
+    try {
+      for (const plot of this.plots()) {
+        const first = this.data.readings(plot.id)[0]?.recordedAt.slice(0, 10) ?? today;
+        await firstValueFrom(
+          this.api.generateReport({
+            plotId: +plot.id,
+            periodStart: first < today ? first : today,
+            periodEnd: today,
+          }),
+        );
+        await this.loadSaved(plot.id);
+      }
+      this.saveFailed.set(false);
+    } catch {
+      this.saveFailed.set(true);
+    }
+  }
+  /** Downloads the PDF the platform draws for a kept report. */
+  async downloadSaved(report: PlotReportResource): Promise<void> {
+    this.downloadFailed.set(false);
+    try {
+      const pdf = await firstValueFrom(this.api.exportReport(report.id));
+      const url = URL.createObjectURL(new Blob([pdf], { type: 'application/pdf' }));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `osoterra-report-${report.plotId}-${report.periodEndDate}.pdf`;
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 0);
+    } catch {
+      this.downloadFailed.set(true);
+    }
   }
   alerts(plot: Plot): SalinityAlert[] {
     return this.data.alerts().filter((alert) => alert.plotId === plot.id);
@@ -133,10 +190,17 @@ export class Reports {
       }
       write(label('advisor.reportFooter'), 9);
       doc.save(`osoterra-report-${new Date().toISOString().slice(0, 10)}.pdf`);
+      await this.keepReports();
     } catch {
       this.error.set(true);
     } finally {
       this.exporting.set(false);
     }
   }
+}
+
+/** Calendar date in the local time zone (yyyy-MM-dd), as the API expects for report periods. */
+function localDay(date: Date): string {
+  const pad = (value: number) => String(value).padStart(2, '0');
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 }

@@ -62,7 +62,11 @@ function respond(
         body: request.body === null ? null : structuredClone(request.body),
         authorization: request.headers.get('Authorization'),
       });
-      const body = response.body === null ? null : structuredClone(response.body);
+      // A Blob (the report PDF) is immutable, so it needs no copy.
+      const body =
+        response.body === null || response.body instanceof Blob
+          ? response.body
+          : structuredClone(response.body);
       if (response.status >= 400)
         return throwError(
           () =>

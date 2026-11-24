@@ -10,6 +10,7 @@ import {
   SalinityAlertResource,
   SoilReadingResource,
   SubscriptionPlanResource,
+  PlotReportResource,
   SubscriptionResource,
   UserAccountResource,
 } from '../api.types';
@@ -77,6 +78,7 @@ export class FakeDatabase {
   calibrations: CalibrationRecordResource[] = [];
   alerts: SalinityAlertResource[] = [];
   correctiveActions: CorrectiveActionResource[] = [];
+  reports: PlotReportResource[] = [];
   private readonly sequences = new Map<string, number>();
 
   nextId(table: string): number {
