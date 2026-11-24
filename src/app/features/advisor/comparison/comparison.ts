@@ -1,5 +1,6 @@
 import { LevelPill } from '../../../shared/components/level-pill';
 import { Component, computed, inject, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MonitoringService } from '../../../core/data/monitoring.service';
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { Plot } from '../../../core/models';
@@ -19,7 +20,10 @@ export class Comparison {
   readonly data = inject(MonitoringService);
   readonly locale = inject(LocaleService);
   readonly maximum = MAX_PLOTS;
-  readonly selected = signal<string[]>([]);
+  /** Opened from a plot detail (`?plot=<id>`), the comparison starts with that plot selected. */
+  readonly selected = signal<string[]>(
+    [inject(ActivatedRoute).snapshot.queryParamMap.get('plot')].filter((id): id is string => !!id),
+  );
   readonly plots = computed(() =>
     this.data.plots().filter((plot) => this.selected().includes(plot.id)),
   );
