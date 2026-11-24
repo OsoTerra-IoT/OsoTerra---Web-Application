@@ -250,3 +250,17 @@ export interface PlotDashboardResource {
   cropName: string | null;
   recentAlerts: AlertSummaryResource[];
 }
+export interface GeneratePlotReportResource {
+  plotId: number;
+  /** Calendar dates (yyyy-MM-dd). */
+  periodStart: string;
+  periodEnd: string;
+}
+export interface PlotReportResource {
+  id: number;
+  plotId: number;
+  generatedBy: number;
+  periodStartDate: string;
+  periodEndDate: string;
+  generatedAt: string;
+}

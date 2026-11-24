@@ -377,7 +377,14 @@
     "title": "Reporte de monitoreo de suelos",
     "trend": "Cambio de conductividad en el periodo",
     "alertsActions": "Alertas y acciones correctivas",
-    "exportError": "No se pudo generar el PDF. Inténtalo de nuevo."
+    "exportError": "No se pudo generar el PDF. Inténtalo de nuevo.",
+    "saved": "Reportes guardados en la plataforma",
+    "savedPeriod": "Periodo: {{start}} - {{end}}",
+    "downloadSaved": "PDF de la plataforma",
+    "downloadSavedLabel": "Descargar el PDF de la plataforma del reporte de {{plot}}",
+    "noSaved": "Aún no hay reportes guardados. Al exportar el PDF, el reporte queda guardado aquí.",
+    "saveError": "El PDF se descargó, pero no pudimos guardar el reporte en la plataforma. Inténtalo de nuevo.",
+    "downloadError": "No pudimos descargar el PDF de la plataforma. Revisa tu conexión e inténtalo de nuevo."
   },
   "subscription": {
     "currentPlan": "Plan actual",

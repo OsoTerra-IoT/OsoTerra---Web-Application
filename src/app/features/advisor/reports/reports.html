@@ -22,6 +22,12 @@
   @if (error()) {
     <p role="alert" class="form-error">{{ 'reports.exportError' | translate }}</p>
   }
+  @if (saveFailed()) {
+    <p role="alert" class="form-error">{{ 'reports.saveError' | translate }}</p>
+  }
+  @if (downloadFailed()) {
+    <p role="alert" class="form-error">{{ 'reports.downloadError' | translate }}</p>
+  }
 </section>
 <section class="surface">
   <h2>{{ 'reports.preview' | translate }}</h2>
@@ -89,6 +95,30 @@
         }
       } @empty {
         <p>{{ 'alerts.empty' | translate }}</p>
+      }
+      <h4>{{ 'reports.saved' | translate }}</h4>
+      @for (report of savedOf(plot); track report.id) {
+        <div class="list-row">
+          <span>{{ locale.date(report.generatedAt) }}</span>
+          <span class="muted">{{
+            'reports.savedPeriod'
+              | translate
+                : {
+                    start: locale.date(report.periodStartDate),
+                    end: locale.date(report.periodEndDate),
+                  }
+          }}</span>
+          <button
+            mat-button
+            type="button"
+            (click)="downloadSaved(report)"
+            [attr.aria-label]="'reports.downloadSavedLabel' | translate: { plot: plot.name }"
+          >
+            <mat-icon aria-hidden="true">download</mat-icon>{{ 'reports.downloadSaved' | translate }}
+          </button>
+        </div>
+      } @empty {
+        <p class="muted">{{ 'reports.noSaved' | translate }}</p>
       }
     </article>
   } @empty {

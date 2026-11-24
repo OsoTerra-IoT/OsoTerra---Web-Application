@@ -377,7 +377,14 @@
     "title": "Soil monitoring report",
     "trend": "Conductivity change over the period",
     "alertsActions": "Alerts and corrective actions",
-    "exportError": "The PDF could not be generated. Try again."
+    "exportError": "The PDF could not be generated. Try again.",
+    "saved": "Reports kept by the platform",
+    "savedPeriod": "Period: {{start}} - {{end}}",
+    "downloadSaved": "Platform PDF",
+    "downloadSavedLabel": "Download the platform PDF of the {{plot}} report",
+    "noSaved": "No reports kept yet. When you export the PDF, the report is kept here.",
+    "saveError": "The PDF was downloaded, but we could not keep the report in the platform. Try again.",
+    "downloadError": "We could not download the platform PDF. Check your connection and try again."
   },
   "subscription": {
     "currentPlan": "Current plan",
