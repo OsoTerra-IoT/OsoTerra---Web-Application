@@ -9,9 +9,14 @@
         {{ data.owner(plot)?.lastName }}
       </p>
     </div>
-    <a mat-stroked-button routerLink="/app/advisor/compare"
-      ><mat-icon>compare_arrows</mat-icon>{{ 'nav.compare' | translate }}</a
-    >
+    <div class="header-actions">
+      <a mat-stroked-button routerLink="/app/advisor/compare" [queryParams]="{ plot: plot.id }"
+        ><mat-icon aria-hidden="true">compare_arrows</mat-icon>{{ 'nav.compare' | translate }}</a
+      >
+      <a mat-stroked-button routerLink="/app/advisor/calibration" [queryParams]="{ plot: plot.id }"
+        ><mat-icon aria-hidden="true">tune</mat-icon>{{ 'nav.calibration' | translate }}</a
+      >
+    </div>
   </header>
   <mat-tab-group animationDuration="0ms">
     <mat-tab [label]="'plots.currentStatus' | translate"

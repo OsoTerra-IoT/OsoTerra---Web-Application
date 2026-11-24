@@ -14,3 +14,8 @@
 .list-row .muted {
   font-size: 0.9375rem;
 }
+.header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}

@@ -1,6 +1,7 @@
 ﻿import { EceHelp } from '../../../shared/components/ece-help';
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { MonitoringService } from '../../../core/data/monitoring.service';
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { UI_IMPORTS } from '../../../shared/ui-imports';
@@ -26,7 +27,11 @@ export class Calibration {
     laboratory: ['', [Validators.required, Validators.maxLength(120)]],
   });
   constructor() {
-    this.form.patchValue({ deviceId: this.data.devices()[0]?.id ?? '' });
+    // Opened from a plot detail (`?plot=<id>`), the form starts on the sensor of that plot.
+    const plotId = inject(ActivatedRoute).snapshot.queryParamMap.get('plot');
+    const devices = this.data.devices();
+    const device = devices.find((item) => item.plotId === plotId) ?? devices[0];
+    this.form.patchValue({ deviceId: device?.id ?? '' });
   }
   plotName(plotId: string): string {
     return this.data.plots().find((plot) => plot.id === plotId)?.name ?? '';
