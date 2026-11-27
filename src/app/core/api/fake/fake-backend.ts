@@ -373,7 +373,12 @@ export class FakeBackend {
           (item.periodEndDate === null || item.periodEndDate >= today),
       )
       .map((item) => item.quotaTotal);
-    return limits.length ? Math.max(...limits) : undefined;
+    if (limits.length) return Math.max(...limits);
+    // Like the Backend: without an active subscription the free plan's limit applies.
+    const free = this.db.plans
+      .filter((plan) => plan.free && plan.active)
+      .map((plan) => plan.maxPlots);
+    return free.length ? Math.min(...free) : undefined;
   }
 
   // Farm Management
@@ -524,10 +529,12 @@ export class FakeBackend {
     this.readablePlot(request, report.plotId);
     return ok(
       new Blob(
-        [`%PDF-1.4
+        [
+          `%PDF-1.4
 % OsoSense plot report ${id} (${report.periodStartDate} - ${report.periodEndDate})
 %%EOF
-`],
+`,
+        ],
         { type: 'application/pdf' },
       ),
     );

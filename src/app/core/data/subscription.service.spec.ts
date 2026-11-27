@@ -70,7 +70,7 @@ describe('SubscriptionService over the OsoSense API', () => {
     expect(await subscriptions.subscribe(planNamed('Free').id)).toBe('tooSmall');
     expect(subscriptions.currentPlan()?.name).toBe('Basic');
   });
-  it('cancels a pending request and the current plan, then the account has no limit', async () => {
+  it('cancels a pending request and the current plan, then the free plan limit applies', async () => {
     await login('farmer');
     await subscriptions.subscribe(planNamed('Pro').id);
     const pending = subscriptions.pending()[0];
@@ -78,8 +78,10 @@ describe('SubscriptionService over the OsoSense API', () => {
     expect(subscriptions.pending()).toHaveLength(0);
     expect(await subscriptions.cancel(subscriptions.current()!.id)).toBe(true);
     expect(subscriptions.current()).toBeUndefined();
-    expect(await monitoring.savePlot(newPlot())).toBeTruthy();
-    expect(monitoring.planLimitReached()).toBe(false);
+    // The farmer already has the 2 plots the free plan allows: cancelling does not lift the limit.
+    expect(subscriptions.freePlanLimit()).toBe(2);
+    expect(await monitoring.savePlot(newPlot())).toBeNull();
+    expect(monitoring.planLimitReached()).toBe(true);
   });
   it('reports a failed request and keeps the state', async () => {
     await login('farmer');

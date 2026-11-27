@@ -395,7 +395,7 @@
     "plotsOf": "{{used}} of {{total}}",
     "planFull": "You have used every plot in your plan. To register another one, switch to a plan with more plots.",
     "renews": "Valid until {{date}}.",
-    "noPlan": "You have no active plan, so there is no plot limit. You can subscribe to one below.",
+    "noPlan": "You have no active plan, so the free plan's limit applies: up to {{max}} plots. You can subscribe to one below.",
     "noPlanAdvisor": "You have no active plan. You can subscribe to one below.",
     "pendingTitle": "Plans waiting for payment",
     "pendingHint": "These plans were requested, but card payment is not available in the app yet. They start when the server receives the payment.",

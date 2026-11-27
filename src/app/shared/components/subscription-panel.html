@@ -67,7 +67,12 @@
       </div>
     } @else {
       <p class="muted">
-        {{ (showQuota() ? 'subscription.noPlan' : 'subscription.noPlanAdvisor') | translate }}
+        {{
+          (showQuota() && subscriptions.freePlanLimit()
+            ? 'subscription.noPlan'
+            : 'subscription.noPlanAdvisor'
+          ) | translate: { max: subscriptions.freePlanLimit() }
+        }}
       </p>
     }
   </section>

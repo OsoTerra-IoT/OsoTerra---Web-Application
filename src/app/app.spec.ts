@@ -233,6 +233,24 @@ describe('OsoTerra routed application', () => {
     expect(element.textContent).toContain('No plots match your search in this farm.');
     data.search.set('');
   });
+  it('applies the free plan limit to a farmer without a plan, as the Backend does', async () => {
+    await login('farmer3');
+    const data = TestBed.inject(MonitoringService);
+    await data.saveFarm({
+      name: 'Fundo Libre',
+      department: 'Lima',
+      province: 'Huaral',
+      district: 'Chancay',
+    });
+    const farmId = data.farms()[0].id;
+    const cropId = data.crops()[0].id;
+    const plot = (name: string) =>
+      data.savePlot({ name, farmId, cropId, latitude: -11.5, longitude: -77.2, areaHectares: 1 });
+    expect(await plot('Uno')).not.toBeNull();
+    expect(await plot('Dos')).not.toBeNull();
+    expect(await plot('Tres')).toBeNull();
+    expect(data.planLimitReached()).toBe(true);
+  });
   it('protects child navigation after logout', async () => {
     await login('farmer');
     await harness.navigateByUrl('/app/home');

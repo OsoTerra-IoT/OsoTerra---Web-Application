@@ -395,7 +395,7 @@
     "plotsOf": "{{used}} de {{total}}",
     "planFull": "Usaste todas las parcelas de tu plan. Para registrar otra, cambia a un plan con más parcelas.",
     "renews": "Vigente hasta el {{date}}.",
-    "noPlan": "No tienes un plan activo, así que no hay límite de parcelas. Puedes contratar uno abajo.",
+    "noPlan": "No tienes un plan activo, así que se aplica el límite del plan gratuito: hasta {{max}} parcelas. Puedes contratar uno abajo.",
     "noPlanAdvisor": "No tienes un plan activo. Puedes contratar uno abajo.",
     "pendingTitle": "Planes pendientes de pago",
     "pendingHint": "Estos planes ya fueron solicitados, pero el cobro con tarjeta aún no está disponible en la aplicación. Se activan cuando el servidor recibe el pago.",

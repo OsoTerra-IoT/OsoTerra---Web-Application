@@ -76,7 +76,9 @@ export class PlotForm {
   }
 
   /** Plots the current plan allows, for the message shown when the API refuses a new plot (409). */
-  readonly limit = computed(() => this.subscriptions.current()?.quotaTotal);
+  readonly limit = computed(
+    () => this.subscriptions.current()?.quotaTotal ?? this.subscriptions.freePlanLimit(),
+  );
 
   showNullIsland(): boolean {
     const { latitude, longitude } = this.form.controls;

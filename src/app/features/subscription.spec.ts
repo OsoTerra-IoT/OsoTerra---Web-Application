@@ -114,7 +114,9 @@ describe('Subscription screen', () => {
     button('Cancel plan').click();
     await confirm('Cancel the Basic plan');
     expect(text()).toContain('We cancelled the Basic plan.');
-    expect(text()).toContain('You have no active plan');
+    expect(text()).toContain(
+      "You have no active plan, so the free plan's limit applies: up to 2 plots.",
+    );
     expect(planOption('Pro').querySelector('button')!.textContent).toContain('Subscribe');
   });
 

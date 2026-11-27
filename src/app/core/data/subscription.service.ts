@@ -49,6 +49,13 @@ export class SubscriptionService {
       .at(0);
   });
   readonly currentPlan = computed(() => this.planOf(this.current()));
+  /** Plots allowed without an active plan: the Backend applies the free plan's limit. */
+  readonly freePlanLimit = computed(() => {
+    const limits = this.plans()
+      .filter((plan) => plan.free)
+      .map((plan) => plan.maxPlots);
+    return limits.length ? Math.min(...limits) : undefined;
+  });
   /** Requested plans still waiting for their payment. */
   readonly pending = computed(() =>
     this.subscriptions().filter((item) => item.status === 'PENDING_PAYMENT'),
