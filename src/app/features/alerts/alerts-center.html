@@ -98,7 +98,9 @@
         }
       </li>
     } @empty {
-      <li class="empty-state">{{ 'alerts.empty' | translate }}</li>
+      <li class="empty-state">
+        {{ (activeFilters() ? 'alerts.empty' : 'alerts.none') | translate }}
+      </li>
     }
   </ul>
   <div class="table-scroll alert-table">
@@ -154,7 +156,9 @@
           </tr>
         } @empty {
           <tr>
-            <td colspan="5" class="empty-state">{{ 'alerts.empty' | translate }}</td>
+            <td colspan="5" class="empty-state">
+              {{ (activeFilters() ? 'alerts.empty' : 'alerts.none') | translate }}
+            </td>
           </tr>
         }
       </tbody>

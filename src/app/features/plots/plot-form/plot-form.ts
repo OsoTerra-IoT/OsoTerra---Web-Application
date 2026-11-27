@@ -25,7 +25,8 @@ export class PlotForm {
   private readonly subscriptions = inject(SubscriptionService);
   private readonly router = inject(Router);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
-  readonly id = inject(ActivatedRoute).snapshot.paramMap.get('id') ?? undefined;
+  private readonly route = inject(ActivatedRoute).snapshot;
+  readonly id = this.route.paramMap.get('id') ?? undefined;
   readonly error = signal(false);
   readonly saving = signal(false);
   readonly locating = signal(false);
@@ -65,9 +66,12 @@ export class PlotForm {
       const plot = this.data.plots().find((plot) => plot.id === this.id);
       if (plot) this.form.patchValue(plot);
       else void this.router.navigate(['/app/plots']);
-    } else if (this.data.farms().length === 1) {
-      // A single farm is the only valid answer, so it can be chosen for the farmer.
-      this.form.patchValue({ farmId: this.data.farms()[0].id });
+    } else {
+      // A farm named in the link (an empty farm's "Add plot") or the only farm is the answer.
+      const farmId = this.route.queryParamMap.get('farm');
+      const farms = this.data.farms();
+      if (farms.some((farm) => farm.id === farmId)) this.form.patchValue({ farmId });
+      else if (farms.length === 1) this.form.patchValue({ farmId: farms[0].id });
     }
   }
 

@@ -94,7 +94,7 @@
           <p class="action-entry muted">{{ 'advisor.noActions' | translate }}</p>
         }
       } @empty {
-        <p>{{ 'alerts.empty' | translate }}</p>
+        <p>{{ 'alerts.none' | translate }}</p>
       }
       <h4>{{ 'reports.saved' | translate }}</h4>
       @for (report of savedOf(plot); track report.id) {
@@ -114,7 +114,8 @@
             (click)="downloadSaved(report)"
             [attr.aria-label]="'reports.downloadSavedLabel' | translate: { plot: plot.name }"
           >
-            <mat-icon aria-hidden="true">download</mat-icon>{{ 'reports.downloadSaved' | translate }}
+            <mat-icon aria-hidden="true">download</mat-icon
+            >{{ 'reports.downloadSaved' | translate }}
           </button>
         </div>
       } @empty {

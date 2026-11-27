@@ -9,7 +9,12 @@
   <mat-icon aria-hidden="true">info</mat-icon>{{ 'calibration.limitation' | translate }}
 </p>
 <app-ece-help />
-<form class="surface form-surface stack" [formGroup]="form" (ngSubmit)="save()">
+<form
+  class="surface form-surface stack"
+  [formGroup]="form"
+  #calibrationForm="ngForm"
+  (ngSubmit)="save(calibrationForm)"
+>
   <mat-form-field
     ><mat-label>{{ 'devices.device' | translate }}</mat-label
     ><mat-select formControlName="deviceId">

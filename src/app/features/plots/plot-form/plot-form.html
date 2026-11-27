@@ -10,6 +10,13 @@
   novalidate
 >
   <p class="muted form-intro">{{ 'plots.formHint' | translate }}</p>
+  @if (!data.farms().length) {
+    <!-- Shown first: a farmer without a farm cannot save the plot, so they learn it before filling it. -->
+    <p class="field-alert notice" role="status">
+      <mat-icon aria-hidden="true">info_outline</mat-icon>
+      <a routerLink="/app/plots/farms/new">{{ 'plots.addFarmFirst' | translate }}</a>
+    </p>
+  }
   <mat-form-field
     ><mat-label>{{ 'plots.name' | translate }}</mat-label
     ><input matInput formControlName="name" name="plotName" autocomplete="off" /><mat-hint>{{
@@ -112,9 +119,6 @@
     /><span matTextSuffix>{{ 'units.hectares' | translate }}</span
     ><mat-error>{{ 'plots.areaError' | translate }}</mat-error></mat-form-field
   >
-  @if (!data.farms().length) {
-    <a routerLink="/app/plots/farms/new">{{ 'plots.addFarmFirst' | translate }}</a>
-  }
   @if (data.planLimitReached()) {
     <p role="alert" class="form-error field-alert">
       <mat-icon aria-hidden="true">error_outline</mat-icon>

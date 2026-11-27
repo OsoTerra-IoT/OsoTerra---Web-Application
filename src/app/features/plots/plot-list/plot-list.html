@@ -46,7 +46,18 @@
           >
         </article>
       } @empty {
-        <p class="empty-state">{{ 'plots.emptySearch' | translate }}</p>
+        @if (data.search().trim()) {
+          <p class="empty-state">{{ 'plots.emptySearch' | translate }}</p>
+        } @else {
+          <div class="empty-state">
+            <p>{{ 'plots.emptyFarm' | translate }}</p>
+            @if (!auth.isAdvisor()) {
+              <a mat-stroked-button routerLink="new" [queryParams]="{ farm: farm.id }"
+                ><mat-icon>add</mat-icon>{{ 'plots.add' | translate }}</a
+              >
+            }
+          </div>
+        }
       }
     </div>
   </section>

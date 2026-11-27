@@ -173,7 +173,7 @@ export class Reports {
         );
         write(label('reports.alertsActions'), 12, true);
         const alerts = this.alerts(plot);
-        if (!alerts.length) write(label('alerts.empty'));
+        if (!alerts.length) write(label('alerts.none'));
         for (const alert of alerts) {
           write(
             `- ${label('severity.' + alert.severity)} | ${label('alertStatus.' + alert.status)} | ${this.locale.date(

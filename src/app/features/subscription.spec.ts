@@ -88,8 +88,9 @@ describe('Subscription screen', () => {
     expect(planOption('Basic').textContent).toContain('Requested');
     expect(planOption('Free').textContent).toContain('Current plan');
     button('Cancel request').click();
-    await confirm('Cancel the Basic plan');
-    expect(text()).toContain('We cancelled the Basic plan.');
+    // A pending plan was only requested, so the dialog and the notice speak of the request.
+    await confirm('Cancel the Basic plan request');
+    expect(text()).toContain('We cancelled the Basic plan request.');
     expect(text()).not.toContain('Plans waiting for payment');
   });
 

@@ -76,10 +76,13 @@ describe('Advisory link screens', () => {
     await invite(DEMO_ACCOUNTS.farmer3);
     expect(text()).toContain(`Invitation sent to ${DEMO_ACCOUNTS.farmer3}`);
     expect(text()).toContain('Rosa Quispe');
+    // The emptied field is ready for the next email, not flagged as missing.
+    expect(harness.routeNativeElement!.querySelector('.invite-form mat-error')).toBeNull();
     button('Cancel invitation').click();
     await settle();
     expect(text()).not.toContain('Rosa Quispe');
     expect(text()).toContain('You have no invitations waiting for an answer.');
+    expect(text()).not.toContain('Invitation sent to');
   });
   it('asks before the advisor ends the supervision of a client', async () => {
     await login('advisor');

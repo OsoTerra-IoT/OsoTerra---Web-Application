@@ -30,7 +30,13 @@
   </article>
 </section>
 <section class="surface link-panel" aria-labelledby="invite-title">
-  <form class="invite-form stack" [formGroup]="form" (ngSubmit)="invite()" novalidate>
+  <form
+    class="invite-form stack"
+    [formGroup]="form"
+    #inviteForm="ngForm"
+    (ngSubmit)="invite(inviteForm)"
+    novalidate
+  >
     <h2 id="invite-title">{{ 'links.inviteTitle' | translate }}</h2>
     <p class="muted">{{ 'links.inviteHint' | translate }}</p>
     <mat-form-field>

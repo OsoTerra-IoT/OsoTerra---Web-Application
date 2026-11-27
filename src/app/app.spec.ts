@@ -194,6 +194,45 @@ describe('OsoTerra routed application', () => {
     expect(element.querySelector('.welcome-card a[href="/app/plots/new"]')).toBeTruthy();
     expect(element.querySelector('.level-meter')).toBeNull();
   });
+  it('sends a signed-in user from sign-in and sign-up to their home', async () => {
+    await login('farmer');
+    for (const url of ['/auth/login', '/auth/register', '/auth/register/farmer']) {
+      await harness.navigateByUrl(url);
+      expect(TestBed.inject(Router).url).toBe('/app/home');
+    }
+    await harness.navigateByUrl('/auth/terms');
+    expect(TestBed.inject(Router).url).toBe('/auth/terms');
+  });
+  it('shows each breadcrumb once on the supervised plots of the advisor', async () => {
+    await login('advisor');
+    await harness.navigateByUrl('/app/plots');
+    const crumbs = [
+      ...harness.routeNativeElement!.querySelectorAll('.breadcrumbs a, .breadcrumbs span'),
+    ]
+      .map((crumb) => crumb.textContent?.trim())
+      .filter((label) => label === 'Supervised plots');
+    expect(crumbs.length).toBe(1);
+  });
+  it('tells an empty farm apart from a search without matches', async () => {
+    await login('farmer3');
+    const data = TestBed.inject(MonitoringService);
+    expect(
+      await data.saveFarm({
+        name: 'Fundo Nuevo',
+        department: 'Lima',
+        province: 'Huaral',
+        district: 'Aucallama',
+      }),
+    ).toBe(true);
+    await harness.navigateByUrl('/app/plots');
+    const element = harness.routeNativeElement!;
+    expect(element.textContent).toContain('This farm has no plots yet.');
+    expect(element.querySelector('a[href^="/app/plots/new?farm="]')).toBeTruthy();
+    data.search.set('zzz');
+    harness.detectChanges();
+    expect(element.textContent).toContain('No plots match your search in this farm.');
+    data.search.set('');
+  });
   it('protects child navigation after logout', async () => {
     await login('farmer');
     await harness.navigateByUrl('/app/home');

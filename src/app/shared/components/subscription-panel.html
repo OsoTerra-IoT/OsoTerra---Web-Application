@@ -13,6 +13,7 @@
     <p
       class="field-alert"
       [class.form-error]="notice.error"
+      [class.success]="!notice.error"
       [attr.role]="notice.error ? 'alert' : 'status'"
     >
       <mat-icon aria-hidden="true">{{ notice.error ? 'error_outline' : 'check_circle' }}</mat-icon>
@@ -65,7 +66,9 @@
         </button>
       </div>
     } @else {
-      <p class="muted">{{ 'subscription.noPlan' | translate }}</p>
+      <p class="muted">
+        {{ (showQuota() ? 'subscription.noPlan' : 'subscription.noPlanAdvisor') | translate }}
+      </p>
     }
   </section>
   @if (subscriptions.pending().length) {

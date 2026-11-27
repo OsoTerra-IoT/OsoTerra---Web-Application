@@ -51,7 +51,9 @@ export class AdvisorLayout {
         while (node.firstChild) {
           node = node.firstChild;
           url += '/' + node.url.map((segment) => segment.path).join('/');
-          if (node.data['breadcrumb']) items.push({ label: node.data['breadcrumb'], url });
+          // An empty-path child inherits its parent's data: count each breadcrumb once.
+          if (node.data['breadcrumb'] && node.url.length)
+            items.push({ label: node.data['breadcrumb'], url });
         }
         this.breadcrumbs.set(items);
         queueMicrotask(() => document.getElementById('advisor-content')?.focus());

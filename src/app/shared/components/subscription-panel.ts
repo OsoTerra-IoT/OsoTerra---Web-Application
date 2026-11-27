@@ -96,17 +96,23 @@ export class SubscriptionPanel {
 
   cancel(subscription: Subscription) {
     const params = { plan: this.planName(subscription) };
+    // A pending plan was only requested: cancelling withdraws the request, the plan in use stays.
+    const request = subscription.status === 'PENDING_PAYMENT';
     confirmAction(this.dialog, {
-      title: 'subscription.cancelTitle',
-      message: 'subscription.cancelMessage',
-      confirm: 'subscription.cancel',
+      title: request ? 'subscription.cancelRequestTitle' : 'subscription.cancelTitle',
+      message: request ? 'subscription.cancelRequestMessage' : 'subscription.cancelMessage',
+      confirm: request ? 'subscription.cancelRequest' : 'subscription.cancel',
       params,
     }).subscribe(async (confirmed) => {
       if (!confirmed) return;
       this.notice.set(null);
       const cancelled = await this.subscriptions.cancel(subscription.id);
       this.notice.set({
-        key: cancelled ? 'subscription.cancelled' : 'subscription.cancelFailed',
+        key: !cancelled
+          ? 'subscription.cancelFailed'
+          : request
+            ? 'subscription.requestCancelled'
+            : 'subscription.cancelled',
         error: !cancelled,
         params,
       });

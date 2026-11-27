@@ -3,7 +3,7 @@ import { Skeleton } from '../../../shared/components/skeleton';
 import { API_CONFIG } from '../../../core/api/api-config';
 import { LevelPill } from '../../../shared/components/level-pill';
 import { Component, computed, inject, signal } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AdvisoryLinkService, InvitationResult } from '../../../core/data/advisory-link.service';
 import { AdvisorClient, MonitoringService } from '../../../core/data/monitoring.service';
@@ -49,7 +49,8 @@ export class Clients {
     email: ['', [Validators.required, Validators.email]],
   });
 
-  async invite() {
+  /** `directive` is the form's, so a successful send also clears its «submitted» state. */
+  async invite(directive?: FormGroupDirective) {
     const control = this.form.controls.email;
     control.setValue(control.value.trim());
     this.sentTo.set('');
@@ -63,12 +64,17 @@ export class Clients {
     this.sending.set(false);
     if (result === 'sent') {
       this.sentTo.set(control.value.toLowerCase());
-      this.form.reset();
+      // reset() alone keeps the form submitted, so the empty field would show «required» at once.
+      if (directive) directive.resetForm();
+      else this.form.reset();
     } else this.inviteError.set(INVITATION_MESSAGES[result]);
   }
 
   async cancel(id: string) {
-    this.actionError.set(!(await this.links.revoke(id)));
+    const cancelled = await this.links.revoke(id);
+    this.actionError.set(!cancelled);
+    // «Invitation sent» no longer holds once that invitation is withdrawn.
+    if (cancelled) this.sentTo.set('');
   }
 
   /** Department and province, without a lone separator when the farmer left them empty. */

@@ -12,6 +12,10 @@ export const authGuard: CanActivateFn = (_route, state) => {
   );
 };
 
+/** Sign-in and sign-up are for visitors: a signed-in user who opens them goes to their home. */
+export const guestGuard: CanActivateFn = () =>
+  !inject(AuthService).isAuthenticated() || inject(Router).createUrlTree(['/app/home']);
+
 export const roleGuard: CanActivateChildFn = (route, state) => {
   const auth = inject(AuthService);
   const router = inject(Router);

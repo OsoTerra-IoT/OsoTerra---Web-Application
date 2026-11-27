@@ -1,6 +1,6 @@
 ﻿import { EceHelp } from '../../../shared/components/ece-help';
 import { Component, computed, inject, signal } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MonitoringService } from '../../../core/data/monitoring.service';
 import { LocaleService } from '../../../core/i18n/locale.service';
@@ -36,7 +36,8 @@ export class Calibration {
   plotName(plotId: string): string {
     return this.data.plots().find((plot) => plot.id === plotId)?.name ?? '';
   }
-  async save() {
+  /** `directive` is the form's, so a saved record also clears its «submitted» state. */
+  async save(directive?: FormGroupDirective) {
     this.saved.set(false);
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -53,12 +54,15 @@ export class Calibration {
     ) {
       this.error.set(false);
       this.saved.set(true);
-      this.form.reset({
+      // reset() alone keeps the form submitted, so the empty fields would show «required» at once.
+      const next = {
         deviceId: value.deviceId,
         sensorDsM: null,
         laboratoryEceDsM: null,
         laboratory: '',
-      });
+      };
+      if (directive) directive.resetForm(next);
+      else this.form.reset(next);
     } else this.error.set(true);
   }
 }

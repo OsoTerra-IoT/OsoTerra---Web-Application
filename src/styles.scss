@@ -280,8 +280,11 @@ small {
   padding: 2rem 2.5rem 4rem;
   outline: none;
 }
-.main-content:focus {
-  outline: none;
+/* The layout focuses <main> on every navigation for screen readers; it is not a control, so no ring
+   (the global :focus-visible rule is !important, hence the same here). */
+.main-content:focus,
+.main-content:focus-visible {
+  outline: none !important;
 }
 .page-header {
   display: flex;
@@ -553,6 +556,16 @@ small {
   border-radius: var(--os-radius-md);
   background: var(--os-level-critical-bg);
   font-size: 0.9375rem;
+}
+/* A field-alert that reports a success (e.g. a plan requested) uses the "normal" level colours. */
+.field-alert.success {
+  color: var(--os-level-normal);
+  background: var(--os-level-normal-bg);
+}
+/* A field-alert that asks for a step first (e.g. create a farm) uses the "watch" level colours. */
+.field-alert.notice {
+  color: var(--os-level-watch);
+  background: var(--os-level-watch-bg);
 }
 .field-alert mat-icon {
   font-size: 20px;

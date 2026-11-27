@@ -76,4 +76,19 @@ describe('Advisor shortcuts from the plot detail', () => {
       data.devices().find((item) => item.plotId === plot.id)!.id,
     );
   });
+
+  it('empties the calibration form after saving without flagging its fields', async () => {
+    await harness.navigateByUrl('/app/plots');
+    await settle();
+    const plot = plotWithDevice();
+    const calibration = await open(`/app/advisor/calibration?plot=${plot.id}`, Calibration);
+    calibration.form.patchValue({ sensorDsM: 1.8, laboratoryEceDsM: 1.65, laboratory: 'UNALM' });
+    (
+      harness.routeNativeElement!.querySelector('button[type="submit"]') as HTMLButtonElement
+    ).click();
+    await settle();
+    expect(calibration.saved()).toBe(true);
+    expect(calibration.form.controls.laboratory.value).toBe('');
+    expect(harness.routeNativeElement!.querySelector('form mat-error')).toBeNull();
+  });
 });
