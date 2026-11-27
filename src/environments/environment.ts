@@ -1,9 +1,9 @@
 /**
  * Default build (Vercel, GitHub Pages and `ng serve`): the Web App talks to the OsoSense
- * Backend deployed on Railway.
+ * Backend deployed on Render.
  */
 export const environment = {
-  apiUrl: 'https://osoterra-backend-production.up.railway.app/api/v1',
+  apiUrl: 'https://ososense-backend.onrender.com/api/v1',
   useFakeApi: false,
   fakeApiLatencyMs: 0,
   /** Interview demo mode with numbered scenarios; `?demo=1` turns it on for one tab too. */
