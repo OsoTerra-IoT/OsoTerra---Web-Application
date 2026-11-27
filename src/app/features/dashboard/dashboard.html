@@ -14,13 +14,23 @@
           {{ (data.loading() ? 'dashboard.overview' : 'home.noPlots') | translate }}
         } @else if (attention() > 0) {
           {{
-            (attention() === 1 ? 'home.attention' : 'home.attentionMany')
-              | translate: { count: attention(), total: data.plots().length }
+            (data.plots().length === 1
+              ? 'home.attentionSingle'
+              : attention() === 1
+                ? 'home.attention'
+                : 'home.attentionMany'
+            ) | translate: { count: attention(), total: data.plots().length }
           }}
         } @else if (watch() > 0) {
-          {{ 'home.noneAttention' | translate: { total: data.plots().length } }}
+          {{
+            (data.plots().length === 1 ? 'home.noneAttentionSingle' : 'home.noneAttention')
+              | translate: { total: data.plots().length }
+          }}
         } @else {
-          {{ 'home.allClear' | translate: { total: data.plots().length } }}
+          {{
+            (data.plots().length === 1 ? 'home.allClearSingle' : 'home.allClear')
+              | translate: { total: data.plots().length }
+          }}
         }
       </h1>
       @if (data.plots().length) {

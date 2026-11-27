@@ -4,7 +4,11 @@ import {
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+import {
+  provideRouter,
+  withComponentInputBinding,
+  withNavigationErrorHandler,
+} from '@angular/router';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideApi } from './core/api/provide-api';
@@ -12,12 +16,18 @@ import { AuthService } from './core/auth/auth.service';
 import { MonitoringService } from './core/data/monitoring.service';
 import { DemoModeService } from './core/demo/demo-mode.service';
 import { LocaleService } from './core/i18n/locale.service';
+import { reloadOnStaleChunk } from './core/stale-deploy';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes, withComponentInputBinding()),
+    // A tab left open across a deploy reloads instead of failing every lazy navigation.
+    provideRouter(
+      routes,
+      withComponentInputBinding(),
+      withNavigationErrorHandler(reloadOnStaleChunk()),
+    ),
     provideApi(),
     provideTranslateService({
       fallbackLang: 'en',

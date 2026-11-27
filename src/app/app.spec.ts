@@ -251,6 +251,28 @@ describe('OsoTerra routed application', () => {
     expect(await plot('Tres')).toBeNull();
     expect(data.planLimitReached()).toBe(true);
   });
+  it('speaks of a single plot in the singular on the home headline', async () => {
+    await login('farmer3');
+    const data = TestBed.inject(MonitoringService);
+    await data.saveFarm({
+      name: 'Fundo Uno',
+      department: 'Lima',
+      province: 'Huaral',
+      district: 'Chancay',
+    });
+    await data.savePlot({
+      name: 'Única',
+      farmId: data.farms()[0].id,
+      cropId: data.crops()[0].id,
+      latitude: -11.5,
+      longitude: -77.2,
+      areaHectares: 1,
+    });
+    await harness.navigateByUrl('/app/home');
+    const headline = harness.routeNativeElement!.querySelector('h1')?.textContent ?? '';
+    expect(headline).toContain('Your plot');
+    expect(headline).not.toMatch(/1 of your 1|All 1 of/);
+  });
   it('protects child navigation after logout', async () => {
     await login('farmer');
     await harness.navigateByUrl('/app/home');

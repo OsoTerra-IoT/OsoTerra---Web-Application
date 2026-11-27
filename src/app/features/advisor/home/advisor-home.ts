@@ -51,6 +51,8 @@ export class AdvisorHome {
   readonly watch = computed(() => this.data.watchPlots().length);
   /** Headline wording for one or several clients, and one or several plots. */
   readonly headlineKey = computed(() => {
+    // «1 of 1 plots» reads wrong: a single supervised plot gets its own sentence.
+    if (this.data.plots().length === 1) return 'home.attentionAdvisorSingle';
     const key =
       this.data.clients().length === 1 ? 'home.attentionAdvisorOneClient' : 'home.attentionAdvisor';
     return this.attention() === 1 ? key + 'One' : key;

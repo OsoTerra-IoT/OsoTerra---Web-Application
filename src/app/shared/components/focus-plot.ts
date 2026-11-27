@@ -104,8 +104,12 @@ export class FocusPlot {
   /** Rising or falling when the last reading moved more than 5 % from the first one. */
   readonly trendKey = computed(() => {
     const readings = this.readings();
-    if (readings.length < 2) return 'home.trendFlat';
+    // «over 1 days» reads wrong: a one-day span uses the singular texts.
+    const one = this.days() === 1 ? 'One' : '';
+    if (readings.length < 2) return 'home.trendFlat' + one;
     const change = readings.at(-1)!.conductivityDsM / readings[0].conductivityDsM;
-    return change > 1.05 ? 'home.trendUp' : change < 0.95 ? 'home.trendDown' : 'home.trendFlat';
+    const key =
+      change > 1.05 ? 'home.trendUp' : change < 0.95 ? 'home.trendDown' : 'home.trendFlat';
+    return key + one;
   });
 }

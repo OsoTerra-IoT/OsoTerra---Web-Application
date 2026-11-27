@@ -19,9 +19,17 @@
                 : { count: attention(), total: data.plots().length, clients: data.clients().length }
           }}
         } @else if (watch() > 0) {
-          {{ 'home.noneAttentionAdvisor' | translate: { total: data.plots().length } }}
+          {{
+            (data.plots().length === 1
+              ? 'home.noneAttentionAdvisorSingle'
+              : 'home.noneAttentionAdvisor'
+            ) | translate: { total: data.plots().length }
+          }}
         } @else {
-          {{ 'home.allClearAdvisor' | translate: { total: data.plots().length } }}
+          {{
+            (data.plots().length === 1 ? 'home.allClearAdvisorSingle' : 'home.allClearAdvisor')
+              | translate: { total: data.plots().length }
+          }}
         }
       </h1>
       @if (data.plots().length) {
