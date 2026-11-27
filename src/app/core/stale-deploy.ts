@@ -8,6 +8,24 @@ const STALE_CHUNK =
 const LAST_RELOAD_KEY = 'osoterra.staleChunkReload';
 /** A second failure this soon after a reload is not a stale tab, so it is left alone. */
 const RELOAD_COOLDOWN_MS = 60_000;
+/** `main-<hash>.js`, the name the production build gives its entry script. */
+const MAIN_SCRIPT = /main-([A-Za-z0-9_-]+)\.js/;
+
+/**
+ * The hash in the name of the build's main script, which changes with every build whose code
+ * changes; empty in development. Added to the translation URLs, it keeps a new build from
+ * reading the translations of the previous one that the browser still caches (GitHub Pages
+ * sends max-age=600), which showed raw keys for the texts the new build added.
+ */
+export function buildStamp(
+  scripts: ArrayLike<Pick<Element, 'getAttribute'>> = document.querySelectorAll('script[src]'),
+): string {
+  for (const script of Array.from(scripts)) {
+    const match = MAIN_SCRIPT.exec(script.getAttribute('src') ?? '');
+    if (match) return match[1];
+  }
+  return '';
+}
 
 /**
  * A tab opened before a new deploy asks for lazy chunks that the new build no longer has, and

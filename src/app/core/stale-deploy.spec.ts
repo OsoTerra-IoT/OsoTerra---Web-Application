@@ -1,7 +1,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { NavigationError, provideRouter } from '@angular/router';
-import { reloadOnStaleChunk } from './stale-deploy';
+import { buildStamp, reloadOnStaleChunk } from './stale-deploy';
 
 describe('reloadOnStaleChunk', () => {
   beforeEach(() => {
@@ -30,6 +30,13 @@ describe('reloadOnStaleChunk', () => {
     time += 61_000;
     handle(handler, failure('error loading dynamically imported module: https://x/chunk-B.js'));
     expect(reload).toHaveBeenCalledTimes(2);
+  });
+
+  it('reads the build stamp from the main script name', () => {
+    const script = (src: string) => ({ getAttribute: () => src });
+    expect(buildStamp([])).toBe('');
+    expect(buildStamp([script('polyfills-ABC.js'), script('main-I6Y22RJL.js')])).toBe('I6Y22RJL');
+    expect(buildStamp([script('main.js')])).toBe('');
   });
 
   it('leaves other navigation errors alone', () => {

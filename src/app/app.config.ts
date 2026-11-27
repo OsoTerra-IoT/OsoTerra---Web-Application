@@ -16,7 +16,7 @@ import { AuthService } from './core/auth/auth.service';
 import { MonitoringService } from './core/data/monitoring.service';
 import { DemoModeService } from './core/demo/demo-mode.service';
 import { LocaleService } from './core/i18n/locale.service';
-import { reloadOnStaleChunk } from './core/stale-deploy';
+import { buildStamp, reloadOnStaleChunk } from './core/stale-deploy';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -31,7 +31,12 @@ export const appConfig: ApplicationConfig = {
     provideApi(),
     provideTranslateService({
       fallbackLang: 'en',
-      loader: provideTranslateHttpLoader({ prefix: './i18n/', suffix: '.json', failOnError: true }),
+      // The build stamp makes each deploy fetch its own translations instead of cached ones.
+      loader: provideTranslateHttpLoader({
+        prefix: './i18n/',
+        suffix: `.json?v=${buildStamp()}`,
+        failOnError: true,
+      }),
     }),
     // First: reads `?demo=` before the stored session is restored.
     provideAppInitializer(() => void inject(DemoModeService)),
